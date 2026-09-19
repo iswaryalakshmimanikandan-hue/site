@@ -1,7 +1,11 @@
-allowBuilds:
-  '@tailwindcss/oxide': set this to true or false
-  esbuild: set this to true or false
+packages:
+  - "."
+
 overrides:
   vite: 6.3.5
   '@types/react': 18.3.18
   '@types/react-dom': 18.3.5
+
+onlyBuiltDependencies:
+  - '@tailwindcss/oxide'
+  - esbuild
