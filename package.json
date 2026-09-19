@@ -88,13 +88,6 @@
       "optional": true
     }
   },
-  "pnpm": {
-    "overrides": {
-      "vite": "6.3.5",
-      "@types/react": "18.3.18",
-      "@types/react-dom": "18.3.5"
-    }
-  },
   "overrides": {
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5"
