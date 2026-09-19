@@ -1,9 +1,20 @@
 import image_AskJuno_Logo__1__removebg_preview_1 from '@/imports/AskJuno_Logo__1_-removebg-preview-1.png'
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
+import { PrivacyPolicyModal } from "@/app/components/PrivacyPolicyModal";
+import OurPeopleSection from "@/app/components/OurPeopleSection";
 import logoDark from "@/imports/Custom_Design_Featuring_It-1.png";
 import logoLight from "@/imports/AskJuno_Logo__1_-removebg-preview.png";
-import { Sun, Moon, ArrowRight, Check, X, ChevronLeft, ChevronRight, ChevronDown, Mail, Phone, MapPin, Send, LogIn, Calendar, Menu } from "lucide-react";
+import officeImg from "@/imports/office_better_together.jpg";
+import approachImg from "@/imports/approach_engineer.jpg";
+import {
+  Sun, Moon, ArrowRight, Check, X, ChevronLeft, ChevronRight, ChevronDown,
+  Mail, Phone, MapPin, Send, Calendar, Menu,
+  Eye, Target, Users, Handshake, Cpu, Shield, TrendingUp, Sparkles,
+  MessageSquare, Lightbulb, GitMerge, CheckCircle, Zap, RefreshCw,
+  Code2, Cloud, ArrowUp, ArrowDown, FileText, Settings, BarChart3, User,
+  Linkedin, Instagram, Youtube, Github
+} from "lucide-react";
 
 const ORANGE = "linear-gradient(160deg, #f97316 0%, #f59e0b 100%)";
 const ORANGE_SOLID = "#f97316";
@@ -17,13 +28,11 @@ function GradientText({ children, className = "" }: { children: React.ReactNode;
 
 function SectionLabel({ group, children }: { group: string; children: string }) {
   return (
-    <div className="mb-3">
-      {/* Parent group label */}
-
+    <div className="mb-2.5 sm:mb-3">
       {/* Sub-section heading */}
-      <div className="flex items-center gap-3">
-        <div className="h-px w-5 bg-orange-500 animate-pulse" />
-        <span className="font-['Outfit',sans-serif] text-foreground font-black tracking-tight text-[32px]">{children}</span>
+      <div className="flex items-center gap-2.5 sm:gap-3">
+        <div className="h-px w-4 sm:w-5 bg-orange-500 animate-pulse shrink-0" />
+        <span className="font-['Outfit',sans-serif] text-foreground font-black tracking-tight text-xl sm:text-2xl md:text-[28px] lg:text-[32px] leading-tight break-words">{children}</span>
       </div>
     </div>
   );
@@ -31,7 +40,7 @@ function SectionLabel({ group, children }: { group: string; children: string }) 
 
 function SectionHeading({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <h2 className={`font-['Outfit',sans-serif] font-medium leading-relaxed text-muted-foreground ${className} text-[32px]`}>{children}</h2>
+    <h2 className={`font-['Outfit',sans-serif] font-medium leading-snug sm:leading-relaxed text-muted-foreground ${className} text-lg sm:text-2xl md:text-[28px] lg:text-[32px] break-words`}>{children}</h2>
   );
 }
 
@@ -197,7 +206,7 @@ const NAV_GROUPS = [
     anchor: "what-we-do",
     sub: [
       { name: "What We Do", id: "what-we-do", desc: "Services & capabilities" },
-      { name: "Products & Platforms", id: "products", desc: "BilliT, EETi & Custom AI" },
+      { name: "Products & Platforms", id: "products", desc: "" },
       { name: "Engineering", id: "technology", desc: "Technical capabilities" },
     ],
   },
@@ -238,14 +247,16 @@ const SECTION_IDS = [
   "approach",
   "how-we-build",
   "industries",
-  "thinking",
   "stories",
+  "our-people",
+  "thinking",
   "faq",
   "contact",
 ];
 
 // ── Mega Menu Navbar ────────────────────────────────────────────────────────
 const MEGA_ICONS: Record<string, React.ReactNode> = {
+  "our-people": <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M11 14v-1a3 3 0 0 0-3-3H4a3 3 0 0 0-3 3v1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /><circle cx="6" cy="5" r="3" stroke="currentColor" strokeWidth="1.3" /></svg>,
   "hero": <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="currentColor" strokeWidth="1.4" /><path d="M8 3v5l3 2" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" /></svg>,
   "about": <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.3" /><path d="M2 14c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" /></svg>,
   "why-juno": <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5L13 6l-2.5 2.5.5 3.5L8 10.5 5 12l.5-3.5L3 6l3.5-.5L8 2z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" /></svg>,
@@ -306,12 +317,12 @@ function Navbar({ dark, setDark, activeSection }: { dark: boolean; setDark: (v: 
   return (
     <>
       {/* Navbar bar */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-xl shadow-lg shadow-black/10 border-b border-border" : "bg-background/80 backdrop-blur-md border-b border-transparent"} mx-[5px] my-[7px] px-[5px] py-[0px]`}>
-        <div className="max-w-7xl mx-auto h-14 flex items-center justify-between px-4 sm:px-6 gap-x-2">
+      <nav className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-background/95 backdrop-blur-xl shadow-lg shadow-black/10 border-b border-border" : "bg-background/80 backdrop-blur-md border-b border-transparent"}`}>
+        <div className="max-w-7xl mx-auto h-14 flex items-center justify-between px-3 sm:px-6 gap-x-2">
 
           {/* Logo */}
-          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="shrink-0">
-            <ImageWithFallback src={dark ? logoDark : logoLight} alt="AskJuno" className="h-11 w-auto object-contain self-center" />
+          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="shrink-0 flex items-center focus:outline-none" aria-label="AskJuno Home">
+            <ImageWithFallback src={dark ? logoDark : logoLight} alt="AskJuno" className="h-8 xs:h-9 sm:h-11 w-auto object-contain self-center" />
           </button>
 
           {/* Desktop Nav groups */}
@@ -355,7 +366,7 @@ function Navbar({ dark, setDark, activeSection }: { dark: boolean; setDark: (v: 
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(prev => !prev)}
-              className="lg:hidden flex items-center justify-center w-9 h-9 rounded-xl border border-border bg-card/80 text-foreground transition-all hover:border-orange-500/50 active:scale-95"
+              className="lg:hidden flex items-center justify-center w-9 h-9 min-w-[36px] min-h-[36px] rounded-xl border border-border bg-card/80 text-foreground transition-all hover:border-orange-500/50 active:scale-95"
               aria-label="Toggle Navigation Menu">
               {mobileMenuOpen ? <X size={18} className="text-orange-500" /> : <Menu size={18} />}
             </button>
@@ -365,7 +376,7 @@ function Navbar({ dark, setDark, activeSection }: { dark: boolean; setDark: (v: 
 
       {/* Mobile navigation drawer */}
       <div
-        className={`fixed top-[62px] left-0 right-0 z-40 lg:hidden transition-all duration-300 origin-top overflow-hidden ${mobileMenuOpen ? "opacity-100 max-h-[calc(100vh-70px)] pointer-events-auto" : "opacity-0 max-h-0 pointer-events-none"
+        className={`fixed top-14 left-0 right-0 z-40 lg:hidden transition-all duration-300 origin-top overflow-hidden ${mobileMenuOpen ? "opacity-100 max-h-[calc(100dvh-56px)] pointer-events-auto" : "opacity-0 max-h-0 pointer-events-none"
           }`}
         style={{
           background: "var(--card)",
@@ -574,54 +585,58 @@ function Navbar({ dark, setDark, activeSection }: { dark: boolean; setDark: (v: 
   );
 }
 
-// ── Side Dots (grouped) ──────────────────────────────────────────────────────
+// ── Side Dots ────────────────────────────────────────────────────────────────
 function SideDots({ active, onDotClick }: { active: number; onDotClick: (i: number) => void }) {
   // Build flat dot list for all sections in page order
   const allDots = SECTION_IDS.map((id) => {
     const group = NAV_GROUPS.find(g => g.sub.some(s => s.id === id));
     const sub = group?.sub.find(s => s.id === id);
-    const label = sub?.name ?? (id === "faq" ? "FAQ" : id === "contact" ? "Contact" : id);
-    const groupName = group?.label ?? (id === "faq" ? "FAQ" : id === "contact" ? "Contact" : "");
-    return { label, group: groupName, id };
+    const label = sub?.name ?? (id === "faq" ? "FAQ" : id === "contact" ? "Contact" : id === "our-people" ? "Our People" : id);
+    return { label, id };
   });
 
   return (
-    <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-1">
+    <nav
+      aria-label="Section navigation"
+      className="hidden md:flex fixed right-2.5 sm:right-4 md:right-5 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-2 sm:gap-2.5 select-none pointer-events-auto"
+    >
       {allDots.map((dot, i) => {
         const isAct = active === i;
-        const prevDot = allDots[i - 1];
-        const isGroupStart = i > 0 && dot.group !== prevDot?.group;
         return (
-          <div key={i} className="flex flex-col items-end">
-            {isGroupStart && <div className="w-full h-px my-1.5" style={{ background: "rgba(249,115,22,0.15)" }} />}
-            <button onClick={() => onDotClick(i)}
-              className="group flex items-center gap-2 pr-0 transition-all duration-200">
-              {/* Label — only visible for active section */}
-              <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[0.12em] uppercase whitespace-nowrap transition-all duration-300"
-                style={{
-                  color: "#f97316",
-                  fontWeight: 700,
-                  opacity: isAct ? 1 : 0,
-                  maxWidth: isAct ? "140px" : "0px",
-                  overflow: "hidden",
-                }}>
+          <div key={dot.id || i} className="relative flex items-center justify-center">
+            {/* Label — only visible for active section, horizontally aligned with marker */}
+            {isAct && (
+              <span
+                className="absolute right-full mr-2.5 top-1/2 -translate-y-1/2 pointer-events-none font-['JetBrains_Mono',monospace] text-[9px] tracking-[0.12em] uppercase whitespace-nowrap font-bold text-orange-500 transition-all duration-300"
+                style={{ color: "#f97316" }}
+              >
                 {dot.label}
               </span>
-              {/* Dot */}
-              <div className="shrink-0 flex items-center justify-center w-[10px] h-[10px]">
-                <div className="rounded-full transition-all duration-300"
-                  style={{
-                    width: isAct ? 10 : 5,
-                    height: isAct ? 10 : 5,
-                    background: isAct ? "#f97316" : "var(--border)",
-                    boxShadow: isAct ? "0 0 10px rgba(249,115,22,0.55)" : "none",
-                  }} />
-              </div>
+            )}
+
+            {/* Dot button centered on vertical axis */}
+            <button
+              type="button"
+              onClick={() => onDotClick(i)}
+              className="group relative flex items-center justify-center w-4 h-4 rounded-full focus:outline-none focus-visible:ring-1 focus-visible:ring-orange-500"
+              title={dot.label}
+              aria-label={`Jump to ${dot.label}`}
+              aria-current={isAct ? "true" : undefined}
+            >
+              <div
+                className="rounded-full transition-all duration-300 shrink-0"
+                style={{
+                  width: isAct ? 10 : 5,
+                  height: isAct ? 10 : 5,
+                  background: isAct ? "#f97316" : "var(--border)",
+                  boxShadow: isAct ? "0 0 10px rgba(249,115,22,0.55)" : "none",
+                }}
+              />
             </button>
           </div>
         );
       })}
-    </div>
+    </nav>
   );
 }
 
@@ -671,13 +686,139 @@ function SectionFlash({ activeSection }: { activeSection: number }) {
   );
 }
 
+// ── Theme Switcher (bottom left) ───────────────────────────────────────────
 function ThemeToggle({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }) {
   return (
-    <button onClick={() => setDark(!dark)}
-      className="fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full border border-border bg-card/90 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-orange-500 hover:border-orange-500 transition-all shadow-lg hover:shadow-orange-500/20"
-      title={dark ? "Switch to light mode" : "Switch to dark mode"}>
-      {dark ? <Sun size={16} /> : <Moon size={16} />}
+    <button
+      type="button"
+      onClick={() => setDark(!dark)}
+      className={`fixed bottom-4 left-3.5 sm:bottom-6 sm:left-6 md:bottom-7 md:left-7 z-50 group flex items-center gap-1.5 sm:gap-2 h-[29px] sm:h-[33px] px-2 sm:px-3 rounded-full border transition-all duration-350 ease-out select-none pointer-events-auto outline-none focus-visible:ring-2 focus-visible:ring-orange-500 shadow-sm hover:shadow-md active:scale-95 hover:-translate-y-0.5 cursor-pointer ${dark
+        ? "bg-[#18130e]/95 border-stone-800 text-stone-100 hover:border-orange-500/50 shadow-black/50 hover:shadow-orange-500/10"
+        : "bg-[#f5f2ea]/95 border-stone-300/80 text-stone-900 hover:border-orange-500/50 shadow-stone-900/5 hover:shadow-orange-500/10"
+        } backdrop-blur-md`}
+      title={dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      aria-label={dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+    >
+      {/* Icon with smooth rotation & fade: Moon in Light Mode, Sun in Dark Mode */}
+      <div className="relative w-3.5 h-3.5 flex items-center justify-center flex-shrink-0">
+        <Moon
+          size={12.5}
+          strokeWidth={2.4}
+          className={`absolute text-[#f97316] transition-all duration-350 ease-out ${!dark
+            ? "rotate-0 scale-100 opacity-100"
+            : "-rotate-90 scale-0 opacity-0"
+            }`}
+        />
+        <Sun
+          size={13}
+          strokeWidth={2.4}
+          className={`absolute text-[#f97316] transition-all duration-350 ease-out ${dark
+            ? "rotate-0 scale-100 opacity-100"
+            : "rotate-90 scale-0 opacity-0"
+            }`}
+        />
+      </div>
+
+      {/* Target Mode Label: Shows ONLY the mode user can switch TO */}
+      <span className="font-['JetBrains_Mono',monospace] text-[10px] sm:text-[10.5px] font-bold tracking-[0.12em] uppercase transition-colors duration-350">
+        {dark ? "LIGHT" : "DARK"}
+      </span>
     </button>
+  );
+}
+
+// ── Quick section navigation arrows (bottom right) ──────────────────────────
+function QuickNavArrows({ activeSection }: { activeSection: number }) {
+  const [scrollState, setScrollState] = useState({ isHome: true, isCTA: false });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const heroEl = document.getElementById("hero") || document.getElementById("Home");
+      const contactEl = document.getElementById("contact");
+
+      // Home boundary check: at top of page or within hero section
+      const heroHeight = heroEl ? heroEl.offsetHeight : 600;
+      const isHome = scrollY < 120 || (heroEl && scrollY < heroHeight * 0.65);
+
+      // CTA boundary check: once user reaches the CTA/Contact section
+      let isCTA = false;
+      if (contactEl) {
+        const contactRect = contactEl.getBoundingClientRect();
+        isCTA = contactRect.top <= window.innerHeight * 0.45;
+      } else {
+        const docHeight = document.documentElement.scrollHeight;
+        isCTA = scrollY + window.innerHeight >= docHeight - 250;
+      }
+
+      setScrollState({ isHome, isCTA });
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
+
+  // Home: activeSection === 0 or within hero scroll bounds
+  const isHome = activeSection === 0 || scrollState.isHome;
+  // CTA: activeSection === 13 or contact section reached
+  const isCTA = activeSection >= 13 || scrollState.isCTA;
+
+  // Up arrow: hidden on Home, visible everywhere else
+  const showUp = !isHome;
+  // Down arrow: visible from Home through FAQ, hidden once CTA is reached
+  const showDown = !isCTA;
+
+  const scrollToHome = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const scrollToCTA = () => {
+    const ctaEl = document.getElementById("contact");
+    if (ctaEl) {
+      ctaEl.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
+    }
+  };
+
+  if (!showUp && !showDown) return null;
+
+  return (
+    <div
+      className="fixed bottom-4 right-3.5 sm:bottom-6 sm:right-6 md:bottom-7 md:right-7 z-50 flex flex-col gap-1.5 sm:gap-2 select-none pointer-events-auto"
+      aria-label="Section quick navigation"
+    >
+      {/* Up Arrow -> Home / Hero section (hidden on Home) */}
+      {showUp && (
+        <button
+          type="button"
+          onClick={scrollToHome}
+          className="group w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border bg-card/90 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-orange-500 hover:border-orange-500 hover:bg-orange-500/10 active:scale-95 hover:-translate-y-0.5 transition-all shadow-lg hover:shadow-orange-500/20"
+          title="Back to Top"
+          aria-label="Scroll directly to Home"
+        >
+          <ArrowUp size={14} className="transition-transform duration-200 group-hover:-translate-y-0.5 sm:w-4 sm:h-4" strokeWidth={2.2} />
+        </button>
+      )}
+
+      {/* Down Arrow -> CTA / Contact section (hidden on CTA) */}
+      {showDown && (
+        <button
+          type="button"
+          onClick={scrollToCTA}
+          className="group w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-border bg-card/90 backdrop-blur-sm flex items-center justify-center text-muted-foreground hover:text-orange-500 hover:border-orange-500 hover:bg-orange-500/10 active:scale-95 hover:translate-y-0.5 transition-all shadow-lg hover:shadow-orange-500/20"
+          title="Go to CTA / Contact"
+          aria-label="Scroll directly to CTA / Contact section"
+        >
+          <ArrowDown size={14} className="transition-transform duration-200 group-hover:translate-y-0.5 sm:w-4 sm:h-4" strokeWidth={2.2} />
+        </button>
+      )}
+    </div>
   );
 }
 
@@ -836,6 +977,7 @@ function StatChip({ value, label, delay }: { value: string; label: string; delay
 function HeroSection() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-background">
+      <div id="Home" className="absolute top-0 left-0 pointer-events-none" aria-hidden="true" />
       <style>{globalStyles}</style>
 
       {/* ── Background layers ── */}
@@ -864,15 +1006,15 @@ function HeroSection() {
       <div className="absolute top-[72px] left-0 right-0 h-px pointer-events-none"
         style={{ background: "linear-gradient(90deg, transparent 0%, rgba(249,115,22,0.2) 20%, rgba(249,115,22,0.35) 50%, rgba(249,115,22,0.2) 80%, transparent 100%)" }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-12 xl:gap-24 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full pt-20 sm:pt-24 lg:pt-28 pb-12 sm:pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-8 sm:gap-12 xl:gap-24 items-center">
 
           {/* ── LEFT ── */}
           <div>
             {/* Headline */}
-            <div className="hero-animate-2 mb-5">
-              <h1 className="font-['Outfit',sans-serif] font-black leading-[1.08] tracking-tight text-foreground"
-                style={{ fontSize: "clamp(2.4rem, 5vw, 3.8rem)" }}>
+            <div className="hero-animate-2 mb-4 sm:mb-5">
+              <h1 className="font-['Outfit',sans-serif] font-black leading-[1.12] sm:leading-[1.08] tracking-tight text-foreground text-3xl xs:text-4xl sm:text-5xl lg:text-[54px] xl:text-[60px]"
+                style={{ fontSize: "clamp(1.85rem, 5vw, 3.8rem)" }}>
                 Engineering Intelligent<br />
                 Software for{" "}
                 <span className="relative inline-block">
@@ -885,14 +1027,14 @@ function HeroSection() {
             </div>
 
             {/* Differentiator pills */}
-            <div className="hero-animate-4 flex flex-wrap gap-2 mb-7">
+            <div className="hero-animate-4 flex flex-wrap gap-1.5 sm:gap-2 mb-6 sm:mb-7">
               {[
                 { emoji: "⚙️", text: "Enterprise Engineering" },
                 { emoji: "🤖", text: "AI-Powered Automation" },
                 { emoji: "🔐", text: "Security-First" },
                 { emoji: "📈", text: "Built to Scale" },
               ].map(({ emoji, text }, i) => (
-                <span key={i} className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[12px] font-['Outfit',sans-serif] font-semibold border transition-all duration-300 cursor-default hover:scale-105"
+                <span key={i} className="flex items-center gap-1.5 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-[12px] font-['Outfit',sans-serif] font-semibold border transition-all duration-300 cursor-default hover:scale-105"
                   style={{ borderColor: "rgba(249,115,22,0.2)", background: "rgba(249,115,22,0.04)", color: "var(--muted-foreground)" }}>
                   <span>{emoji}</span> {text}
                 </span>
@@ -900,9 +1042,9 @@ function HeroSection() {
             </div>
 
             {/* CTAs */}
-            <div className="hero-animate-5 flex flex-wrap items-center gap-3">
+            <div className="hero-animate-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <button
-                className="group relative flex items-center gap-2 px-7 py-3.5 rounded-full font-['Outfit',sans-serif] font-bold text-white text-[15px] overflow-hidden transition-all hover:scale-105 active:scale-95"
+                className="group relative flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full font-['Outfit',sans-serif] font-bold text-white text-[14.5px] sm:text-[15px] overflow-hidden transition-all hover:scale-105 active:scale-95 text-center shadow-lg cursor-pointer"
                 style={{ background: ORANGE, boxShadow: "0 6px 32px rgba(249,115,22,0.45), 0 0 0 1px rgba(249,115,22,0.2)" }}
                 onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}>
                 <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -911,7 +1053,7 @@ function HeroSection() {
                 <ArrowRight size={15} className="relative z-10 transition-transform group-hover:translate-x-1" />
               </button>
               <button
-                className="flex items-center gap-2 px-7 py-3.5 rounded-full border font-['Outfit',sans-serif] font-semibold text-foreground text-[15px] transition-all hover:scale-105 active:scale-95"
+                className="flex items-center justify-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full border font-['Outfit',sans-serif] font-semibold text-foreground text-[14.5px] sm:text-[15px] transition-all hover:scale-105 active:scale-95 text-center cursor-pointer"
                 style={{ borderColor: "var(--border)" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(249,115,22,0.5)"; (e.currentTarget as HTMLElement).style.color = "#f97316"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLElement).style.color = "var(--foreground)"; }}
@@ -924,22 +1066,22 @@ function HeroSection() {
 
           </div>
 
-          {/* ── RIGHT — Pipeline card ── */}
-          <div className="hidden lg:block relative">
-            {/* Floating badges */}
-            <FloatingBadge className="top-[-18px] left-[-44px]" animClass="badge-1">
+          {/* ── RIGHT — Pipeline card (Responsive on all devices) ── */}
+          <div className="relative w-full max-w-lg mx-auto lg:max-w-none mt-6 sm:mt-8 lg:mt-0">
+            {/* Floating badges (contained gracefully) */}
+            <FloatingBadge className="hidden sm:flex top-[-16px] left-0 sm:left-[-20px] lg:left-[-44px]" animClass="badge-1">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="font-['JetBrains_Mono',monospace] text-[9px] text-foreground font-bold">99.9% uptime SLA</span>
             </FloatingBadge>
-            <FloatingBadge className="top-[68px] right-[-60px]" animClass="badge-2">
+            <FloatingBadge className="hidden sm:flex top-[50px] sm:top-[68px] right-0 sm:right-[-20px] lg:right-[-60px]" animClass="badge-2">
               <div className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse shrink-0" />
               <span className="font-['JetBrains_Mono',monospace] text-[9px] text-foreground font-bold whitespace-nowrap">5+ Projects · 99% On Time · 4+ Clients</span>
             </FloatingBadge>
-            <FloatingBadge className="bottom-[88px] right-[-60px]" animClass="badge-3">
+            <FloatingBadge className="hidden sm:flex bottom-[60px] sm:bottom-[88px] right-0 sm:right-[-20px] lg:right-[-60px]" animClass="badge-3">
               <span>🔐</span>
-              <span className="font-['JetBrains_Mono',monospace] text-[9px] text-foreground font-bold">Enterprise-grade security</span>
+              <span className="font-['JetBrains_Mono',monospace] text-[9px] text-foreground font-bold">Enterprise grade security</span>
             </FloatingBadge>
-            <FloatingBadge className="bottom-[-16px] left-[16px]" animClass="badge-4">
+            <FloatingBadge className="hidden sm:flex bottom-[-16px] left-[16px]" animClass="badge-4">
               <span>📐</span>
               <span className="font-['JetBrains_Mono',monospace] text-[9px] text-foreground font-bold">Custom-built, not templated</span>
             </FloatingBadge>
@@ -961,7 +1103,7 @@ function HeroSection() {
                     <div className="w-2.5 h-2.5 rounded-full" style={{ background: "rgba(234,179,8,0.6)" }} />
                     <div className="w-2.5 h-2.5 rounded-full" style={{ background: "rgba(34,197,94,0.6)" }} />
                   </div>
-                  <span className="font-['JetBrains_Mono',monospace] text-[10px] tracking-widest text-muted-foreground">askjuno.engineering.live</span>
+                  <span className="font-['JetBrains_Mono',monospace] text-[10px] tracking-widest text-muted-foreground">askjuno.com</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
@@ -1004,135 +1146,160 @@ function HeroSection() {
 
 // ── 0b. About Us ─────────────────────────────────────────────────────────────
 function AboutUsSection() {
-  const VALUE_CARDS = [
+  const BELIEF_PILLARS = [
     {
-      title: "Business-Led",
-      desc: "Solve the problem first.",
+      num: "01",
+      title: "Business First",
+      desc: "Technology should create measurable business value.",
       icon: (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="9" />
-          <circle cx="12" cy="12" r="3" />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <circle cx="12" cy="12" r="6" />
+          <circle cx="12" cy="12" r="2" />
         </svg>
       ),
     },
     {
-      title: "Enterprise-Ready",
-      desc: "Built to scale securely.",
+      num: "02",
+      title: "Engineering That Lasts",
+      desc: "Build for today, engineer for tomorrow.",
       icon: (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
         </svg>
       ),
     },
     {
-      title: "AI-Powered",
-      desc: "Intelligence with purpose.",
+      num: "03",
+      title: "AI With Purpose",
+      desc: "Use AI where it solves real problems.",
       icon: (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="m12 3-1.9 6.1a2 2 0 0 1-1.2 1.2L3 12l6.1 1.9a2 2 0 0 1 1.2 1.2L12 21l1.9-6.1a2 2 0 0 1 1.2-1.2L21 12l-6.1-1.9a2 2 0 0 1-1.2-1.2Z" />
         </svg>
       ),
     },
     {
-      title: "End-to-End",
-      desc: "From idea to deployment.",
+      num: "04",
+      title: "Built Around You",
+      desc: "Technology should fit the way your business works.",
       icon: (
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M5 12h14" />
-          <path d="m12 5 7 7-7 7" />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
         </svg>
       ),
     },
   ];
 
   return (
-    <section id="about" className="pt-14 pb-11 sm:pt-[68px] sm:pb-12 lg:pt-[80px] lg:pb-[48px] bg-background relative overflow-hidden flex flex-col justify-center transition-colors duration-200">
+    <section id="about" className="pt-16 pb-12 sm:pt-20 sm:pb-16 lg:pt-24 lg:pb-18 bg-background relative overflow-hidden flex flex-col justify-center transition-colors duration-200">
       {/* Background ambient accents */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.02]"
         style={{ backgroundImage: "radial-gradient(circle, #f97316 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] opacity-[0.04] dark:opacity-[0.06] rounded-full pointer-events-none"
+      <div className="absolute top-0 right-0 w-[550px] h-[550px] opacity-[0.04] dark:opacity-[0.07] rounded-full pointer-events-none"
         style={{ background: "radial-gradient(circle, #f97316 0%, transparent 70%)" }} />
 
-      <div className="max-w-[1320px] mx-auto px-6 relative z-10 w-full">
-        {/* Top Eyebrow: ABOUT ASKJUNO */}
-        <FadeIn delay={0.05} className="mb-3.5 sm:mb-4">
-          <p className="font-['JetBrains_Mono',monospace] text-[11.5px] sm:text-[12.5px] uppercase font-semibold text-[#f97316] tracking-[0.2em]">
-            ABOUT ASKJUNO
-          </p>
-        </FadeIn>
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        {/* Top Two-Column Block: Heading & Story Paragraphs */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-14 items-start">
+          {/* Left Column: Eyebrow + Main Heading */}
+          <div className="lg:col-span-5 xl:col-span-5 flex flex-col">
+            <FadeIn delay={0.05} className="mb-3 sm:mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-[#f97316] font-bold text-sm">—</span>
+                <span className="font-['JetBrains_Mono',monospace] text-[11px] sm:text-[12px] uppercase font-bold text-[#f97316] tracking-[0.2em]">
+                  ABOUT ASKJUNO
+                </span>
+              </div>
+            </FadeIn>
 
-        {/* Main Heading: We Build What Your Business Needs. */}
-        <FadeIn delay={0.1} className="mb-4.5 sm:mb-5">
-          <h2 className="font-['Outfit',sans-serif] font-bold text-[34px] sm:text-[42px] lg:text-[50px] xl:text-[52px] leading-[1.08] -tracking-[0.025em] max-w-[680px] text-stone-900 dark:text-white">
-            We Build What Your<br />
-            <span className="text-[#f97316]">Business Needs.</span>
-          </h2>
-        </FadeIn>
-
-        {/* Large Feature Card */}
-        <FadeIn delay={0.2} className="w-full">
-          <div className="w-full rounded-[18px] sm:rounded-[20px] border border-border bg-card p-5 sm:p-7 lg:p-8 shadow-sm relative overflow-hidden">
-            {/* 3.5px subtle orange accent line on the left side */}
-            <div className="absolute top-0 left-0 bottom-0 w-[3.5px] bg-[#f97316]" />
-
-            <div className="flex flex-col items-start text-left pl-1 sm:pl-1.5">
-              <h3 className="font-['Outfit',sans-serif] text-[22px] sm:text-[24px] lg:text-[26px] font-bold text-stone-900 dark:text-white leading-tight">
-                Not just software.
-              </h3>
-              <p className="font-['Outfit',sans-serif] text-[19px] sm:text-[21px] lg:text-[22px] font-semibold text-[#f97316] leading-snug mt-1.5 mb-3 sm:mb-3.5">
-                Technology designed around the way you work.
-              </p>
-              <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-[15px] sm:text-[16px] leading-relaxed max-w-[820px]">
-                AskJuno combines software engineering, AI, cloud, and data to solve complex business problems — from modernizing legacy systems to automating everyday operations.
-              </p>
-              <div className="w-full border-t border-border/60 my-4 sm:my-5" />
-              <p className="font-['Outfit',sans-serif] text-[14.5px] sm:text-[15.5px] font-semibold text-stone-900 dark:text-stone-100 flex items-center">
-                <span className="w-2 h-2 rounded-full bg-[#f97316] inline-block mr-2.5 flex-shrink-0" />
-                We build technology that is simple to use, ready to scale, and built to last.
-              </p>
-            </div>
+            <FadeIn delay={0.1}>
+              <h2 className="font-['Outfit',sans-serif] font-bold text-[26px] xs:text-[30px] sm:text-[38px] md:text-[42px] lg:text-[46px] xl:text-[48px] leading-[1.12] -tracking-[0.025em] text-stone-900 dark:text-white">
+                We Build Software Around<br />
+                How Your Business<br />
+                <span className="text-[#f97316]">Actually Works.</span>
+              </h2>
+            </FadeIn>
           </div>
-        </FadeIn>
 
-        {/* WHY ASKJUNO? Eyebrow */}
-        <FadeIn delay={0.25} className="mt-14 sm:mt-16 mb-4.5 sm:mb-5">
-          <p className="font-['JetBrains_Mono',monospace] text-[11.5px] sm:text-[12.5px] uppercase font-semibold text-[#f97316] tracking-[0.2em]">
-            Core Values
-          </p>
-        </FadeIn>
-
-        {/* Four Value Cards (1 horizontal row on desktop, 2x2 on tablet, stacked on mobile) */}
-        <FadeIn delay={0.3} className="w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-4.5 w-full">
-            {VALUE_CARDS.map((card, i) => (
-              <div
-                key={i}
-                className="rounded-[16px] sm:rounded-[18px] border border-border bg-card p-5 sm:p-5.5 lg:p-6 min-h-[140px] sm:min-h-[150px] shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#f97316]/50 flex flex-col justify-start text-left group"
-              >
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-orange-500/10 border border-orange-500/20 text-[#f97316] mb-3.5 sm:mb-4 group-hover:bg-orange-500/20 transition-colors flex-shrink-0">
-                  {card.icon}
-                </div>
-                <h4 className="font-['Outfit',sans-serif] text-[17px] sm:text-[18px] font-bold text-stone-900 dark:text-white mb-1.5 group-hover:text-[#f97316] transition-colors">
-                  {card.title}
-                </h4>
-                <p className="font-['Outfit',sans-serif] text-[13.5px] sm:text-[14px] text-stone-600 dark:text-stone-400 leading-relaxed">
-                  {card.desc}
+          {/* Right Column: Paragraphs with Orange Left Border */}
+          <div className="lg:col-span-7 xl:col-span-7">
+            <FadeIn delay={0.15}>
+              <div className="border-l-2 border-[#f97316] pl-4 sm:pl-7 flex flex-col gap-3 text-stone-600 dark:text-stone-300 font-['Outfit',sans-serif] text-[13px] sm:text-[14px] leading-[1.65]">
+                <p>
+                  AskJuno is an enterprise software engineering and AI company that turns complex business processes into scalable, intelligent technology.
+                </p>
+                <p>
+                  We help organizations go beyond the limitations of off-the-shelf software — modernizing legacy systems, building mission-critical platforms, integrating enterprise applications, and applying AI to eliminate manual, document-heavy operations.
+                </p>
+                <p>
+                  Bringing together software engineering, AI, cloud, data, and domain expertise, we build technology designed for the real world, reliable, scalable, and built around how your business operates.
+                </p>
+                <p>
+                  From intelligent document processing and automated workflows to custom SaaS platforms and enterprise integrations, we take ownership from strategy and architecture through engineering, deployment, and continuous improvement.
                 </p>
               </div>
-            ))}
+            </FadeIn>
           </div>
-        </FadeIn>
+        </div>
 
-        {/* Brand Strip (Final element of About Us) */}
-        <FadeIn delay={0.35} className="mt-11 sm:mt-12 w-full">
-          <div className="w-full rounded-[14px] sm:rounded-[16px] border border-border bg-card px-5 py-4 sm:px-7 sm:py-4.5 lg:px-8 lg:py-4.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 shadow-sm">
-            <div className="flex items-center gap-3">
-              <span className="font-['JetBrains_Mono',monospace] text-[12px] sm:text-[13px] uppercase font-semibold text-stone-800 dark:text-stone-200 tracking-[0.08em] sm:tracking-[0.1em]">
-                Specialize In : ENTERPRISE SOFTWARE · AI · PLATFORM ENGINEERING
+        {/* Middle Block: WHAT WE BELIEVE */}
+        <div className="mt-12 sm:mt-16 lg:mt-20">
+          <FadeIn delay={0.2} className="mb-6 sm:mb-8">
+            <div className="flex items-center gap-2">
+              <span className="text-[#f97316] font-bold text-sm">—</span>
+              <span className="font-['JetBrains_Mono',monospace] text-[11px] sm:text-[12px] uppercase font-bold text-[#f97316] tracking-[0.2em]">
+                WHAT WE BELIEVE
               </span>
             </div>
-            <div className="flex items-center">
-              <span className="font-['Outfit',sans-serif] text-[13px] sm:text-[14px] font-medium text-stone-700 dark:text-stone-300">
+          </FadeIn>
+
+          {/* 4 Pillars in a row with subtle vertical divider borders */}
+          <FadeIn delay={0.25} className="w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-0 lg:divide-x lg:divide-border/60">
+              {BELIEF_PILLARS.map((card, i) => (
+                <div
+                  key={i}
+                  className={`flex flex-col text-left ${i === 0
+                    ? "lg:pr-7"
+                    : i === 3
+                      ? "lg:pl-7"
+                      : "lg:px-7"
+                    }`}
+                >
+                  <div className="flex items-center gap-3 mb-2.5 sm:mb-3">
+                    <div className="text-[#f97316] flex-shrink-0">
+                      {card.icon}
+                    </div>
+                    <span className="font-['JetBrains_Mono',monospace] text-[12px] font-semibold text-stone-400 dark:text-stone-500">
+                      {card.num}
+                    </span>
+                  </div>
+                  <h4 className="font-['Outfit',sans-serif] text-[16px] sm:text-[18px] font-bold text-stone-900 dark:text-white mb-1 leading-snug">
+                    {card.title}
+                  </h4>
+                  <p className="font-['Outfit',sans-serif] text-[12.5px] sm:text-[13.5px] text-stone-600 dark:text-stone-400 leading-relaxed">
+                    {card.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
+
+        {/* Bottom Strip: SPECIALISING IN ENTERPRISE SOFTWARE • AI • PLATFORM ENGINEERING */}
+        <FadeIn delay={0.3} className="mt-10 sm:mt-14 w-full">
+          <div className="w-full rounded-2xl sm:rounded-full border border-border/80 bg-card/40 dark:bg-card/20 px-4 py-3 sm:px-8 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-4 shadow-sm text-center sm:text-left">
+            <div className="flex items-center justify-center sm:justify-start">
+              <span className="font-['JetBrains_Mono',monospace] text-[10px] xs:text-[11px] sm:text-[12px] uppercase font-bold text-stone-700 dark:text-stone-300 tracking-[0.06em] sm:tracking-[0.16em] leading-relaxed">
+                SPECIALISING IN ENTERPRISE SOFTWARE &nbsp;•&nbsp; AI &nbsp;•&nbsp; PLATFORM ENGINEERING
+              </span>
+            </div>
+            <div className="flex items-center justify-center sm:justify-end">
+              <span className="font-['Outfit',sans-serif] text-[12px] sm:text-[13.5px] font-medium text-stone-700 dark:text-stone-300">
                 Built in India · <span className="text-[#f97316] font-semibold">Engineered for the World.</span>
               </span>
             </div>
@@ -1244,9 +1411,9 @@ function WhatWeDoSection() {
           style={{ backgroundImage: "radial-gradient(circle, #f97316 1px, transparent 1px)", backgroundSize: "44px 44px" }} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-end mb-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 items-end mb-5">
           <FadeIn>
             <SectionLabel group="What We Build">What We Do</SectionLabel>
             <SectionHeading>
@@ -1255,7 +1422,7 @@ function WhatWeDoSection() {
             </SectionHeading>
           </FadeIn>
           <FadeIn delay={0.12}>
-            <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.6]">
+            <p className="font-['Outfit',sans-serif] text-muted-foreground text-xs sm:text-sm leading-[1.6]">
               {"Whether you're"} building a new digital product, modernizing legacy systems, or integrating AI into your operations, we deliver end-to-end engineering solutions designed for long-term business impact.
             </p>
           </FadeIn>
@@ -1263,7 +1430,7 @@ function WhatWeDoSection() {
 
         {/* Interactive split layout */}
         <FadeIn delay={0.1}>
-          <div className="rounded-3xl border border-border overflow-hidden shadow-2xl shadow-black/10"
+          <div className="rounded-2xl sm:rounded-3xl border border-border overflow-hidden shadow-2xl shadow-black/10"
             style={{ background: "var(--card)" }}>
             <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr]">
 
@@ -1272,16 +1439,16 @@ function WhatWeDoSection() {
                 {/* Active indicator track */}
                 <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-px bg-border" />
 
-                <div className="p-4 lg:p-6">
-                  <p className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2px] uppercase text-muted-foreground mb-4 px-2">Service Areas</p>
-                  <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0" style={{ scrollbarWidth: "none" }}>
+                <div className="p-3 sm:p-4 lg:p-6">
+                  <p className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2px] uppercase text-muted-foreground mb-3 sm:mb-4 px-2">Service Areas</p>
+                  <div className="flex lg:flex-col gap-1.5 sm:gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0" style={{ scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
                     {SERVICE_CARDS.map((sc, i) => {
                       const isTab = active === i;
                       return (
                         <button
                           key={i}
                           onClick={() => handleTabClick(i)}
-                          className="shrink-0 lg:w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group relative overflow-hidden"
+                          className="shrink-0 lg:w-full text-left flex items-center gap-2.5 sm:gap-3 px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl transition-all duration-300 group relative overflow-hidden"
                           style={{
                             background: isTab ? `${sc.accent}14` : "transparent",
                             border: isTab ? `1px solid ${sc.accent}35` : "1px solid transparent",
@@ -1289,14 +1456,14 @@ function WhatWeDoSection() {
                           {/* Active left pip */}
                           <div className="hidden lg:block absolute left-0 top-3 bottom-3 w-0.5 rounded-full transition-all duration-300"
                             style={{ background: sc.accent, opacity: isTab ? 1 : 0 }} />
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300"
+                          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300"
                             style={{
                               color: isTab ? sc.accent : "var(--muted-foreground)",
                               background: isTab ? `${sc.accent}15` : "transparent",
                             }}>
                             {sc.icon}
                           </div>
-                          <span className="font-['Outfit',sans-serif] text-sm font-semibold transition-colors duration-300 whitespace-nowrap lg:whitespace-normal"
+                          <span className="font-['Outfit',sans-serif] text-xs sm:text-sm font-semibold transition-colors duration-300 whitespace-nowrap lg:whitespace-normal"
                             style={{ color: isTab ? sc.accent : "var(--foreground)" }}>
                             {sc.title}
                           </span>
@@ -1308,7 +1475,7 @@ function WhatWeDoSection() {
               </div>
 
               {/* Right content panel */}
-              <div className="p-5 lg:p-12 relative overflow-hidden">
+              <div className="p-4 sm:p-6 lg:p-12 relative overflow-hidden">
                 {/* Panel glow */}
                 <div className="absolute top-0 right-0 w-72 h-72 rounded-full pointer-events-none transition-all duration-700"
                   style={{ background: `radial-gradient(circle, ${card.accent}0e 0%, transparent 60%)` }} />
@@ -1500,10 +1667,10 @@ function IndustriesSection() {
           style={{ background: "radial-gradient(circle, #f97316 0%, transparent 65%)", animation: "glow-pulse 7s ease-in-out infinite" }} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 items-end mb-4">
           <FadeIn>
             <SectionLabel group="Where We Create Impact">Industries We Transform</SectionLabel>
             <SectionHeading>
@@ -1512,7 +1679,7 @@ function IndustriesSection() {
             </SectionHeading>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <p className="font-['Outfit',sans-serif] text-muted-foreground leading-[1.65] text-[15px]">
+            <p className="font-['Outfit',sans-serif] text-muted-foreground leading-[1.65] text-xs sm:text-[15px]">
               Every industry has its own workflows, regulations, and operational challenges. We combine engineering expertise with domain knowledge to build software that fits the way your business works — not the other way around.
             </p>
           </FadeIn>
@@ -1520,12 +1687,12 @@ function IndustriesSection() {
 
         <FadeIn delay={0.1}>
           {/* Tab strip */}
-          <div className="flex flex-wrap gap-2 mb-5">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-5">
             {INDUSTRIES.map((ind, i) => {
               const isAct = active === i;
               return (
                 <button key={i} onClick={() => setActive(i)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full border font-['Outfit',sans-serif] text-sm font-semibold transition-all duration-300"
+                  className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border font-['Outfit',sans-serif] text-xs sm:text-sm font-semibold transition-all duration-300"
                   style={{
                     background: isAct ? "linear-gradient(135deg,#f97316,#f59e0b)" : "var(--card)",
                     borderColor: isAct ? "transparent" : "var(--border)",
@@ -1549,12 +1716,12 @@ function IndustriesSection() {
             style={{ animation: "hero-in 0.35s ease both" }}>
 
             {/* Left: main info */}
-            <div className="rounded-3xl border overflow-hidden"
+            <div className="rounded-2xl sm:rounded-3xl border overflow-hidden"
               style={{ borderColor: "rgba(249,115,22,0.2)", background: "var(--card)", boxShadow: "0 16px 48px rgba(249,115,22,0.08)" }}>
               {/* Top accent */}
               <div className="h-[3px]" style={{ background: "linear-gradient(90deg,#f97316,#f59e0b)" }} />
 
-              <div className="p-5 lg:p-10">
+              <div className="p-4 sm:p-6 lg:p-10">
                 {/* Industry header */}
                 <div className="flex items-center gap-4 mb-3">
                   <div className="w-14 h-14 rounded-2xl flex items-center justify-center border shrink-0"
@@ -1793,23 +1960,23 @@ function HowWeBuildSection() {
           style={{ background: `radial-gradient(circle, ${activeCol} 0%, transparent 60%)`, transition: "background 0.6s", animation: "glow-pulse 6s ease-in-out infinite" }} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
         {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-10 items-end mb-6">
           <FadeIn>
             <SectionLabel group="How We Build">How We Build</SectionLabel>
             <SectionHeading>From Vision<br /><GradientText>to Value.</GradientText></SectionHeading>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.65]">
+            <p className="font-['Outfit',sans-serif] text-muted-foreground text-xs sm:text-sm leading-[1.65]">
               Every successful product starts with understanding the business behind it. Our engineering approach combines strategic thinking, agile execution, and continuous collaboration to deliver software that creates measurable impact.
             </p>
           </FadeIn>
         </div>
 
         <FadeIn delay={0.1}>
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-4">
+          <div className="flex flex-col lg:flex-row items-center gap-6 sm:gap-10 lg:gap-8">
 
             {/* ── Rotating wheel ── */}
             <div className="shrink-0 relative w-[260px] h-[260px]">
@@ -2211,7 +2378,7 @@ function WhyJunoSection() {
             </div>
 
             {/* Heading */}
-            <h2 className="font-['Outfit',sans-serif] font-black text-[34px] sm:text-[40px] lg:text-[42px] leading-[1.1] -tracking-[0.02em] text-foreground">
+            <h2 className="font-['Outfit',sans-serif] font-black text-[26px] xs:text-[30px] sm:text-[38px] lg:text-[42px] leading-[1.12] sm:leading-[1.1] -tracking-[0.02em] text-foreground">
               <span
                 style={{
                   display: "block",
@@ -2492,156 +2659,193 @@ function WhyJunoSection() {
   );
 }
 
-// ── 4b. How We Partner ────────────────────────────────────────────────────────
-const PARTNERSHIP_STEPS = [
+// ── 4b. Our Approach ─────────────────────────────────────────────────────────
+const APPROACH_STEPS = [
   {
     num: "01",
-    title: "Idea → Strategy",
-    desc: "We work with you from the very first idea — helping define the right problem to solve, the right technology approach, and the right path forward.",
-    detail: ["Business problem discovery", "Technology feasibility", "Solution architecture", "Roadmap definition"],
-    icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.6" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /><path d="M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" /></svg>),
+    icon: <Lightbulb size={22} className="text-foreground" strokeWidth={1.2} />,
+    title: "Understand & Strategize",
+    tagline: "Before we build, we understand.",
+    desc: "We dive into your business, users, workflows, existing technology and challenges — and define what success looks like.",
+    items: [
+      "Business & process discovery",
+      "Requirements & opportunity analysis",
+      "Technology feasibility",
+      "Solution strategy & architecture",
+      "Product roadmap",
+    ],
   },
   {
     num: "02",
-    title: "Implementation",
-    desc: "We build as a true extension of your team — transparent sprints, continuous feedback loops, and shared ownership at every step of development.",
-    detail: ["Agile delivery cadence", "Weekly stakeholder reviews", "Shared project visibility", "Continuous testing & QA"],
-    icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 10l-4 4 4 4M15 10l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M13 8l-2 8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /></svg>),
+    icon: <Code2 size={22} className="text-foreground" strokeWidth={1.2} />,
+    title: "Design & Engineer",
+    tagline: "Turn the strategy into working technology.",
+    desc: "Our engineering teams bring the solution to life through focused execution, continuous collaboration, and disciplined development.",
+    items: [
+      "Product & technical design",
+      "Agile engineering",
+      "AI & automation integration",
+      "API & enterprise integrations",
+      "Continuous testing & QA",
+    ],
   },
   {
     num: "03",
+    icon: <Cloud size={22} className="text-foreground" strokeWidth={1.2} />,
+    title: "Launch & Operationalize",
+    tagline: "Software creates value when people can rely on it.",
+    desc: "We take solutions beyond development and into real-world operation — with the infrastructure, security, and support needed for production.",
+    items: [
+      "Deployment & cloud infrastructure",
+      "Production readiness",
+      "Security & performance",
+      "Monitoring & observability",
+      "User adoption & support",
+    ],
+  },
+  {
+    num: "04",
+    icon: <TrendingUp size={22} className="text-foreground" strokeWidth={1.2} />,
     title: "Scale & Evolve",
-    desc: "We stay engaged long after launch — monitoring performance, planning the next phase, and evolving the product alongside your growing business.",
-    detail: ["Post-launch support", "Feature roadmap planning", "Performance optimization", "Long-term advisory"],
-    icon: (<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 0115.6-6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /><path d="M21 12a9 9 0 01-15.6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" /><path d="M18.6 3.4l.4 2.9-2.9.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /><path d="M5.4 20.6l-.4-2.9 2.9-.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" /></svg>),
+    tagline: "The launch isn't the finish line.",
+    desc: "As your business grows, we stay involved to improve performance, expand capabilities, integrate new systems, and identify what's next.",
+    items: [
+      "Continuous improvement",
+      "Product & feature evolution",
+      "Performance optimization",
+      "New integrations & capabilities",
+      "Long-term advisory",
+    ],
   },
 ];
 
-const PARTNERSHIP_VALUES = [
-  { icon: "🤝", title: "Collaborative by Design", desc: "We work as an extension of your team — open communication, shared ownership, no silos." },
-  { icon: "🔍", title: "Transparent at Every Step", desc: "From planning to deployment, you always have full visibility into progress, priorities, and decisions." },
-  { icon: "📈", title: "Built for Long-Term Growth", desc: "Every solution is designed to scale — easier to evolve, integrate, and innovate as your business grows." },
-  { icon: "🎯", title: "Focused on Real Outcomes", desc: "Every recommendation and release is driven by one goal: helping your business operate more efficiently." },
-];
-
 function HowWePartnerSection() {
-  const [activeStep, setActiveStep] = useState(0);
   return (
-    <section id="approach" className="min-h-screen py-16 bg-background relative overflow-hidden flex flex-col justify-center">
-      {/* Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] opacity-[0.05] rounded-full"
-          style={{ background: "radial-gradient(circle, #f97316 0%, transparent 60%)", animation: "glow-pulse 6s ease-in-out infinite" }} />
-        <div className="absolute inset-0 opacity-[0.018]"
-          style={{ backgroundImage: "radial-gradient(circle, #f97316 1px, transparent 1px)", backgroundSize: "44px 44px" }} />
+    <section id="approach" className="py-20 md:py-28 bg-background relative overflow-hidden flex flex-col justify-center">
+      {/* Background hero image with gradients */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <img
+          src={approachImg}
+          alt="Engineering Workstation"
+          className="absolute right-0 top-0 w-full lg:w-[58%] h-[580px] object-cover object-center opacity-25 dark:opacity-40"
+        />
+        {/* Soft edge masking gradients */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 lg:via-background/85 to-transparent w-full" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background" />
+        <div className="absolute top-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
 
-        {/* Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-end mb-12">
-          <FadeIn>
-            <SectionLabel group="How We Build">Our Approach</SectionLabel>
-            <SectionHeading>
-              From Idea to<br />
-              <GradientText>Implementation to Scale.</GradientText>
-            </SectionHeading>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <p className="font-['Outfit',sans-serif] text-muted-foreground leading-[1.65] text-[15px]">
-              We {"don't"} disappear after deployment. We work as a true extension of your team — from the first conversation through every stage of growth. {"Here's"} how that partnership looks in practice.
-            </p>
-          </FadeIn>
-        </div>
+        {/* Header Block */}
+        <FadeIn className="mb-10 sm:mb-16 lg:mb-20">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8">
+            {/* Left Header */}
+            <div className="max-w-2xl">
+              {/* Eyebrow */}
+              <div className="flex items-center gap-2.5 mb-3 sm:mb-4">
+                <span className="w-5 h-[2px] bg-orange-500 rounded-full" />
+                <span className="font-['Outfit',sans-serif] font-bold text-foreground text-xs sm:text-sm tracking-wide">
+                  Our Approach
+                </span>
+              </div>
 
-        {/* Journey steps */}
-        <FadeIn delay={0.1}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
-            {PARTNERSHIP_STEPS.map((step, i) => {
-              const isAct = activeStep === i;
-              return (
-                <div key={i}
-                  className="group relative p-6 rounded-2xl border cursor-pointer transition-all duration-400"
-                  style={{
-                    background: isAct ? "linear-gradient(135deg, rgba(249,115,22,0.08) 0%, rgba(245,158,11,0.04) 100%)" : "var(--card)",
-                    borderColor: isAct ? "rgba(249,115,22,0.35)" : "var(--border)",
-                    transform: isAct ? "translateY(-4px)" : "translateY(0)",
-                    boxShadow: isAct ? "0 20px 50px rgba(249,115,22,0.12)" : "none",
-                  }}
-                  onMouseEnter={() => setActiveStep(i)}>
+              {/* Heading */}
+              <h2 className="font-['Outfit',sans-serif] font-black text-[28px] xs:text-[34px] sm:text-[44px] lg:text-[54px] leading-[1.08] -tracking-[0.02em] text-foreground mb-4 sm:mb-5">
+                From Understanding<br />
+                <GradientText>to Impact.</GradientText>
+              </h2>
 
-                  {/* Active top bar */}
-                  <div className="absolute top-0 inset-x-0 h-[3px] rounded-t-2xl transition-opacity duration-300"
-                    style={{ background: ORANGE, opacity: isAct ? 1 : 0 }} />
+              {/* Description */}
+              <div className="font-['Outfit',sans-serif] text-[14px] sm:text-[14.5px] text-muted-foreground leading-[1.65] space-y-3">
+                <p>
+                  Great software doesn&apos;t start with code. It starts with understanding
+                  your business, your people, and the problems you&apos;re solving.
+                </p>
+                <p>
+                  At AskJuno, we work alongside you through the entire journey —
+                  from shaping the right solution to building, launching, and continuously
+                  evolving it as your business grows.
+                </p>
+              </div>
+            </div>
 
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="font-['JetBrains_Mono',monospace] text-[10px] tracking-[2.5px] uppercase font-bold"
-                      style={{ color: isAct ? "#f97316" : "var(--muted-foreground)" }}>{step.num}</span>
-                    <div className="h-px flex-1" style={{ background: isAct ? "rgba(249,115,22,0.3)" : "var(--border)" }} />
+            {/* Right Callout Box */}
+            <div className="hidden lg:flex items-center self-center shrink-0 pr-6">
+              <div className="border-l-2 border-orange-500 pl-4 py-1">
+                <p className="font-['Outfit',sans-serif] text-[14.5px] text-muted-foreground/90 font-medium leading-[1.6]">
+                  Real problems.<br />
+                  Thoughtful solutions.<br />
+                  Lasting impact.
+                </p>
+              </div>
+            </div>
+          </div>
+        </FadeIn>
+
+        {/* 4 Connected Process Steps */}
+        <FadeIn delay={0.15}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8">
+            {APPROACH_STEPS.map((step, idx) => (
+              <div key={step.num} className="relative flex flex-col justify-between">
+                <div>
+                  {/* Step Number & Connector Line */}
+                  <div className="relative flex items-center mb-6">
+                    {/* Numbered Circle */}
+                    <div className="w-9 h-9 rounded-full border border-orange-500/80 bg-background text-orange-500 font-['JetBrains_Mono',monospace] text-xs font-bold flex items-center justify-center shrink-0 shadow-sm shadow-orange-500/10 z-10">
+                      {step.num}
+                    </div>
+
+                    {/* Desktop Connector Line across column gap to next circle */}
+                    {idx < APPROACH_STEPS.length - 1 && (
+                      <div
+                        className="hidden lg:flex absolute top-1/2 -translate-y-1/2 left-9 right-[-2rem] items-center pointer-events-none z-0"
+                        aria-hidden="true"
+                      >
+                        <div className="flex-1 h-px bg-border/70" />
+                        <ChevronRight size={13} className="text-muted-foreground/60 shrink-0 mx-1" />
+                        <div className="flex-1 h-px bg-border/70" />
+                      </div>
+                    )}
+
+                    {/* Tablet/Mobile separator within each item */}
+                    <div className="lg:hidden flex-1 h-px bg-border/40 ml-3" />
                   </div>
 
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300"
-                    style={{ color: isAct ? "#f97316" : "var(--muted-foreground)", background: isAct ? "rgba(249,115,22,0.12)" : "var(--muted)", border: isAct ? "1px solid rgba(249,115,22,0.25)" : "1px solid transparent" }}>
+                  {/* Icon Circle */}
+                  <div className="w-12 h-12 rounded-full border border-border/80 bg-card/60 flex items-center justify-center mb-5 sm:mb-6 shrink-0">
                     {step.icon}
                   </div>
 
-                  <h3 className="font-['Outfit',sans-serif] font-black text-xl mb-3 transition-colors duration-300"
-                    style={{ color: isAct ? "#f97316" : "var(--foreground)" }}>{step.title}</h3>
+                  {/* Title */}
+                  <h3 className="font-['Outfit',sans-serif] font-bold text-[18px] sm:text-[19px] text-foreground leading-snug mb-2.5 sm:mb-3 lg:min-h-[50px] flex items-start">
+                    {step.title}
+                  </h3>
 
-                  <p className="font-['Outfit',sans-serif] text-muted-foreground text-[14px] leading-[1.65] mb-4">{step.desc}</p>
+                  {/* Tagline */}
+                  <p className="font-['Outfit',sans-serif] text-[13px] text-muted-foreground font-medium mb-4 sm:mb-5 lg:min-h-[38px] flex items-start">
+                    {step.tagline}
+                  </p>
 
-                  <div className="flex flex-col gap-2">
-                    {step.detail.map((d, j) => (
-                      <div key={j} className="flex items-center gap-2">
-                        <div className="w-1 h-1 rounded-full shrink-0" style={{ background: isAct ? "#f97316" : "var(--muted-foreground)" }} />
-                        <span className="font-['Outfit',sans-serif] text-[13px] text-muted-foreground">{d}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Arrow connector */}
-                  {i < PARTNERSHIP_STEPS.length - 1 && (
-                    <div className="hidden md:block absolute -right-5 top-1/2 -translate-y-1/2 z-10">
-                      <ArrowRight size={16} style={{ color: isAct ? "#f97316" : "var(--border)" }} />
-                    </div>
-                  )}
+                  {/* Description */}
+                  <p className="font-['Outfit',sans-serif] text-[12.5px] sm:text-[13px] text-muted-foreground leading-relaxed mb-6 lg:min-h-[82px]">
+                    {step.desc}
+                  </p>
                 </div>
-              );
-            })}
-          </div>
-        </FadeIn>
 
-        {/* Partnership values grid */}
-        <FadeIn delay={0.2}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
-            {PARTNERSHIP_VALUES.map((v, i) => (
-              <div key={i} className="group p-5 rounded-2xl border border-border bg-card transition-all duration-400 hover:-translate-y-1 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/5">
-                <div className="text-2xl mb-3">{v.icon}</div>
-                <h4 className="font-['Outfit',sans-serif] font-bold text-[15px] text-foreground mb-2 group-hover:text-orange-500 transition-colors duration-300">{v.title}</h4>
-                <p className="font-['Outfit',sans-serif] text-muted-foreground text-[13px] leading-[1.6]">{v.desc}</p>
+                {/* Checklist */}
+                <div className="space-y-2.5 pt-5 mt-auto border-t border-border/40">
+                  {step.items.map((item, i) => (
+                    <div key={i} className="flex items-start gap-2.5">
+                      <Check size={14} className="text-orange-500 shrink-0 mt-0.5" strokeWidth={2.5} />
+                      <span className="font-['Outfit',sans-serif] text-xs sm:text-[13px] text-muted-foreground leading-snug">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
-          </div>
-        </FadeIn>
-
-        {/* CTA bridge */}
-        <FadeIn delay={0.3}>
-          <div className="relative rounded-2xl border border-border overflow-hidden">
-            <div className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl" style={{ background: ORANGE }} />
-            <div className="px-7 py-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              <div>
-                <p className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2px] uppercase text-muted-foreground mb-1.5">Our success metric</p>
-                <p className="font-['Outfit',sans-serif] text-foreground text-[15px] font-semibold leading-relaxed max-w-2xl">
-                  Our success is measured by the success of the businesses we build for.{" "}
-                  <span className="text-muted-foreground font-normal">Not by lines of code shipped.</span>
-                </p>
-              </div>
-              <button onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-                className="shrink-0 flex items-center gap-2 px-6 py-3 rounded-full font-['Outfit',sans-serif] font-bold text-sm text-white transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
-                style={{ background: ORANGE, boxShadow: "0 4px 20px rgba(249,115,22,0.3)" }}>
-                Start the Conversation <ArrowRight size={14} />
-              </button>
-            </div>
           </div>
         </FadeIn>
 
@@ -2690,7 +2894,7 @@ const PRODUCTS = [
               <span className="text-xs text-foreground truncate max-w-[160px]">{row.name}</span>
               <span className="text-[10px] font-medium ml-2 shrink-0" style={{ color: row.col }}>{row.status}</span>
             </div>
-            <div className="h-1.5 rounded-full" style={{ background: "var(--muted)" }}>
+            <div className="h-1.5 rounded-full" style={{ background: "rgba(0,0,0,0.06)" }}>
               <div className="h-1.5 rounded-full" style={{ width: `${row.pct}%`, background: `linear-gradient(90deg, ${row.col}, ${row.col}99)` }} />
             </div>
           </div>
@@ -2739,7 +2943,7 @@ const PRODUCTS = [
               <span className="text-xs text-foreground">{t.task}</span>
               <span className="text-[10px] text-muted-foreground">{t.owner}</span>
             </div>
-            <div className="h-1.5 rounded-full" style={{ background: "var(--muted)" }}>
+            <div className="h-1.5 rounded-full" style={{ background: "rgba(0,0,0,0.06)" }}>
               <div className="h-1.5 rounded-full" style={{ width: `${t.progress}%`, background: `linear-gradient(90deg, ${t.col}, ${t.col}99)` }} />
             </div>
           </div>
@@ -2757,6 +2961,104 @@ const PRODUCTS = [
   },
   {
     num: "03",
+    name: "MediGuard",
+    tag: "Healthcare · Medication Safety",
+    tagline: "Safer OTC Decisions at the Point of Purchase.",
+    desc: "An interactive pharmacy-based medication safety platform that helps customers make informed over-the-counter medication decisions while strengthening pharmacist engagement and clinical oversight — all without collecting sensitive personal data.",
+    impact: "Reduce medication errors, increase consumer confidence, and give pharmacies a technology-enabled safety service that differentiates their practice.",
+    caps: [
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.2" /><path d="M8 5v6M5 8h6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>, label: "Medication Safety Screening" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="currentColor" strokeWidth="1.2" /><path d="M8 5v3l2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>, label: "Duplicate Therapy Detection" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3v10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.2" /></svg>, label: "Drug-to-Drug Interaction Review" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 12l3-5 3 3 2-3 3 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg>, label: "Beers Criteria — Senior Safety" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3h10v10H3z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" /><path d="M6 7h4M6 9h2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>, label: "Consumer Medication Reports" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 100 8 4 4 0 000-8zM4.5 11.5C3 12.5 2 14 2 14h12s-1-1.5-2.5-2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>, label: "Privacy-First · No PHI Required" },
+    ],
+    cta: "Learn About MediGuard",
+    accent: "#f8872aff",
+    visual: (
+      <div className="w-full rounded-2xl p-5 font-['Outfit',sans-serif]"
+        style={{ background: "var(--card)", border: "1px solid var(--border)", boxShadow: "0 20px 60px rgba(16,185,129,0.08)" }}>
+        <div className="flex items-center justify-between mb-4">
+          <span className="font-black text-sm text-foreground">Medication Review</span>
+          <span className="text-[10px] font-['JetBrains_Mono',monospace] tracking-widest uppercase px-2 py-1 rounded-md" style={{ color: "#10b981", background: "rgba(16,185,129,0.1)" }}>Kiosk Active</span>
+        </div>
+        {[
+          { label: "Duplicate Therapy", result: "⚠ Found", note: "2 products with Acetaminophen detected", col: "#f59e0b" },
+          { label: "Drug Interactions", result: "✓ Clear", note: "No interactions identified", col: "#10b981" },
+          { label: "Beers Criteria", result: "⚠ Review", note: "Senior safety flag raised", col: "#f97316" },
+          { label: "Consumer Report", result: "✓ Ready", note: "Summary generated for customer", col: "#10b981" },
+        ].map((row, i) => (
+          <div key={i} className="mb-2.5 p-2.5 rounded-xl" style={{ background: "rgba(0,0,0,0.03)", border: "1px solid var(--border)" }}>
+            <div className="flex items-center justify-between mb-0.5">
+              <span className="text-xs font-semibold text-foreground">{row.label}</span>
+              <span className="text-[10px] font-bold" style={{ color: row.col }}>{row.result}</span>
+            </div>
+            <span className="text-[10px] text-muted-foreground">{row.note}</span>
+          </div>
+        ))}
+        <div className="grid grid-cols-3 gap-2 mt-3 pt-3" style={{ borderTop: "1px solid var(--border)" }}>
+          {[["OTC", "Focused"], ["0 PHI", "Collected"], ["FDA", "Aligned"]].map(([val, lbl]) => (
+            <div key={lbl} className="text-center">
+              <div className="font-black text-sm" style={{ backgroundImage: "linear-gradient(135deg,#10b981,#059669)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{val}</div>
+              <div className="text-[9px] font-['JetBrains_Mono',monospace] tracking-widest uppercase text-muted-foreground">{lbl}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  {
+    num: "04",
+    name: "FinReview AI",
+    tag: "Audit · Financial Intelligence",
+    tagline: "Hours of Review. Minutes of Verification.",
+    desc: "An automated financial statement verification platform that performs every mechanical audit check instantly — mathematical accuracy, prior year consistency, note-to-statement agreement, going concern signals, and audit report review against ISA standards.",
+    impact: "Audit teams receive a structured, evidence-backed findings report in minutes — freeing expert time for professional judgment rather than arithmetic.",
+    caps: [
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 11l3-4 3 3 3-5 3 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg>, label: "Mathematical Accuracy Verification" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12v2H2zM2 8h9v2H2zM2 12h6v2H2z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" /></svg>, label: "Prior Year Consistency Review" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="5" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.2" /><rect x="9" y="5" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.2" /><path d="M7 8h2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>, label: "Note-to-Statement Agreement" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="currentColor" strokeWidth="1.2" /><path d="M8 5v3l2 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>, label: "Audit Report Review (ISA)" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v4l3 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.2" /></svg>, label: "Going Concern Indicators" },
+      { icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3h10v10H3z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" /><path d="M6 7h4M6 9h3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" /></svg>, label: "Evidence Trail & Audit Documentation" },
+    ],
+    cta: "Explore FinReview AI",
+    accent: "#f8872a",
+    visual: (
+      <div className="w-full rounded-2xl p-5 font-['Outfit',sans-serif]"
+        style={{ background: "var(--card)", border: "1px solid var(--border)", boxShadow: "0 20px 60px rgba(99,102,241,0.08)" }}>
+        <div className="flex items-center justify-between mb-4">
+          <span className="font-black text-sm text-foreground">Statement Verification</span>
+          <span className="text-[10px] font-['JetBrains_Mono',monospace] tracking-widest uppercase px-2 py-1 rounded-md" style={{ color: "#6366f1", background: "rgba(99,102,241,0.1)" }}>Auto Review</span>
+        </div>
+        {[
+          { check: "Mathematical Accuracy", result: "✓ Pass", detail: "248 totals verified — all correct", col: "#10b981" },
+          { check: "Prior Year Consistency", result: "⚠ 2 Flags", detail: "Discrepancies on pg. 12 & 18", col: "#f59e0b" },
+          { check: "Note-to-Statement", result: "✓ Pass", detail: "All note values reconciled", col: "#10b981" },
+          { check: "Going Concern", result: "⚠ Signals", detail: "Negative equity detected", col: "#f97316" },
+        ].map((row, i) => (
+          <div key={i} className="mb-2.5 p-2.5 rounded-xl" style={{ background: "rgba(0,0,0,0.03)", border: "1px solid var(--border)" }}>
+            <div className="flex items-center justify-between mb-0.5">
+              <span className="text-xs font-semibold text-foreground">{row.check}</span>
+              <span className="text-[10px] font-bold" style={{ color: row.col }}>{row.result}</span>
+            </div>
+            <span className="text-[10px] text-muted-foreground">{row.detail}</span>
+          </div>
+        ))}
+        <div className="grid grid-cols-3 gap-2 mt-3 pt-3" style={{ borderTop: "1px solid var(--border)" }}>
+          {[["<3min", "Per Report"], ["100%", "Coverage"], ["ISA", "Aligned"]].map(([val, lbl]) => (
+            <div key={lbl} className="text-center">
+              <div className="font-black text-sm" style={{ backgroundImage: "linear-gradient(135deg,#6366f1,#818cf8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>{val}</div>
+              <div className="text-[9px] font-['JetBrains_Mono',monospace] tracking-widest uppercase text-muted-foreground">{lbl}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  {
+    num: "05",
     name: "Custom AI & Enterprise",
     tag: "Tailored · Solutions",
     tagline: "Built Around Your Business.",
@@ -2819,10 +3121,10 @@ function ProductsSection() {
         .prod-enter-down { animation: slide-down-in 0.5s cubic-bezier(0.22,1,0.36,1) both; }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-6 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Header */}
-        <FadeIn className="mb-10">
-          <SectionLabel group="What We Build">Products & Platforms</SectionLabel>
+        <FadeIn className="mb-6 sm:mb-10">
+          <SectionLabel group="Our Expertise">Products & Platforms</SectionLabel>
           <SectionHeading>Products Built to Solve Real Business Challenges.</SectionHeading>
         </FadeIn>
 
@@ -2938,181 +3240,329 @@ function ProductsSection() {
 }
 
 // ── 6. Success Stories ─────────────────────────────────────────────────────
-const CASE_STUDIES = [
+const SUCCESS_STORIES = [
   {
-    industry: "Pharmaceutical",
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <rect x="7" y="2" width="8" height="18" rx="4" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M7 11h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M4 8h2M16 8h2M4 14h2M16 14h2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-      </svg>
-    ),
+    id: "pharma",
+    category: "PHARMACEUTICAL",
     title: "AI-Powered Document Intelligence for a Pharmaceutical Enterprise",
+    desc: "Automated document extraction, validation, and workflow orchestration to reduce manual effort and accelerate time-to-market.",
     challenge: "Thousands of distributor and stockist reports were processed manually, leading to delays, inconsistencies, and limited visibility into sales performance.",
     solution: "Implemented an AI-powered document intelligence platform to extract, validate, normalize, and consolidate data from multiple document formats into a single operational view.",
     impact: ["Reduced manual processing effort", "Improved data accuracy", "Faster sales reporting", "Better operational visibility"],
-    accent: "#f97316",
-  },
-  {
-    industry: "Enterprise",
+    borderColor: "border-l-4 border-l-[#f97316]",
+    tagColor: "text-[#f97316]",
+    iconBg: "bg-orange-500/10 dark:bg-orange-500/15 text-[#f97316]",
     icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <rect x="2" y="6" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M7 6V4a4 4 0 018 0v2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M11 11v4M9 13h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" />
+        <path d="m8.5 8.5 7 7" />
       </svg>
     ),
+  },
+  {
+    id: "enterprise",
+    category: "ENTERPRISE",
     title: "Modernizing Enterprise Operations",
+    desc: "Migrated legacy systems to a scalable cloud platform, improving performance, security, and operational efficiency.",
     challenge: "Legacy systems slowed business processes and made it difficult to integrate with modern applications, limiting the organization's ability to scale.",
     solution: "Designed and developed a scalable cloud-native platform with seamless system integrations and an improved user experience built for long-term growth.",
     impact: ["Faster business processes", "Improved scalability", "Enhanced user adoption", "Reduced operational overhead"],
-    accent: "#f8872a",
-  },
-  {
-    industry: "Operations",
+    borderColor: "border-l-4 border-l-blue-500",
+    tagColor: "text-blue-500",
+    iconBg: "bg-blue-500/10 dark:bg-blue-500/15 text-blue-500",
     icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M4 11h14M11 4l7 7-7 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="4" cy="11" r="2" stroke="currentColor" strokeWidth="1.3" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="16" height="20" x="4" y="2" rx="2" ry="2" />
+        <path d="M9 22v-4h6v4" />
+        <path d="M8 6h.01" />
+        <path d="M16 6h.01" />
+        <path d="M12 6h.01" />
+        <path d="M12 10h.01" />
+        <path d="M12 14h.01" />
+        <path d="M16 10h.01" />
+        <path d="M16 14h.01" />
+        <path d="M8 10h.01" />
+        <path d="M8 14h.01" />
       </svg>
     ),
+  },
+  {
+    id: "operations",
+    category: "OPERATIONS",
     title: "Intelligent Workflow Automation",
+    desc: "Automated complex workflows with AI and integration, reducing cycle time and improving accuracy across teams.",
     challenge: "Teams spent significant time on repetitive manual tasks across multiple business functions, limiting productivity and creating error-prone handoffs.",
     solution: "Developed AI-powered workflow automation to eliminate repetitive processes, reduce friction between teams, and improve decision support across functions.",
     impact: ["Faster turnaround times", "Fewer manual errors", "Increased productivity", "Better decision support"],
-    accent: "#f59e0b",
+    borderColor: "border-l-4 border-l-emerald-500",
+    tagColor: "text-emerald-500",
+    iconBg: "bg-emerald-500/10 dark:bg-emerald-500/15 text-emerald-500",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+        <circle cx="12" cy="12" r="3" />
+      </svg>
+    ),
   },
 ];
 
-const METRICS = [
-  { value: "25+", label: "Projects Delivered" },
-  { value: "15+", label: "Businesses Served" },
-  { value: "6", label: "Industries" },
-  { value: "95%", label: "Client Retention" },
-  { value: "5+", label: "Years Experience" },
+const SUCCESS_METRICS = [
+  {
+    num: "25+",
+    label: "PROJECTS DELIVERED",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+        <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+        <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+        <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+      </svg>
+    ),
+  },
+  {
+    num: "15+",
+    label: "BUSINESSES SERVED",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="16" height="20" x="4" y="2" rx="2" ry="2" />
+        <path d="M9 22v-4h6v4" />
+        <path d="M8 6h.01" />
+        <path d="M16 6h.01" />
+        <path d="M12 6h.01" />
+        <path d="M12 10h.01" />
+        <path d="M12 14h.01" />
+        <path d="M16 10h.01" />
+        <path d="M16 14h.01" />
+        <path d="M8 10h.01" />
+        <path d="M8 14h.01" />
+      </svg>
+    ),
+  },
+  {
+    num: "6",
+    label: "INDUSTRIES",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+        <path d="M17 18h1" />
+        <path d="M12 18h1" />
+        <path d="M7 18h1" />
+      </svg>
+    ),
+  },
+  {
+    num: "95%",
+    label: "CLIENT RETENTION",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+    ),
+  },
+  {
+    num: "5+",
+    label: "YEARS EXPERIENCE",
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+        <line x1="16" x2="16" y1="2" y2="6" />
+        <line x1="8" x2="8" y1="2" y2="6" />
+        <line x1="3" x2="21" y1="10" y2="10" />
+      </svg>
+    ),
+  },
 ];
-
-const LOGOS = ["Meridian Financial", "HealthCore Systems", "Sterling & Associates", "Apex Manufacturing", "GovTech Solutions", "DataEdge Corp"];
 
 function StoriesSection() {
   const [expanded, setExpanded] = useState<number | null>(null);
 
   return (
-    <section id="stories" className="min-h-screen py-16 relative overflow-hidden flex flex-col justify-center" style={{ background: "var(--secondary)" }}>
-      <div className="absolute top-0 inset-x-0 h-px" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(249,115,22,0.25) 50%, transparent 100%)" }} />
+    <section
+      id="stories"
+      className="py-6 sm:py-8 lg:py-4 xl:py-6 lg:min-h-screen lg:max-h-screen relative overflow-hidden flex flex-col justify-center bg-[#faf8f5] dark:bg-[#0c0c0e] transition-colors duration-200"
+    >
+      {/* Background ambient warm glows matching design */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
+      <div className="absolute -bottom-24 -left-20 w-[420px] h-[420px] rounded-full bg-gradient-to-tr from-amber-500/15 via-orange-500/10 to-transparent blur-3xl pointer-events-none animate-pulse-soft" />
+      <div className="absolute -bottom-24 -right-20 w-[420px] h-[420px] rounded-full bg-gradient-to-tl from-orange-500/15 via-amber-500/10 to-transparent blur-3xl pointer-events-none animate-pulse-soft" />
 
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col justify-center relative z-10 py-1 sm:py-2">
 
-        {/* Header */}
-        <FadeIn className="text-center mb-5 max-w-3xl mx-auto">
-          <SectionLabel group="Proven in Practice">Success Stories</SectionLabel>
-          <SectionHeading>Turning Complex Challenges into<br /><GradientText>Measurable Results.</GradientText></SectionHeading>
-          <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.65] mt-3">
-            Every engagement is an opportunity to solve a meaningful business problem. Explore how we&apos;ve helped organizations streamline operations, modernize technology, and create lasting business value.
-          </p>
-        </FadeIn>
+        {/* ── 1. HEADER ROW (Split into Left Copy & Right 3D Visual) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center mb-3 sm:mb-4 lg:mb-3.5">
+          {/* Left Column: Eyebrow + Heading + Subtitle */}
+          <FadeIn className="lg:col-span-7 xl:col-span-8 flex flex-col justify-center">
+            {/* Eyebrow: — SUCCESS STORIES */}
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="w-4 sm:w-5 h-[2px] bg-[#f97316] rounded-full" />
+              <span className="font-['JetBrains_Mono',monospace] text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-[#f97316]">
+                SUCCESS STORIES
+              </span>
+            </div>
 
-        {/* Metrics bar */}
-        <FadeIn delay={0.08}>
-          <div className="rounded-2xl px-6 py-5 mb-3 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4"
-            style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
-            {METRICS.map((m, i) => (
-              <div key={i} className="text-center">
-                <div className="font-['Outfit',sans-serif] font-black leading-none mb-1"
-                  style={{ fontSize: "clamp(1.3rem,2.5vw,1.8rem)", backgroundImage: "linear-gradient(135deg, #f97316 0%, #f59e0b 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-                  {m.value}
+            {/* Heading — Zoomed Out to Fit Viewport */}
+            <h2 className="font-['Outfit',sans-serif] font-black text-2xl xs:text-3xl sm:text-[34px] lg:text-[32px] xl:text-[35px] leading-[1.15] text-stone-950 dark:text-white mb-1.5 sm:mb-2">
+              Turning Complex Challenges into<br />
+              <span className="text-[#f97316]">Measurable Results.</span>
+            </h2>
+
+            {/* Subtitle */}
+            <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-xs sm:text-[13px] lg:text-[13.5px] leading-relaxed max-w-2xl">
+              Every engagement is an opportunity to solve a meaningful business problem. Explore how we&apos;ve helped organizations streamline operations, modernize technology, and create lasting business value.
+            </p>
+          </FadeIn>
+
+          {/* Right Column: 3D Stacked Layered Visual with Floating Animations */}
+          <FadeIn delay={0.1} className="hidden lg:flex lg:col-span-5 xl:col-span-4 justify-end items-center">
+            <div className="relative w-[280px] h-[125px] flex items-center justify-center">
+              {/* Warm amber backdrop blur */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/30 via-amber-400/20 to-transparent rounded-3xl blur-2xl pointer-events-none animate-pulse-soft" />
+
+              {/* Layer 1 (backmost orange tile) */}
+              <div className="absolute w-36 h-22 rounded-2xl bg-amber-400/25 dark:bg-amber-500/15 border border-amber-300/40 dark:border-amber-500/20 shadow-md animate-float-reverse" />
+
+              {/* Layer 2 (middle orange glass tile) */}
+              <div className="absolute w-44 h-22 rounded-2xl bg-gradient-to-br from-orange-400/40 to-amber-500/25 border border-orange-300/50 dark:border-orange-500/30 shadow-lg -translate-x-2.5 translate-y-1" />
+
+              {/* Layer 3 (front card with float animation) */}
+              <div className="relative w-52 h-26 rounded-2xl bg-white/95 dark:bg-[#18181c]/95 border border-stone-200/90 dark:border-stone-700/80 shadow-xl p-3 flex flex-col justify-center backdrop-blur-md animate-float-slow">
+                {/* Floating Orange Badge with pulse glow */}
+                <div className="absolute -top-3 -left-3 w-10 h-10 rounded-xl bg-gradient-to-br from-[#f97316] to-[#ea580c] flex items-center justify-center text-white shadow-lg shadow-orange-500/40 animate-badge-glow">
+                  <TrendingUp size={18} strokeWidth={2.5} />
                 </div>
-                <div className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2px] uppercase text-muted-foreground">{m.label}</div>
+
+                <div className="pl-6 pt-0.5">
+                  <h4 className="font-['Outfit',sans-serif] font-bold text-stone-900 dark:text-white text-xs sm:text-[13px] leading-snug">
+                    Real Solutions.<br />
+                    Lasting Impact.
+                  </h4>
+                  <div className="w-8 h-[2px] bg-[#f97316] rounded-full mt-1.5" />
+                </div>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+
+        {/* ── 2. METRICS BAR (Zoomed out with Hover Animations) ── */}
+        <FadeIn delay={0.08}>
+          <div className="rounded-2xl p-2 sm:p-2.5 lg:p-2.5 bg-white dark:bg-[#151518] border border-stone-200/80 dark:border-stone-800/80 shadow-sm hover:shadow-md transition-shadow duration-300 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3 items-center mb-2.5 sm:mb-3">
+            {SUCCESS_METRICS.map((m, i) => (
+              <div key={i} className="group/metric flex items-center gap-2.5 px-2 cursor-default hover:scale-[1.03] transition-all duration-300">
+                <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-orange-500/10 dark:bg-orange-500/15 text-[#f97316] flex items-center justify-center shrink-0 group-hover/metric:scale-110 group-hover/metric:bg-orange-500/20 group-hover/metric:shadow-md group-hover/metric:shadow-orange-500/20 transition-all duration-300">
+                  {m.icon}
+                </div>
+                <div>
+                  <div className="font-['Outfit',sans-serif] font-black text-lg sm:text-xl lg:text-[22px] text-[#f97316] leading-none mb-0.5">
+                    {m.num}
+                  </div>
+                  <div className="font-['JetBrains_Mono',monospace] text-[7.5px] sm:text-[8.5px] font-bold tracking-[0.14em] text-stone-500 dark:text-stone-400 uppercase leading-none">
+                    {m.label}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </FadeIn>
 
-        {/* Case study cards */}
-        <div className="flex flex-col gap-3 mb-3">
-          {CASE_STUDIES.map((cs, i) => {
+        {/* ── 3. THREE CASE STUDY CARDS (Zoomed out with Smooth Hover & Expanding Animations) ── */}
+        <div className="flex flex-col gap-1.5 sm:gap-2 mb-2.5 sm:mb-3">
+          {SUCCESS_STORIES.map((cs, i) => {
             const isOpen = expanded === i;
             return (
-              <FadeIn key={i} delay={i * 0.1}>
-                <div className="rounded-2xl overflow-hidden transition-all duration-500"
-                  style={{ background: "var(--card)", border: `1px solid ${isOpen ? cs.accent + "40" : "var(--border)"}`, boxShadow: isOpen ? `0 8px 40px ${cs.accent}12` : "none" }}>
-
-                  {/* Card header — always visible */}
-                  <button
-                    className="w-full text-left px-6 py-4 flex items-center gap-3 group"
-                    onClick={() => setExpanded(isOpen ? null : i)}>
-                    {/* Industry icon */}
-                    <div className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300"
-                      style={{ background: isOpen ? `${cs.accent}15` : "var(--muted)", color: isOpen ? cs.accent : "var(--muted-foreground)" }}>
-                      {cs.icon}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-0.5">
-                        <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2.5px] uppercase font-bold"
-                          style={{ color: cs.accent }}>{cs.industry}</span>
+              <FadeIn key={cs.id} delay={0.1 + i * 0.06}>
+                <div
+                  className={`group rounded-2xl bg-white dark:bg-[#151518] border border-stone-200/80 dark:border-stone-800/80 ${cs.borderColor} shadow-sm hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-orange-500/5 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden cursor-pointer`}
+                  onClick={() => setExpanded(isOpen ? null : i)}
+                >
+                  {/* Card Header Row */}
+                  <div className="px-4 sm:px-5 py-2 sm:py-2.5 flex items-center justify-between gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                      {/* Icon Container */}
+                      <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${cs.iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:rotate-1 transition-transform duration-300 shadow-sm`}>
+                        {cs.icon}
                       </div>
-                      <h3 className="font-['Outfit',sans-serif] font-bold text-foreground text-sm leading-snug">{cs.title}</h3>
+
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
+                        <span className={`font-['JetBrains_Mono',monospace] text-[9px] sm:text-[9.5px] font-bold uppercase tracking-[0.2em] ${cs.tagColor} block leading-tight mb-0.5`}>
+                          {cs.category}
+                        </span>
+                        <h3 className="font-['Outfit',sans-serif] font-bold text-stone-900 dark:text-stone-100 text-[13.5px] sm:text-[15px] lg:text-[15.5px] leading-snug truncate">
+                          {cs.title}
+                        </h3>
+                        <p className="font-['Outfit',sans-serif] text-stone-500 dark:text-stone-400 text-[11px] sm:text-xs leading-tight line-clamp-1 mt-0.5">
+                          {cs.desc}
+                        </p>
+                      </div>
                     </div>
 
-                    {/* Expand chevron */}
-                    <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ml-2"
-                      style={{ background: isOpen ? `${cs.accent}15` : "var(--muted)", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                        <path d="M3 5l4 4 4-4" stroke={isOpen ? cs.accent : "var(--muted-foreground)"} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                    {/* Circular Action Button with Arrow */}
+                    <div
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
+                        isOpen
+                          ? "bg-[#f97316] text-white rotate-90 shadow-md shadow-orange-500/30"
+                          : "bg-stone-100 dark:bg-stone-800/80 text-stone-600 dark:text-stone-300 group-hover:bg-[#f97316] group-hover:text-white group-hover:translate-x-0.5 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25"
+                      }`}
+                      aria-label="View case study"
+                    >
+                      <ArrowRight size={13} strokeWidth={2.2} />
                     </div>
-                  </button>
+                  </div>
 
-                  {/* Expandable body */}
-                  <div style={{ maxHeight: isOpen ? "600px" : "0px", overflow: "hidden", transition: "max-height 0.5s cubic-bezier(0.4,0,0.2,1)" }}>
-                    <div className="px-8 pb-8">
-                      <div className="h-px mb-7" style={{ background: `linear-gradient(90deg, ${cs.accent}30, transparent)` }} />
-
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {/* Expandable Case Study Details (Challenge, Solution, Impact) */}
+                  <div
+                    style={{
+                      maxHeight: isOpen ? "500px" : "0px",
+                      opacity: isOpen ? 1 : 0,
+                      overflow: "hidden",
+                      transition: "max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease",
+                    }}
+                  >
+                    <div className="px-4 sm:px-6 pb-4 pt-1.5 border-t border-stone-100 dark:border-stone-800/80 bg-stone-50/50 dark:bg-stone-900/30">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mt-2">
                         {/* Challenge */}
                         <div>
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-1.5 h-1.5 rounded-full" style={{ background: cs.accent }} />
-                            <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2px] uppercase font-bold text-muted-foreground">Challenge</span>
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#f97316]" />
+                            <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-wider uppercase font-bold text-stone-500">
+                              Challenge
+                            </span>
                           </div>
-                          <p className="font-['Outfit',sans-serif] text-sm text-muted-foreground leading-[1.6]">{cs.challenge}</p>
+                          <p className="font-['Outfit',sans-serif] text-[11px] sm:text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+                            {cs.challenge}
+                          </p>
                         </div>
 
                         {/* Solution */}
                         <div>
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-1.5 h-1.5 rounded-full" style={{ background: cs.accent }} />
-                            <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2px] uppercase font-bold text-muted-foreground">Solution</span>
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#f97316]" />
+                            <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-wider uppercase font-bold text-stone-500">
+                              Solution
+                            </span>
                           </div>
-                          <p className="font-['Outfit',sans-serif] text-sm text-muted-foreground leading-[1.6]">{cs.solution}</p>
+                          <p className="font-['Outfit',sans-serif] text-[11px] sm:text-xs text-stone-600 dark:text-stone-300 leading-relaxed">
+                            {cs.solution}
+                          </p>
                         </div>
 
                         {/* Impact */}
                         <div>
-                          <div className="flex items-center gap-2 mb-3">
-                            <div className="w-1.5 h-1.5 rounded-full" style={{ background: cs.accent }} />
-                            <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2px] uppercase font-bold text-muted-foreground">Business Impact</span>
+                          <div className="flex items-center gap-1.5 mb-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#f97316]" />
+                            <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-wider uppercase font-bold text-stone-500">
+                              Business Impact
+                            </span>
                           </div>
-                          <ul className="flex flex-col gap-2">
+                          <ul className="space-y-1">
                             {cs.impact.map((item, j) => (
-                              <li key={j} className="flex items-start gap-2.5 font-['Outfit',sans-serif] text-sm text-foreground">
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0 mt-0.5">
-                                  <circle cx="7" cy="7" r="6" fill={`${cs.accent}18`} />
-                                  <path d="M4.5 7l2 2 3-3" stroke={cs.accent} strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                {item}
+                              <li key={j} className="flex items-center gap-1.5 font-['Outfit',sans-serif] text-[11px] sm:text-xs text-stone-700 dark:text-stone-200">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#f97316]" />
+                                <span>{item}</span>
                               </li>
                             ))}
                           </ul>
-                          <button
-                            onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-                            className="group/r mt-3 inline-flex items-center gap-2 font-['Outfit',sans-serif] font-bold text-xs transition-all"
-                            style={{ color: cs.accent }}>
-                            <span className="border-b" style={{ borderColor: `${cs.accent}40` }}>Read Full Story</span>
-                            <ArrowRight size={12} className="transition-transform duration-300 group-hover/r:translate-x-1" />
-                          </button>
                         </div>
                       </div>
                     </div>
@@ -3123,32 +3573,90 @@ function StoriesSection() {
           })}
         </div>
 
-        {/* Trusted logos */}
+        {/* ── 4. TRUSTED BY COMPANIES BAR (Clean Outline Icons & Hover Animations) ── */}
         <FadeIn delay={0.15}>
-          <div className="rounded-2xl px-6 py-4 mb-3" style={{ background: "var(--card)", border: "1px solid var(--border)" }}>
-            <p className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2.5px] uppercase text-muted-foreground text-center mb-5">
-              Trusted by companies across industries
+          <div className="rounded-2xl py-2 px-4 sm:px-6 bg-white/80 dark:bg-[#151518]/80 border border-stone-200/80 dark:border-stone-800/80 shadow-sm mb-2 sm:mb-2.5">
+            <p className="font-['JetBrains_Mono',monospace] text-[8px] sm:text-[8.5px] tracking-[0.22em] uppercase text-stone-400 dark:text-stone-500 text-center font-bold mb-1.5">
+              TRUSTED BY COMPANIES ACROSS INDUSTRIES
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-              {LOGOS.map((l, i) => (
-                <span key={i} className="font-['Outfit',sans-serif] font-bold text-sm transition-colors duration-300 cursor-default"
-                  style={{ color: "var(--muted-foreground)", opacity: 0.45 }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#f97316"; (e.currentTarget as HTMLElement).style.opacity = "1"; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "var(--muted-foreground)"; (e.currentTarget as HTMLElement).style.opacity = "0.45"; }}>
-                  {l}
-                </span>
-              ))}
+            <div className="flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-6 lg:gap-x-7 gap-y-1 text-stone-600 dark:text-stone-300 text-[11px] sm:text-xs font-medium font-['Outfit',sans-serif]">
+              {/* 1. Meridian Financial */}
+              <div className="group/logo flex items-center gap-1.5 hover:text-[#f97316] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-stone-400 group-hover/logo:text-[#f97316] group-hover/logo:scale-110 transition-all duration-200">
+                  <line x1="3" x2="21" y1="22" y2="22" />
+                  <line x1="6" x2="6" y1="18" y2="11" />
+                  <line x1="10" x2="10" y1="18" y2="11" />
+                  <line x1="14" x2="14" y1="18" y2="11" />
+                  <line x1="18" x2="18" y1="18" y2="11" />
+                  <polygon points="12 2 20 7 4 7" />
+                </svg>
+                <span>Meridian Financial</span>
+              </div>
+
+              <span className="hidden sm:inline text-stone-300 dark:text-stone-700">|</span>
+
+              {/* 2. HealthCore Systems */}
+              <div className="group/logo flex items-center gap-1.5 hover:text-[#f97316] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-stone-400 group-hover/logo:text-[#f97316] group-hover/logo:scale-110 transition-all duration-200">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                </svg>
+                <span>HealthCore Systems</span>
+              </div>
+
+              <span className="hidden sm:inline text-stone-300 dark:text-stone-700">|</span>
+
+              {/* 3. Sterling & Associates */}
+              <div className="group/logo flex items-center gap-1.5 hover:text-[#f97316] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-stone-400 group-hover/logo:text-[#f97316] group-hover/logo:scale-110 transition-all duration-200">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+                <span>Sterling &amp; Associates</span>
+              </div>
+
+              <span className="hidden sm:inline text-stone-300 dark:text-stone-700">|</span>
+
+              {/* 4. Apex Manufacturing */}
+              <div className="group/logo flex items-center gap-1.5 hover:text-[#f97316] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-stone-400 group-hover/logo:text-[#f97316] group-hover/logo:scale-110 transition-all duration-200">
+                  <path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+                </svg>
+                <span>Apex Manufacturing</span>
+              </div>
+
+              <span className="hidden sm:inline text-stone-300 dark:text-stone-700">|</span>
+
+              {/* 5. GovTech Solutions */}
+              <div className="group/logo flex items-center gap-1.5 hover:text-[#f97316] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-stone-400 group-hover/logo:text-[#f97316] group-hover/logo:scale-110 transition-all duration-200">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+                <span>GovTech Solutions</span>
+              </div>
+
+              <span className="hidden sm:inline text-stone-300 dark:text-stone-700">|</span>
+
+              {/* 6. DataEdge Corp */}
+              <div className="group/logo flex items-center gap-1.5 hover:text-[#f97316] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-stone-400 group-hover/logo:text-[#f97316] group-hover/logo:scale-110 transition-all duration-200">
+                  <ellipse cx="12" cy="5" rx="9" ry="3" />
+                  <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+                  <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
+                </svg>
+                <span>DataEdge Corp</span>
+              </div>
             </div>
           </div>
         </FadeIn>
 
-        {/* Closing statement */}
+        {/* ── 5. CLOSING STATEMENT ── */}
         <FadeIn delay={0.2}>
-          <div className="text-center pt-4">
-            <p className="font-['Outfit',sans-serif] text-sm leading-relaxed max-w-2xl mx-auto"
-              style={{ color: "var(--muted-foreground)" }}>
+          <div className="text-center pt-0.5">
+            <p className="font-['Outfit',sans-serif] text-[11px] sm:text-xs text-stone-500 dark:text-stone-400">
               Technology creates value only when it delivers measurable business outcomes.{" "}
-              <span className="font-semibold" style={{ color: "var(--foreground)" }}>
+              <span className="text-[#f97316] font-semibold">
                 Every solution we build is designed with that goal in mind.
               </span>
             </p>
@@ -3164,9 +3672,8 @@ function StoriesSection() {
 const ENG_CAPS = [
   {
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-        <polyline points="9 22 9 12 15 12 15 22" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
       </svg>
     ),
     title: "Cloud & Infrastructure",
@@ -3176,116 +3683,134 @@ const ENG_CAPS = [
   },
   {
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M8 21h8M12 17v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
       </svg>
     ),
     title: "Application Development",
     desc: "Create intuitive, high-performance applications across web, mobile, and enterprise platforms.",
     techs: ["React", "Angular", "Flutter", ".NET", "Node.js", "Python", "Java"],
-    accent: "#f8872a",
+    accent: "#f97316",
   },
   {
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-5.04Z" />
+        <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-5.04Z" />
       </svg>
     ),
     title: "AI & Intelligent Automation",
     desc: "Transform business processes with AI solutions that automate work, extract insights, and support better decision-making.",
     techs: ["AI Agents", "Generative AI", "LLM Integrations", "Document Intelligence", "Workflow Automation", "Predictive Analytics"],
-    accent: "#f59e0b",
+    accent: "#f97316",
   },
   {
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M4 7h16M4 12h10M4 17h7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <circle cx="19" cy="17" r="3" stroke="currentColor" strokeWidth="1.5" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <ellipse cx="12" cy="5" rx="9" ry="3" />
+        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+        <path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3" />
       </svg>
     ),
     title: "Data & Integration",
     desc: "Connect systems, unify data, and enable real-time visibility across your business.",
     techs: ["REST APIs", "GraphQL", "Data Engineering", "Business Intelligence", "ERP & CRM Integrations", "Data Pipelines"],
-    accent: "#eb970f",
+    accent: "#f97316",
   },
   {
     icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.5C16.5 22.15 20 17.25 20 12V6L12 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <path d="m9 12 2 2 4-4" />
       </svg>
     ),
     title: "Security & Quality",
     desc: "Build with confidence using engineering practices that prioritize reliability, performance, and long-term maintainability.",
     techs: ["Secure SDLC", "Automated Testing", "CI/CD", "Performance Optimization", "Monitoring", "Compliance Best Practices"],
-    accent: "#d97706",
+    accent: "#f97316",
   },
 ];
 
 function TechnologySection() {
   const [activeCard, setActiveCard] = useState<number | null>(null);
   return (
-    <section id="technology" className="min-h-screen py-16 bg-background relative overflow-hidden flex flex-col justify-center">
+    <section id="technology" className="py-16 sm:py-20 lg:py-24 bg-background relative overflow-hidden flex flex-col justify-center">
       <div className="absolute right-0 top-1/4 w-[500px] h-[500px] opacity-[0.04] pointer-events-none rounded-full"
         style={{ background: "radial-gradient(circle, #f97316 0%, transparent 70%)" }} />
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
 
-        {/* Header */}
-        <FadeIn className="text-center mb-5 max-w-3xl mx-auto">
-          <SectionLabel group="What We Build">Engineering</SectionLabel>
-          <SectionHeading>Modern Engineering.<br /><GradientText>Built for Scale.</GradientText></SectionHeading>
-        </FadeIn>
-        <FadeIn delay={0.1} className="text-center mb-5 max-w-2xl mx-auto">
-          <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.65]">
-            We combine modern technologies, cloud-native architectures, and AI capabilities to build secure, scalable, and future-ready software. Every technology we choose is driven by your business goals—not by trends.
-          </p>
-        </FadeIn>
+        {/* Header — 2-Column Split matching design */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center mb-10 sm:mb-14">
+          {/* Left Column: Eyebrow + Heading */}
+          <FadeIn className="lg:col-span-6">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-4 h-0.5 bg-[#f97316]" />
+              <span className="font-['JetBrains_Mono',monospace] text-xs font-bold uppercase tracking-[0.2em] text-[#f97316]">
+                ENGINEERING
+              </span>
+            </div>
+            <h2 className="font-['Outfit',sans-serif] font-black text-2xl xs:text-3xl sm:text-4xl lg:text-[42px] leading-[1.15] text-stone-950 dark:text-white">
+              Modern Engineering.<br />
+              <span className="text-[#f97316]">Built for Scale.</span>
+            </h2>
+          </FadeIn>
 
-        {/* Capability cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
+          {/* Right Column: Orange Vertical Divider + Narrative Description */}
+          <FadeIn delay={0.1} className="lg:col-span-6 flex items-stretch">
+            <div className="hidden sm:block w-[2px] bg-[#f97316] my-1 mr-6 shrink-0 opacity-80" />
+            <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-sm sm:text-[15px] leading-relaxed">
+              We combine modern technologies, cloud-native architectures, and AI capabilities to build secure, scalable, and future-ready software. Every technology we choose is driven by your business goals — not by trends.
+            </p>
+          </FadeIn>
+        </div>
+
+        {/* 5 Capability Cards Grid: 3 in row 1, 2 in row 2 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-5 sm:gap-6 mb-8">
           {ENG_CAPS.map((cap, i) => {
             const isActive = activeCard === i;
+            const isWide = i >= 3;
             return (
-              <FadeIn key={i} delay={i * 0.08}>
+              <FadeIn key={i} delay={i * 0.08} className={`${isWide ? "lg:col-span-3" : "lg:col-span-2"} flex`}>
                 <div
-                  className="group relative rounded-2xl p-5 flex flex-col h-full cursor-pointer transition-all duration-400"
+                  className="group relative w-full rounded-[22px] p-6 sm:p-7 flex flex-col justify-between border bg-card transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/5 hover:-translate-y-1"
                   style={{
-                    background: isActive ? `${cap.accent}0d` : "var(--card)",
-                    border: `1px solid ${isActive ? cap.accent + "45" : "var(--border)"}`,
-                    transform: isActive ? "translateY(-4px)" : "translateY(0)",
-                    boxShadow: isActive ? `0 16px 40px ${cap.accent}14` : "none",
+                    borderColor: isActive ? "rgba(249,115,22,0.35)" : "var(--border)",
                   }}
                   onMouseEnter={() => setActiveCard(i)}
                   onMouseLeave={() => setActiveCard(null)}>
 
-                  {/* accent top line on hover */}
-                  <div className="absolute top-0 inset-x-0 h-0.5 rounded-t-2xl transition-opacity duration-300"
-                    style={{ background: `linear-gradient(90deg, transparent, ${cap.accent}, transparent)`, opacity: isActive ? 1 : 0 }} />
+                  <div>
+                    {/* Icon container */}
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 bg-[#f97316]/10 border border-[#f97316]/25 text-[#f97316] transition-transform duration-300 group-hover:scale-105">
+                      {cap.icon}
+                    </div>
 
-                  {/* Icon */}
-                  <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 transition-all duration-300"
-                    style={{ background: isActive ? `${cap.accent}18` : "var(--muted)", color: isActive ? cap.accent : "var(--muted-foreground)" }}>
-                    {cap.icon}
+                    <h3 className="font-['Outfit',sans-serif] font-bold text-base sm:text-[17px] text-foreground mb-2">
+                      {cap.title}
+                    </h3>
+                    <p className="font-['Outfit',sans-serif] text-muted-foreground text-xs sm:text-[13.5px] leading-[1.65] mb-6">
+                      {cap.desc}
+                    </p>
                   </div>
 
-                  <h3 className="font-['Outfit',sans-serif] font-bold text-sm text-foreground mb-2">{cap.title}</h3>
-                  <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.75] mb-5 flex-1">{cap.desc}</p>
+                  {/* Tools & Technologies Divider + Section */}
+                  <div className="border-t border-stone-200/70 dark:border-stone-800/80 pt-4 mt-auto">
+                    <p className="font-['JetBrains_Mono',monospace] text-[10.5px] font-bold tracking-[0.16em] uppercase text-stone-400 dark:text-stone-500 mb-3">
+                      TOOLS &amp; TECHNOLOGIES
+                    </p>
 
-                  {/* Tech chips */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {cap.techs.map((t, j) => (
-                      <span key={j}
-                        className="font-['JetBrains_Mono',monospace] text-[10px] tracking-wide px-2.5 py-1 rounded-full transition-all duration-300"
-                        style={{
-                          background: isActive ? `${cap.accent}12` : "var(--muted)",
-                          color: isActive ? cap.accent : "var(--muted-foreground)",
-                          border: `1px solid ${isActive ? cap.accent + "28" : "transparent"}`,
-                        }}>
-                        {t}
-                      </span>
-                    ))}
+                    {/* Tech pills without arrow marks */}
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                      {cap.techs.map((t, j) => (
+                        <span
+                          key={j}
+                          className="font-['Outfit',sans-serif] text-xs font-medium px-3 py-1 rounded-full bg-stone-100/90 dark:bg-stone-800/80 text-stone-700 dark:text-stone-300 border border-stone-200/60 dark:border-stone-700/60 transition-colors group-hover:border-orange-500/30">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </FadeIn>
@@ -3293,20 +3818,22 @@ function TechnologySection() {
           })}
         </div>
 
-        {/* Engineering principles banner */}
+        {/* Engineering principles banner matching screenshot */}
         <FadeIn delay={0.3}>
-          <div className="rounded-2xl px-6 py-4 flex flex-col md:flex-row items-start md:items-center gap-4"
-            style={{ background: "linear-gradient(135deg, rgba(249,115,22,0.07) 0%, rgba(245,158,11,0.04) 100%)", border: "1px solid rgba(249,115,22,0.15)" }}>
-            <div className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(249,115,22,0.12)" }}>
-              <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                <path d="M11 2l2.4 6.4H20l-5.2 3.8 2 6.4L11 14.8l-5.8 3.8 2-6.4L2 8.4h6.6L11 2z" stroke="#f97316" strokeWidth="1.5" strokeLinejoin="round" />
+          <div className="rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-5 border border-[#f97316]/25 bg-gradient-to-r from-orange-500/[0.08] via-amber-500/[0.04] to-transparent dark:from-orange-950/30 dark:via-background dark:to-orange-950/10">
+            <div className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center bg-[#f97316]/15 border border-[#f97316]/25 text-[#f97316]">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
               </svg>
             </div>
+            <div className="hidden sm:block w-[1.5px] h-10 bg-[#f97316]/40 shrink-0" />
             <div className="flex-1">
-              <h4 className="font-['Outfit',sans-serif] font-bold text-foreground mb-1">Technology Choices That Stand the Test of Time</h4>
-              <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-relaxed">
+              <h4 className="font-['Outfit',sans-serif] font-bold text-foreground text-sm sm:text-base mb-1">
+                Technology Choices That Stand the Test of Time
+              </h4>
+              <p className="font-['Outfit',sans-serif] text-muted-foreground text-xs sm:text-[13.5px] leading-relaxed">
                 We believe great software is built on strong engineering fundamentals. That&apos;s why we prioritize{" "}
-                <span className="text-foreground font-medium">scalability, security, maintainability, and performance</span>{" "}
+                <span className="text-foreground font-semibold">scalability, security, maintainability, and performance</span>{" "}
                 in every solution we deliver.
               </p>
             </div>
@@ -3319,160 +3846,367 @@ function TechnologySection() {
 }
 
 // ── 8. Our Principles ──────────────────────────────────────────────────────
-const PRINCIPLES = [
+const CORE_PRINCIPLE_CARDS = [
   {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <circle cx="11" cy="8" r="5" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M3 20c0-3.314 3.582-6 8-6s8 2.686 8 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Build for Business Outcomes",
-    desc: "Every project starts with one question: What business problem are we solving? We measure success by the value we create, not just the software we deliver.",
+    icon: <Eye size={20} className="text-orange-400" strokeWidth={1.75} />,
+    label: "VISION",
+    title: "Make Technology a Competitive Advantage.",
+    desc: "To help businesses operate with greater clarity, intelligence and agility — turning complex processes and operational challenges into opportunities for growth.",
+    footer: "Where we're going",
   },
   {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M17 11c0 3.314-2.686 6-6 6s-6-2.686-6-6 2.686-6 6-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M11 7V11l3 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M15 2l2 2-2 2M17 4h-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Partnerships Over Projects",
-    desc: "We don't see ourselves as an external vendor. We work as an extension of your team, collaborating closely to build solutions that evolve with your business.",
+    icon: <Target size={20} className="text-orange-400" strokeWidth={1.75} />,
+    label: "MISSION",
+    title: "Engineer Solutions That Move Businesses Forward.",
+    desc: "We combine engineering, AI, product thinking and business understanding to design, build, and evolve technology that solves meaningful problems and creates measurable outcomes.",
+    footer: "Why we exist",
   },
   {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M11 2l2.4 5.6 5.6.8-4 4 .9 5.6L11 15.4l-4.9 2.6.9-5.6-4-4 5.6-.8L11 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Intelligence with Purpose",
-    desc: "AI isn't a feature to add—it's a capability to apply thoughtfully. We use intelligence where it simplifies work, accelerates decisions, and delivers measurable impact.",
-  },
-  {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M12 2v4M12 16v4M4.93 4.93l2.83 2.83M14.24 14.24l2.83 2.83M2 12h4M16 12h4M4.93 19.07l2.83-2.83M14.24 7.76l2.83-2.83" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-    ),
-    title: "Engineering Without Compromise",
-    desc: "Scalability, security, performance, and maintainability are built into every solution from day one. Quality isn't an afterthought—it's the foundation.",
-  },
-  {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M5 12a7 7 0 1014 0 7 7 0 00-14 0z" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M12 8v4l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M18.5 5.5L20 4M3.5 5.5L2 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Always Evolving",
-    desc: "Technology never stands still, and neither do we. We continuously learn, adapt, and improve to help our customers stay ahead of what's next.",
-  },
-  {
-    icon: (
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" stroke="currentColor" strokeWidth="1.5" />
-        <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Human-Centered Innovation",
-    desc: "The best technology empowers people. Every experience we design is built to make work simpler, faster, and more intuitive for the people who use it every day.",
+    icon: <Users size={20} className="text-orange-400" strokeWidth={1.75} />,
+    label: "VALUES",
+    title: "Ownership. Curiosity. Integrity. Excellence.",
+    desc: "The behaviours that shape how we make decisions, work with each other, and build lasting relationships.",
+    footer: "How we show up",
   },
 ];
 
-const BELIEFS = [
-  "Great software should simplify work.",
-  "AI should solve real problems, not create new ones.",
-  "Technology should scale with your business.",
-  "The best partnerships are built on trust and transparency.",
-  "Every product should create measurable business value.",
-  "Innovation only matters when it improves outcomes.",
+const HOW_WE_WORK_TABS = [
+  { id: "clients", label: "With Clients" },
+  { id: "together", label: "Together" },
+] as const;
+
+type HowWeWorkTabId = (typeof HOW_WE_WORK_TABS)[number]["id"];
+
+const TAB_HEADERS: Record<HowWeWorkTabId, { title: string; subtitle: string }> = {
+  clients: {
+    title: "How We Work With Our Clients",
+    subtitle: "We don't just build software. We build long-term partnerships.",
+  },
+  together: {
+    title: "How We Work Together",
+    subtitle: "Great collaboration and shared culture create extraordinary results.",
+  },
+};
+
+const HOW_WE_WORK_ITEMS: Record<HowWeWorkTabId, Array<{ num: string; icon: React.ReactNode; title: string; desc: string }>> = {
+  clients: [
+    {
+      num: "01",
+      icon: <Target size={18} strokeWidth={1.75} />,
+      title: "Business Outcomes First",
+      desc: "We start with the business problem, not the technology. Success isn't measured by features delivered — it's measured by the value created.",
+    },
+    {
+      num: "02",
+      icon: <Handshake size={18} strokeWidth={1.75} />,
+      title: "Partnership Over Projects",
+      desc: "We work as an extension of your team, collaborating closely to build solutions that evolve with your business.",
+    },
+    {
+      num: "03",
+      icon: <Cpu size={18} strokeWidth={1.75} />,
+      title: "Intelligence With Purpose",
+      desc: "We apply AI where it can automate work, improve decisions, simplify operations, and create new capabilities.",
+    },
+    {
+      num: "04",
+      icon: <Shield size={18} strokeWidth={1.75} />,
+      title: "Transparency by Default",
+      desc: "You'll always have visibility into architecture, trade-offs, risks, and timelines — so you can make informed decisions with confidence.",
+    },
+    {
+      num: "05",
+      icon: <TrendingUp size={18} strokeWidth={1.75} />,
+      title: "Build for What's Next",
+      desc: "We design technology that can evolve with your users, data, systems, and business — without unnecessary complexity.",
+    },
+    {
+      num: "06",
+      icon: <Sparkles size={18} strokeWidth={1.75} />,
+      title: "Leave It Better",
+      desc: "Whether we're building something new or modernizing an existing system, our goal is always improvement — for your business, your people, and your customers.",
+    },
+  ],
+  together: [
+    {
+      num: "01",
+      icon: <Users size={18} strokeWidth={1.75} />,
+      title: "Shared Ownership",
+      desc: "We take collective responsibility from day one, winning and learning as one unified team.",
+    },
+    {
+      num: "02",
+      icon: <MessageSquare size={18} strokeWidth={1.75} />,
+      title: "Open & Direct Dialogue",
+      desc: "We communicate with absolute clarity, welcoming constructive challenge and diverse viewpoints.",
+    },
+    {
+      num: "03",
+      icon: <Lightbulb size={18} strokeWidth={1.75} />,
+      title: "Curiosity & Knowledge Sharing",
+      desc: "We actively share discoveries, mentor one another, and elevate the collective standard.",
+    },
+    {
+      num: "04",
+      icon: <GitMerge size={18} strokeWidth={1.75} />,
+      title: "Cross-Functional Alignment",
+      desc: "We connect business context, design intuition, and deep engineering without organizational silos.",
+    },
+    {
+      num: "05",
+      icon: <CheckCircle size={18} strokeWidth={1.75} />,
+      title: "Trust Through Autonomy",
+      desc: "We empower individuals to make bold decisions and stand proudly behind their execution.",
+    },
+    {
+      num: "06",
+      icon: <Zap size={18} strokeWidth={1.75} />,
+      title: "Sustained Momentum",
+      desc: "We keep moving with focus and discipline, maintaining high velocity without burning out.",
+    },
+  ],
+};
+
+const WORKPLACE_VALUES = [
+  {
+    num: "01",
+    title: "Own the Outcome",
+    desc: "Take responsibility beyond your assigned task.",
+  },
+  {
+    num: "02",
+    title: "Challenge Respectfully",
+    desc: "Question ideas. Challenge assumptions. Keep it constructive.",
+  },
+  {
+    num: "03",
+    title: "Stay Curious",
+    desc: "Keep learning, experimenting, and sharing.",
+  },
+  {
+    num: "04",
+    title: "Trust Through Accountability",
+    desc: "Give people room to make decisions — and own them.",
+  },
+  {
+    num: "05",
+    title: "Help the Team Win",
+    desc: "Share knowledge. Support each other. Give credit.",
+  },
+  {
+    num: "06",
+    title: "Keep Improving",
+    desc: "Every project and process is an opportunity to get better.",
+  },
 ];
 
 function ValueSection() {
-  return (
-    <section id="value" className="min-h-screen py-16 relative overflow-hidden flex flex-col justify-center" style={{ background: "var(--secondary)" }}>
-      <div className="absolute top-0 inset-x-0 h-px" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(249,115,22,0.2) 50%, transparent 100%)" }} />
-      <div className="max-w-7xl mx-auto px-6">
+  const [activeTab, setActiveTab] = useState<HowWeWorkTabId>("clients");
 
-        {/* Header */}
-        <FadeIn className="text-center mb-5 max-w-3xl mx-auto">
-          <SectionLabel group="Who We Are">Our Principles</SectionLabel>
-          <SectionHeading>The Principles That Shape<br /><GradientText>Everything We Build.</GradientText></SectionHeading>
-          <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.65] mt-3">
-            Technology evolves rapidly, but the principles behind great software remain constant. These are the beliefs that guide every product we build, every partnership we form, and every challenge we solve.
-          </p>
+  return (
+    <section id="value" className="py-16 md:py-24 relative overflow-hidden flex flex-col justify-center" style={{ background: "var(--secondary)" }}>
+      {/* Background ambient orange flare */}
+      <div className="absolute top-0 right-0 w-[640px] h-[360px] pointer-events-none opacity-25"
+        style={{ background: "radial-gradient(ellipse at 80% 20%, rgba(249,115,22,0.38) 0%, rgba(245,158,11,0.12) 45%, transparent 70%)" }} />
+      <div className="absolute top-0 inset-x-0 h-px" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(249,115,22,0.2) 50%, transparent 100%)" }} />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+
+        {/* 1. Header & Intro */}
+        <FadeIn className="mb-12 sm:mb-14">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div>
+              {/* Eyebrow */}
+              <div className="flex items-center gap-2.5 mb-4">
+                <span className="w-5 h-[2px] bg-orange-500 rounded-full" />
+                <span className="font-['Outfit',sans-serif] font-bold text-foreground text-sm tracking-wide">
+                  Our Principles
+                </span>
+              </div>
+
+              {/* Heading */}
+              <h2 className="font-['Outfit',sans-serif] font-black text-[34px] sm:text-[44px] lg:text-[48px] leading-[1.1] -tracking-[0.02em] text-foreground mb-4">
+                The Principles That Shape<br />
+                <GradientText>How We Think, Build & Work.</GradientText>
+              </h2>
+
+              {/* Supporting text */}
+              <p className="font-['Outfit',sans-serif] text-[13.5px] sm:text-[14.5px] text-muted-foreground leading-[1.65] max-w-xl">
+                Technology changes quickly. Businesses evolve even faster.<br className="hidden sm:inline" />
+                Our principles keep us grounded in how we solve problems,<br className="hidden sm:inline" />
+                build technology, serve customers, and work together.
+              </p>
+            </div>
+
+            {/* Right side tagline list */}
+            <div className="hidden lg:flex flex-col justify-end items-start text-left pb-2 shrink-0">
+              <span className="w-5 h-[2px] bg-orange-500 rounded-full mb-3" />
+              <p className="font-['Outfit',sans-serif] text-[17px] text-muted-foreground/85 leading-relaxed font-medium">
+                Better technology.<br />
+                Stronger businesses.<br />
+                A smarter tomorrow.
+              </p>
+            </div>
+          </div>
         </FadeIn>
 
-        {/* Vision, Mission, Values banner */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">
-          {[
-            {
-              label: "Vision",
-              title: "Intelligent Enterprise Clarity",
-              desc: "To empower modern enterprises through resilient, intelligent software that transforms operational friction into sustainable business growth.",
-              accent: "#f97316",
-            },
-            {
-              label: "Mission",
-              title: "Engineering with Purpose",
-              desc: "To design and deploy mission-critical digital platforms and AI solutions with uncompromising craft, measurable ROI, and shared ownership.",
-              accent: "#f8872a",
-            },
-            {
-              label: "Values",
-              title: "Principled Execution",
-              desc: "Business outcomes first, absolute architectural transparency, lifelong engineering curiosity, and software built to stand the test of scale.",
-              accent: "#f59e0b",
-            },
-          ].map((item, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
-              <div className="p-5 rounded-2xl border border-border bg-card relative overflow-hidden h-full flex flex-col justify-between">
-                <div className="absolute top-0 inset-x-0 h-1" style={{ background: `linear-gradient(90deg, ${item.accent}, transparent)` }} />
+        {/* 3 Large Principle Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-16 sm:mb-20">
+          {CORE_PRINCIPLE_CARDS.map((card, i) => (
+            <FadeIn key={card.label} delay={i * 0.08}>
+              <div className="group relative p-7 sm:p-8 rounded-2xl border border-border/70 bg-card/85 hover:bg-card hover:border-orange-500/35 overflow-hidden h-full flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/5">
                 <div>
-                  <span className="font-['JetBrains_Mono',monospace] text-[9px] uppercase tracking-[2.5px] font-bold" style={{ color: item.accent }}>
-                    {item.label}
+                  {/* Icon */}
+                  <div className="w-11 h-11 rounded-xl border border-border/80 bg-background/50 flex items-center justify-center mb-5 group-hover:border-orange-500/35 transition-colors">
+                    {card.icon}
+                  </div>
+
+                  {/* Label */}
+                  <span className="font-['JetBrains_Mono',monospace] text-[10.5px] uppercase tracking-[0.2em] font-bold text-muted-foreground block mb-2.5">
+                    {card.label}
                   </span>
-                  <h4 className="font-['Outfit',sans-serif] font-black text-foreground text-base mt-1 mb-2">{item.title}</h4>
-                  <p className="font-['Outfit',sans-serif] text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
+
+                  {/* Title */}
+                  <h3 className="font-['Outfit',sans-serif] font-bold text-lg sm:text-[19px] text-foreground leading-snug mb-3 group-hover:text-orange-500 transition-colors duration-200">
+                    {card.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="font-['Outfit',sans-serif] text-[13px] sm:text-[13.5px] text-muted-foreground leading-relaxed">
+                    {card.desc}
+                  </p>
+                </div>
+
+                {/* Footer link line */}
+                <div className="flex items-center gap-2 pt-6 mt-6 border-t border-border/40 text-[11.5px] font-medium text-muted-foreground/75">
+                  <span className="w-3.5 h-[1.5px] bg-orange-500 rounded-full" />
+                  <span>{card.footer}</span>
                 </div>
               </div>
             </FadeIn>
           ))}
         </div>
 
-        {/* Principles grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
-          {PRINCIPLES.map((p, i) => (
-            <FadeIn key={i} delay={i * 0.08}>
-              <div className="group relative p-5 rounded-2xl flex flex-col gap-4 border border-border bg-card transition-all duration-500 hover:-translate-y-1 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/5 overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 rounded-bl-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: "radial-gradient(circle at top right, rgba(249,115,22,0.07), transparent 70%)" }} />
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-orange-500 transition-all duration-300 group-hover:scale-110"
-                  style={{ background: "rgba(249,115,22,0.1)" }}>
-                  {p.icon}
+        {/* 2. How We Work */}
+        <FadeIn delay={0.15}>
+          <div className="mb-16 sm:mb-20">
+            {/* Header row with title & pill tabs */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-7">
+              <div>
+                <div className="flex items-center gap-2.5 mb-1.5">
+                  <span className="w-4 h-[2px] bg-orange-500 rounded-full" />
+                  <h3 className="font-['Outfit',sans-serif] font-bold text-xl sm:text-2xl text-foreground">
+                    {TAB_HEADERS[activeTab].title}
+                  </h3>
                 </div>
-                <h3 className="font-['Outfit',sans-serif] font-bold text-foreground">{p.title}</h3>
-                <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.6]">{p.desc}</p>
+                <p className="font-['Outfit',sans-serif] text-[13px] sm:text-[14px] text-muted-foreground pl-6">
+                  {TAB_HEADERS[activeTab].subtitle}
+                </p>
               </div>
-            </FadeIn>
-          ))}
-        </div>
 
-        {/* What We Believe editorial list */}
+              {/* Segmented pill tabs */}
+              <div className="inline-flex items-center p-1 rounded-full border border-border/80 bg-card/90 backdrop-blur-sm self-start sm:self-auto max-w-full overflow-x-auto">
+                {HOW_WE_WORK_TABS.map((tab) => {
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`px-5 py-2 rounded-full font-['Outfit',sans-serif] text-xs sm:text-[13px] font-semibold transition-all duration-200 whitespace-nowrap ${isActive
+                        ? "bg-[#f97316] text-white shadow-md shadow-orange-500/25"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted/30"
+                        }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* 6 Compact items for active tab */}
+            <div
+              key={activeTab}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+              style={{ animation: "hero-in 0.35s cubic-bezier(0.22,1,0.36,1) both" }}
+            >
+              {HOW_WE_WORK_ITEMS[activeTab].map((item) => (
+                <div
+                  key={`${activeTab}-${item.num}`}
+                  className="group relative p-6 rounded-2xl border border-border/70 bg-card/85 hover:bg-card hover:border-orange-500/35 hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Number on left, icon on right */}
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-['JetBrains_Mono',monospace] text-base sm:text-[17px] font-bold text-foreground">
+                        {item.num}
+                      </span>
+                      <div className="w-8 h-8 rounded-lg flex items-center justify-center text-orange-400 group-hover:scale-110 transition-transform">
+                        {item.icon}
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <h4 className="font-['Outfit',sans-serif] font-bold text-[15px] sm:text-[16px] text-foreground group-hover:text-orange-500 transition-colors duration-200 mb-2">
+                      {item.title}
+                    </h4>
+
+                    {/* Description */}
+                    <p className="font-['Outfit',sans-serif] text-[12.5px] sm:text-[13px] text-muted-foreground leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </FadeIn>
+
+        {/* 3. Inside AskJuno (3-Column Layout) */}
         <FadeIn delay={0.2}>
-          <div className="rounded-2xl p-5"
-            style={{ background: "linear-gradient(135deg, rgba(249,115,22,0.07) 0%, rgba(245,158,11,0.04) 100%)", border: "1px solid rgba(249,115,22,0.15)" }}>
-            <p className="font-['JetBrains_Mono',monospace] text-[10px] tracking-[3px] uppercase text-orange-500 font-bold mb-3">What We Believe</p>
-            <div className="flex flex-col gap-4">
-              {BELIEFS.map((b, i) => (
-                <div key={i} className="flex items-center gap-4 group">
-                  <span className="font-['JetBrains_Mono',monospace] text-[10px] text-muted-foreground/50 tabular-nums shrink-0">0{i + 1}</span>
-                  <div className="h-px flex-1 max-w-8" style={{ background: "rgba(249,115,22,0.2)" }} />
-                  <p className="font-['Outfit',sans-serif] font-medium text-foreground text-sm md:text-lg flex-1 group-hover:text-orange-500 transition-colors duration-300">{b}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pt-4">
+            {/* Left: Office photo */}
+            <div className="lg:col-span-4 rounded-2xl overflow-hidden border border-border/80 shadow-2xl relative group bg-card">
+              <img
+                src={officeImg}
+                alt="AskJuno Office — Better Together"
+                className="w-full h-full object-cover aspect-[4/3] group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+            </div>
+
+            {/* Center: Headline & intro */}
+            <div className="lg:col-span-4">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-4 h-[2px] bg-orange-500 rounded-full" />
+                <span className="font-['Outfit',sans-serif] text-sm font-bold text-foreground">
+                  Inside AskJuno
+                </span>
+              </div>
+              <h3 className="font-['Outfit',sans-serif] font-bold text-2xl sm:text-[30px] leading-tight text-foreground mb-4">
+                Great Work Starts With Great People.
+              </h3>
+              <p className="font-['Outfit',sans-serif] text-[13px] sm:text-[14px] text-muted-foreground leading-relaxed">
+                The way we work with each other shapes the way we work with our customers. Our workplace values help us stay humble, grow together, and do our best work.
+              </p>
+            </div>
+
+            {/* Right: 6 workplace values */}
+            <div className="lg:col-span-4 space-y-3.5 sm:space-y-4">
+              {WORKPLACE_VALUES.map((row) => (
+                <div key={row.num} className="flex items-start gap-3.5 group">
+                  <span className="font-['JetBrains_Mono',monospace] text-xs sm:text-[13px] font-bold text-orange-500 shrink-0 pt-0.5">
+                    {row.num}
+                  </span>
+                  <div>
+                    <h4 className="font-['Outfit',sans-serif] font-bold text-[13.5px] sm:text-[14px] text-foreground leading-snug group-hover:text-orange-500 transition-colors duration-200">
+                      {row.title}
+                    </h4>
+                    <p className="font-['Outfit',sans-serif] text-xs text-muted-foreground leading-relaxed mt-0.5">
+                      {row.desc}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -3485,144 +4219,554 @@ function ValueSection() {
 }
 
 // ── 9. Insights ────────────────────────────────────────────────────────────
-const ARTICLES = [
+interface InsightArticle {
+  id: string;
+  tag: string;
+  readTime: string;
+  category: string;
+  title: string;
+  desc: string;
+  accent: string;
+  content: {
+    summary: string;
+    keyPoints: string[];
+    takeaway: string;
+  };
+}
+
+const ARTICLES: InsightArticle[] = [
   {
-    featured: true,
-    tag: "AI & Automation",
-    icon: "🤖",
+    id: "art-1",
+    tag: "AI & AUTOMATION",
+    readTime: "8 MIN READ",
+    category: "AI & Intelligent Automation",
     title: "Beyond the AI Hype: Building Intelligence That Creates Business Value",
     desc: "Explore how organizations can move from AI experimentation to measurable business outcomes through practical implementation strategies that prioritize real-world impact over novelty.",
-    readTime: "8 min read",
     accent: "#f97316",
+    content: {
+      summary: "Most enterprise AI initiatives stall because they focus on novelty rather than business workflows. This article explores how to architect AI systems that directly compress operational cycle times and generate verifiable ROI.",
+      keyPoints: [
+        "Prioritize high-frequency, rule-constrained workflows before tackling open-ended generative AI tasks.",
+        "Establish human-in-the-loop validation checkpoints to guarantee 99.9% data integrity.",
+        "Design modular agent architectures that can swap underlying foundation models without code rewrites.",
+        "Track cost-per-inference and revenue acceleration metrics from day one of deployment."
+      ],
+      takeaway: "True AI transformation happens when intelligent models quietly automate friction in core operations, turning manual hours into instant, reliable business throughput."
+    }
   },
   {
-    featured: false,
-    tag: "Document Intelligence",
-    icon: "📄",
+    id: "art-2",
+    tag: "DOCUMENT INTELLIGENCE",
+    readTime: "5 MIN READ",
+    category: "AI & Intelligent Automation",
     title: "Why Documents Are Still Slowing Down Modern Businesses",
     desc: "Discover how document intelligence transforms manual workflows into automated, data-driven operations.",
-    readTime: "5 min read",
-    accent: "#f8872a",
+    accent: "#f97316",
+    content: {
+      summary: "Despite decades of digital transformation, unstructured documents—PDFs, invoices, regulatory submissions, clinical forms—remain the largest operational bottleneck for modern enterprises.",
+      keyPoints: [
+        "Traditional OCR extracts text, but lacks semantic and spatial context required for complex tables.",
+        "Multi-modal LLMs combined with heuristic extractors deliver 99.4% precision on complex multi-page contracts.",
+        "Automated validation pipelines eliminate the need for manual dual-key data entry.",
+        "Integration with core ERP/CRM backends reduces processing cycles from 72 hours to under 30 seconds."
+      ],
+      takeaway: "Converting static documents into real-time, actionable structured data unlocks immediate liquidity and operational agility."
+    }
   },
   {
-    featured: false,
-    tag: "Product Engineering",
-    icon: "🚀",
+    id: "art-3",
+    tag: "PRODUCT ENGINEERING",
+    readTime: "6 MIN READ",
+    category: "Product Engineering",
     title: "Building Software That Scales Beyond Version 1",
     desc: "The engineering principles behind scalable architecture, maintainable code, and long-term product success.",
-    readTime: "6 min read",
     accent: "#f59e0b",
+    content: {
+      summary: "Shipping fast often leads to technical debt that slows development to a crawl by year two. We outline the architectural discipline required to ship rapidly while protecting future scalability.",
+      keyPoints: [
+        "Decouple domain logic from delivery mechanisms and third-party vendor SDKs.",
+        "Adopt event-driven architectures to handle spiky enterprise throughput without server degradation.",
+        "Invest in automated regression suites and contract tests to enable continuous deployments without fear.",
+        "Structure multi-tenant databases with data isolation and tenant-level encryption from sprint one."
+      ],
+      takeaway: "Great engineering is not about over-architecting for hypothetical futures; it is about building clean boundaries that adapt effortlessly as business requirements expand."
+    }
   },
 ];
 
-const INSIGHT_CATS = ["AI & Intelligent Automation", "Product Engineering", "Enterprise Software", "Digital Transformation", "Data & Analytics", "Technology Leadership"];
+const INSIGHT_CATS = [
+  { id: "all", label: "All Insights", icon: null },
+  { id: "ai", label: "AI & Intelligent Automation", icon: "sparkles" },
+  { id: "engineering", label: "Product Engineering", icon: "code" },
+  { id: "enterprise", label: "Enterprise Software", icon: "cloud" },
+  { id: "digital", label: "Digital Transformation", icon: "trending" },
+  { id: "data", label: "Data & Analytics", icon: "barchart" },
+  { id: "leadership", label: "Technology Leadership", icon: "user" },
+];
 
 function ThinkingSection() {
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [selectedArticle, setSelectedArticle] = useState<InsightArticle | null>(null);
+
   return (
-    <section id="thinking" className="min-h-screen py-16 bg-background relative overflow-hidden flex flex-col justify-center">
-      <div className="absolute inset-0 pointer-events-none opacity-[0.015]"
-        style={{ backgroundImage: "radial-gradient(circle, #f97316 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <section
+      id="thinking"
+      className="py-6 sm:py-8 lg:py-4 xl:py-6 lg:min-h-screen lg:max-h-screen relative overflow-hidden flex flex-col justify-center bg-[#faf8f5] dark:bg-[#0c0c0e] transition-colors duration-200"
+    >
+      {/* Anchor for #insights */}
+      <div id="insights" className="absolute -top-16" />
 
-        {/* Header */}
-        <FadeIn className="text-center mb-5 max-w-3xl mx-auto">
-          <SectionLabel group="Proven in Practice">Insights</SectionLabel>
-          <SectionHeading>Insights for the<br /><GradientText>Builders of Tomorrow.</GradientText></SectionHeading>
-          <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.65] mt-3">
-            We share perspectives on AI, software engineering, digital transformation, and product strategy to help businesses navigate technology with clarity and confidence.
-          </p>
-        </FadeIn>
+      {/* Subtle warm ambient glows */}
+      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
+      <div className="absolute -bottom-24 -left-20 w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-amber-500/15 via-orange-500/10 to-transparent blur-3xl pointer-events-none animate-pulse-soft" />
+      <div className="absolute -bottom-24 -right-20 w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-orange-500/15 via-amber-500/10 to-transparent blur-3xl pointer-events-none animate-pulse-soft" />
 
-        {/* Featured article */}
-        <FadeIn delay={0.1}>
-          <div className="group relative rounded-3xl overflow-hidden mb-3 cursor-pointer"
-            style={{ background: "linear-gradient(135deg, rgba(249,115,22,0.08) 0%, rgba(245,158,11,0.04) 100%)", border: "1px solid rgba(249,115,22,0.18)" }}>
-            <div className="absolute top-0 inset-x-0 h-0.5" style={{ background: "linear-gradient(90deg, transparent 10%, #f97316 40%, #f59e0b 60%, transparent 90%)" }} />
-            <div className="p-5 grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
-              <div className="lg:col-span-3">
-                <div className="flex items-center gap-3 mb-5">
-                  <span className="font-['JetBrains_Mono',monospace] text-[10px] tracking-[3px] uppercase text-orange-500 font-bold px-3 py-1.5 rounded-full"
-                    style={{ background: "rgba(249,115,22,0.12)", border: "1px solid rgba(249,115,22,0.25)" }}>
-                    Featured Article
-                  </span>
-                  <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-widest uppercase text-muted-foreground">{ARTICLES[0].tag}</span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col justify-center relative z-10 py-1 sm:py-2">
+
+        {/* ── 1. HEADER ROW (Split into Left Copy & Right 3D Visual) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center mb-3 sm:mb-4 lg:mb-3">
+          {/* Left Column: Eyebrow + Heading + Subtitle */}
+          <FadeIn className="lg:col-span-7 xl:col-span-8 flex flex-col justify-center">
+            {/* Eyebrow: — INSIGHTS */}
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="w-4 sm:w-5 h-[2px] bg-[#f97316] rounded-full" />
+              <span className="font-['JetBrains_Mono',monospace] text-[11px] sm:text-xs font-bold uppercase tracking-[0.24em] text-[#f97316]">
+                INSIGHTS
+              </span>
+            </div>
+
+            {/* Heading */}
+            <h2 className="font-['Outfit',sans-serif] font-black text-2xl xs:text-3xl sm:text-[34px] lg:text-[35px] xl:text-[37px] leading-[1.15] text-stone-950 dark:text-white mb-1.5 sm:mb-2">
+              Insights for the<br />
+              <span className="text-[#f97316]">Builders of Tomorrow.</span>
+            </h2>
+
+            {/* Subtitle */}
+            <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-xs sm:text-[13px] lg:text-[13.5px] leading-relaxed max-w-xl">
+              We share perspectives on AI, software engineering, digital transformation, and product strategy to help businesses navigate technology with clarity and confidence.
+            </p>
+          </FadeIn>
+
+          {/* Right Column: 3D Stacked Layered Visual (Better Ideas. Bigger Impact.) with Dot Grid */}
+          <FadeIn delay={0.1} className="hidden lg:flex lg:col-span-5 xl:col-span-4 justify-end items-center relative">
+            {/* Subtle dot matrix grid matching screenshot */}
+            <div
+              className="absolute -top-3 -right-2 w-28 h-12 pointer-events-none opacity-40 dark:opacity-25"
+              style={{
+                backgroundImage: "radial-gradient(circle, #f97316 1.2px, transparent 1.2px)",
+                backgroundSize: "8px 8px"
+              }}
+            />
+
+            <div className="relative w-[280px] h-[120px] flex items-center justify-center">
+              {/* Warm amber backdrop blur */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/30 via-amber-400/20 to-transparent rounded-3xl blur-2xl pointer-events-none animate-pulse-soft" />
+
+              {/* Layer 1 (backmost orange glass tile) */}
+              <div className="absolute w-40 h-22 rounded-2xl bg-amber-400/25 dark:bg-amber-500/15 border border-amber-300/40 dark:border-amber-500/20 shadow-md rotate-[-6deg] translate-x-3 translate-y-1 animate-float-reverse" />
+
+              {/* Layer 2 (middle orange glass tile) */}
+              <div className="absolute w-48 h-22 rounded-2xl bg-gradient-to-br from-orange-400/35 to-amber-500/25 border border-orange-300/40 dark:border-orange-500/30 shadow-lg rotate-[-3deg] translate-x-1.5" />
+
+              {/* Layer 3 (front card with lightbulb and float animation) */}
+              <div className="relative w-56 h-24 rounded-2xl bg-white/95 dark:bg-[#18181c]/95 border border-stone-200/90 dark:border-stone-700/80 shadow-xl p-3.5 flex items-center gap-3 backdrop-blur-md animate-float-slow">
+                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 border border-orange-500/30 flex items-center justify-center text-[#f97316] shadow-sm shrink-0">
+                  <Lightbulb size={22} strokeWidth={2.2} className="text-[#f97316]" />
                 </div>
-                <h3 className="font-['Outfit',sans-serif] font-black text-foreground mb-4 leading-snug"
-                  style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.85rem)" }}>
-                  {ARTICLES[0].title}
-                </h3>
-                <p className="font-['Outfit',sans-serif] text-muted-foreground text-[15px] leading-[1.65] mb-7">{ARTICLES[0].desc}</p>
-                <button className="group/r inline-flex items-center gap-2 font-['Outfit',sans-serif] font-bold text-sm transition-all"
-                  style={{ color: "#f97316" }}>
-                  <span className="border-b-2 pb-0.5" style={{ borderColor: "rgba(249,115,22,0.3)" }}>Read Article</span>
-                  <ArrowRight size={14} className="transition-transform duration-300 group-hover/r:translate-x-1" />
-                </button>
-              </div>
-              <div className="lg:col-span-2 flex items-center justify-center">
-                <div className="relative w-32 h-32 flex items-center justify-center">
-                  <div className="absolute inset-0 rounded-full opacity-20 animate-pulse"
-                    style={{ background: "radial-gradient(circle, #f97316 0%, transparent 70%)" }} />
-                  <span className="text-7xl">{ARTICLES[0].icon}</span>
+                <div>
+                  <h4 className="font-['Outfit',sans-serif] font-bold text-stone-900 dark:text-white text-xs sm:text-[13px] leading-snug">
+                    Better Ideas.<br />
+                    Bigger Impact.
+                  </h4>
+                  <div className="w-7 h-[2px] bg-[#f97316] rounded-full mt-1.5" />
                 </div>
               </div>
             </div>
-          </div>
-        </FadeIn>
-
-        {/* Supporting articles */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-          {ARTICLES.slice(1).map((art, i) => (
-            <FadeIn key={i} delay={0.15 + i * 0.1}>
-              <div className="group relative p-5 rounded-2xl border border-border bg-card cursor-pointer transition-all duration-400 hover:-translate-y-1 hover:border-orange-500/30 hover:shadow-xl hover:shadow-orange-500/5 overflow-hidden">
-                <div className="absolute top-0 inset-x-0 h-px rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-400"
-                  style={{ background: `linear-gradient(90deg, transparent, ${art.accent}, transparent)` }} />
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-[2.5px] uppercase font-bold"
-                    style={{ color: art.accent }}>{art.tag}</span>
-                  <span className="font-['JetBrains_Mono',monospace] text-[9px] tracking-widest uppercase text-muted-foreground">{art.readTime}</span>
-                </div>
-                <h3 className="font-['Outfit',sans-serif] font-bold text-foreground text-sm leading-snug mb-3">{art.title}</h3>
-                <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm leading-[1.75] mb-5">{art.desc}</p>
-                <button className="group/r inline-flex items-center gap-2 font-['Outfit',sans-serif] font-bold text-xs transition-all"
-                  style={{ color: art.accent }}>
-                  <span className="border-b pb-0.5" style={{ borderColor: `${art.accent}40` }}>Read Article</span>
-                  <ArrowRight size={12} className="transition-transform duration-300 group-hover/r:translate-x-1" />
-                </button>
-              </div>
-            </FadeIn>
-          ))}
+          </FadeIn>
         </div>
 
-        {/* Categories + CTA */}
-        <FadeIn delay={0.25}>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8" style={{ borderTop: "1px solid var(--border)" }}>
-            <div className="flex flex-wrap gap-2">
-              {INSIGHT_CATS.map((cat, i) => (
-                <span key={i}
-                  className="font-['Outfit',sans-serif] text-xs font-medium px-3.5 py-1.5 rounded-full cursor-pointer transition-all duration-300 hover:border-orange-500 hover:text-orange-500"
-                  style={{ background: "var(--muted)", color: "var(--muted-foreground)", border: "1px solid var(--border)" }}>
-                  {cat}
-                </span>
-              ))}
+        {/* ── 2. FEATURED ARTICLE (Full Width Banner Card) ── */}
+        <FadeIn delay={0.08}>
+          <div
+            onClick={() => setSelectedArticle(ARTICLES[0])}
+            className="group relative rounded-2xl sm:rounded-3xl bg-gradient-to-r from-orange-50/90 via-amber-50/60 to-orange-100/60 dark:from-[#181512] dark:via-[#161413] dark:to-[#1a1410] border border-orange-200/80 dark:border-orange-500/25 shadow-sm hover:shadow-xl hover:shadow-orange-500/5 transition-all duration-300 overflow-hidden mb-2.5 sm:mb-3 cursor-pointer"
+          >
+            <div className="p-4 sm:p-5 lg:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
+              {/* Left Column: Copy */}
+              <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center">
+                {/* Badges */}
+                <div className="flex items-center gap-2.5 mb-2">
+                  <span className="font-['JetBrains_Mono',monospace] text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full border border-[#f97316]/70 text-[#f97316] bg-orange-500/10">
+                    FEATURED ARTICLE
+                  </span>
+                  <span className="font-['JetBrains_Mono',monospace] text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400">
+                    AI &amp; AUTOMATION
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h3 className="font-['Outfit',sans-serif] font-black text-stone-950 dark:text-white text-base sm:text-lg lg:text-[21px] xl:text-[23px] leading-snug mb-1.5 group-hover:text-[#f97316] transition-colors">
+                  {ARTICLES[0].title}
+                </h3>
+
+                {/* Subtitle */}
+                <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-xs sm:text-[12.5px] lg:text-[13px] leading-relaxed max-w-xl mb-2.5 line-clamp-2 sm:line-clamp-none">
+                  {ARTICLES[0].desc}
+                </p>
+
+                {/* Read Article link */}
+                <div className="inline-flex items-center gap-1.5 font-['Outfit',sans-serif] font-bold text-xs sm:text-[13px] text-[#f97316] group-hover:text-[#ea580c] transition-colors">
+                  <span>Read Article</span>
+                  <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
+                </div>
+              </div>
+
+              {/* Right Column: 3D AI Robot Illustration with Glowing Metric Cards */}
+              <div className="lg:col-span-5 xl:col-span-5 flex items-center justify-center relative min-h-[135px] sm:min-h-[150px]">
+                {/* Ambient glow */}
+                <div className="absolute w-44 h-44 rounded-full bg-gradient-to-tr from-amber-400/30 via-orange-400/20 to-transparent blur-2xl pointer-events-none animate-pulse-soft" />
+
+                {/* Main Robot Vector Canvas */}
+                <div className="relative w-[240px] h-[135px] sm:w-[270px] sm:h-[145px] flex items-center justify-center">
+
+                  {/* Floating Card 1: Bar Chart (Top Left) */}
+                  <div className="absolute top-1 left-2 sm:left-4 w-11 h-9 rounded-xl bg-white/95 dark:bg-[#1f1f24]/95 shadow-md border border-stone-200/80 dark:border-stone-700/80 p-1.5 flex items-end justify-center gap-1 animate-float-slow">
+                    <div className="w-1.5 h-2.5 bg-orange-300 rounded-sm" />
+                    <div className="w-1.5 h-4.5 bg-orange-400 rounded-sm" />
+                    <div className="w-1.5 h-6 bg-[#f97316] rounded-sm" />
+                  </div>
+
+                  {/* Floating Card 2: Trend Line (Top Right) */}
+                  <div className="absolute top-1 right-2 sm:right-4 w-11 h-9 rounded-xl bg-white/95 dark:bg-[#1f1f24]/95 shadow-md border border-stone-200/80 dark:border-stone-700/80 p-1 flex items-center justify-center animate-float-reverse">
+                    <svg width="24" height="20" viewBox="0 0 24 20" fill="none">
+                      <path d="M2 16L8 10L14 13L21 4" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M16 4H21V9" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+
+                  {/* Floating Card 3: Document Lines (Bottom Left) */}
+                  <div className="absolute bottom-1 left-3 sm:left-5 w-10 h-8 rounded-xl bg-white/95 dark:bg-[#1f1f24]/95 shadow-md border border-stone-200/80 dark:border-stone-700/80 p-1.5 flex flex-col justify-center gap-1 animate-float-slow">
+                    <div className="w-6 h-1 bg-stone-300 dark:bg-stone-600 rounded-full" />
+                    <div className="w-5 h-1 bg-orange-400 rounded-full" />
+                    <div className="w-4 h-1 bg-stone-300 dark:bg-stone-600 rounded-full" />
+                  </div>
+
+                  {/* Floating Card 4: Checkmark (Bottom Right) */}
+                  <div className="absolute bottom-1 right-3 sm:right-5 w-9 h-8 rounded-xl bg-white/95 dark:bg-[#1f1f24]/95 shadow-md border border-stone-200/80 dark:border-stone-700/80 p-1 flex items-center justify-center animate-float-reverse">
+                    <div className="w-5 h-5 rounded-full bg-orange-500/15 flex items-center justify-center">
+                      <Check size={12} strokeWidth={3} className="text-[#f97316]" />
+                    </div>
+                  </div>
+
+                  {/* Center: Friendly AI Robot Character (Pure High-Fidelity SVG) */}
+                  <svg width="125" height="125" viewBox="0 0 120 120" className="filter drop-shadow-lg">
+                    <defs>
+                      <linearGradient id="robotBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#ffffff" />
+                        <stop offset="100%" stopColor="#e5e7eb" />
+                      </linearGradient>
+                      <linearGradient id="robotOrangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#fb923c" />
+                        <stop offset="100%" stopColor="#ea580c" />
+                      </linearGradient>
+                      <linearGradient id="robotScreenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#1e1e24" />
+                        <stop offset="100%" stopColor="#0f0f12" />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Antenna */}
+                    <path d="M60 22 L60 14" stroke="#f97316" strokeWidth="3" strokeLinecap="round" />
+                    <circle cx="60" cy="12" r="3.5" fill="url(#robotOrangeGrad)" />
+
+                    {/* Orange Ears / Headphone cups */}
+                    <rect x="22" y="32" width="7" height="18" rx="3.5" fill="url(#robotOrangeGrad)" />
+                    <rect x="91" y="32" width="7" height="18" rx="3.5" fill="url(#robotOrangeGrad)" />
+
+                    {/* Robot Head Body */}
+                    <rect x="27" y="22" width="66" height="42" rx="20" fill="url(#robotBodyGrad)" stroke="#d1d5db" strokeWidth="1.5" />
+                    {/* Gloss highlight on top of head */}
+                    <path d="M37 26 Q60 23 83 26" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
+
+                    {/* Digital Visor Face Screen */}
+                    <rect x="33" y="28" width="54" height="28" rx="13" fill="url(#robotScreenGrad)" />
+
+                    {/* Friendly Smiling Cyan Eyes (^  ^) */}
+                    <path d="M43 42 Q48 35 53 42" stroke="#38bdf8" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+                    <path d="M67 42 Q72 35 77 42" stroke="#38bdf8" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+
+                    {/* White Neck */}
+                    <rect x="52" y="64" width="16" height="7" rx="3" fill="#d1d5db" />
+
+                    {/* Orange Shoulders */}
+                    <circle cx="34" cy="79" r="8" fill="url(#robotOrangeGrad)" />
+                    <circle cx="86" cy="79" r="8" fill="url(#robotOrangeGrad)" />
+
+                    {/* Rounded Torso Body */}
+                    <path d="M38 72 Q60 70 82 72 Q85 96 60 98 Q35 96 38 72 Z" fill="url(#robotBodyGrad)" stroke="#d1d5db" strokeWidth="1.5" />
+
+                    {/* Torso Center Indicator */}
+                    <rect x="52" y="77" width="16" height="10" rx="4" fill="#f97316" fillOpacity="0.2" stroke="#f97316" strokeWidth="1" />
+                    <circle cx="60" cy="82" r="2.5" fill="#f97316" />
+                  </svg>
+                </div>
+              </div>
             </div>
-            <button
-              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="group shrink-0 inline-flex items-center gap-2.5 px-6 py-3 rounded-full font-['Outfit',sans-serif] font-bold text-sm text-white transition-all hover:scale-105 active:scale-95"
-              style={{ background: "linear-gradient(135deg, #f97316, #f59e0b)", boxShadow: "0 4px 18px rgba(249,115,22,0.3)" }}>
-              View All Insights
-              <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
-            </button>
           </div>
         </FadeIn>
 
-        {/* Callout */}
-        <FadeIn delay={0.3}>
-          <p className="font-['Outfit',sans-serif] text-center text-sm text-muted-foreground mt-5 italic max-w-lg mx-auto">
-            Ideas are only valuable when they&apos;re applied. Explore our latest thinking on building software that drives business outcomes.
-          </p>
+        {/* ── 3. TWO SUPPORTING ARTICLES (Grid) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3 mb-2.5 sm:mb-3">
+
+          {/* Card 1: Document Intelligence */}
+          <FadeIn delay={0.12}>
+            <div
+              onClick={() => setSelectedArticle(ARTICLES[1])}
+              className="group rounded-2xl bg-white dark:bg-[#151518] border border-stone-200/80 dark:border-stone-800/80 p-3.5 sm:p-4 shadow-sm hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-orange-500/5 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-between gap-3 overflow-hidden cursor-pointer"
+            >
+              {/* Left text content */}
+              <div className="flex-1 min-w-0">
+                {/* Top icon and badges */}
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-6 h-6 rounded-lg bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/25 flex items-center justify-center text-[#f97316] shrink-0">
+                    <FileText size={13} strokeWidth={2.2} />
+                  </div>
+                  <span className="font-['JetBrains_Mono',monospace] text-[8.5px] sm:text-[9px] font-bold uppercase tracking-[0.16em] text-[#f97316]">
+                    {ARTICLES[1].tag}
+                  </span>
+                  <span className="font-['JetBrains_Mono',monospace] text-[8px] sm:text-[8.5px] font-semibold tracking-wider uppercase text-stone-400">
+                    {ARTICLES[1].readTime}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h3 className="font-['Outfit',sans-serif] font-bold text-stone-900 dark:text-stone-100 text-[13px] sm:text-[14.5px] leading-snug line-clamp-2 group-hover:text-[#f97316] transition-colors mb-1">
+                  {ARTICLES[1].title}
+                </h3>
+
+                {/* Description */}
+                <p className="font-['Outfit',sans-serif] text-stone-500 dark:text-stone-400 text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-1.5">
+                  {ARTICLES[1].desc}
+                </p>
+
+                {/* Link */}
+                <div className="inline-flex items-center gap-1 font-['Outfit',sans-serif] font-bold text-xs text-[#f97316] group-hover:text-[#ea580c] transition-colors">
+                  <span>Read Article</span>
+                  <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-1" />
+                </div>
+              </div>
+
+              {/* Right Mini Graphic: Stacked Documents with Orange Scan Frame & Sparkle */}
+              <div className="w-24 h-20 sm:w-26 sm:h-22 shrink-0 flex items-center justify-center relative">
+                <svg width="88" height="74" viewBox="0 0 88 74" fill="none">
+                  {/* Document 1 (back) */}
+                  <rect x="8" y="6" width="46" height="52" rx="4" fill="#f3f4f6" stroke="#e5e7eb" strokeWidth="1" />
+                  {/* Document 2 (middle) */}
+                  <rect x="14" y="11" width="46" height="52" rx="4" fill="#f9fafb" stroke="#e5e7eb" strokeWidth="1" />
+                  {/* Document 3 (front with lines) */}
+                  <rect x="20" y="16" width="46" height="52" rx="4" fill="#ffffff" stroke="#e5e7eb" strokeWidth="1.2" />
+                  <line x1="26" y1="24" x2="52" y2="24" stroke="#d1d5db" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="26" y1="30" x2="48" y2="30" stroke="#d1d5db" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="26" y1="36" x2="42" y2="36" stroke="#d1d5db" strokeWidth="2" strokeLinecap="round" />
+
+                  {/* Orange Scan Frame Bracket */}
+                  <rect x="46" y="24" width="28" height="28" rx="6" fill="#f97316" fillOpacity="0.12" stroke="#f97316" strokeWidth="1.8" />
+                  {/* Target frame brackets inside */}
+                  <path d="M51 31 H54 M66 31 H69 M51 45 H54 M66 45 H69" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+
+                  {/* Sparkle Badge */}
+                  <circle cx="48" cy="56" r="8" fill="#ffffff" stroke="#fed7aa" strokeWidth="1.2" className="filter drop-shadow-sm" />
+                  <path d="M48 51 V61 M43 56 H53 M45 53 L51 59 M45 59 L51 53" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </div>
+            </div>
+          </FadeIn>
+
+          {/* Card 2: Product Engineering */}
+          <FadeIn delay={0.16}>
+            <div
+              onClick={() => setSelectedArticle(ARTICLES[2])}
+              className="group rounded-2xl bg-white dark:bg-[#151518] border border-stone-200/80 dark:border-stone-800/80 p-3.5 sm:p-4 shadow-sm hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-orange-500/5 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-between gap-3 overflow-hidden cursor-pointer"
+            >
+              {/* Left text content */}
+              <div className="flex-1 min-w-0">
+                {/* Top icon and badges */}
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-6 h-6 rounded-lg bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/25 flex items-center justify-center text-[#f97316] shrink-0">
+                    <Settings size={13} strokeWidth={2.2} />
+                  </div>
+                  <span className="font-['JetBrains_Mono',monospace] text-[8.5px] sm:text-[9px] font-bold uppercase tracking-[0.16em] text-[#f97316]">
+                    {ARTICLES[2].tag}
+                  </span>
+                  <span className="font-['JetBrains_Mono',monospace] text-[8px] sm:text-[8.5px] font-semibold tracking-wider uppercase text-stone-400">
+                    {ARTICLES[2].readTime}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h3 className="font-['Outfit',sans-serif] font-bold text-stone-900 dark:text-stone-100 text-[13px] sm:text-[14.5px] leading-snug line-clamp-2 group-hover:text-[#f97316] transition-colors mb-1">
+                  {ARTICLES[2].title}
+                </h3>
+
+                {/* Description */}
+                <p className="font-['Outfit',sans-serif] text-stone-500 dark:text-stone-400 text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-1.5">
+                  {ARTICLES[2].desc}
+                </p>
+
+                {/* Link */}
+                <div className="inline-flex items-center gap-1 font-['Outfit',sans-serif] font-bold text-xs text-[#f97316] group-hover:text-[#ea580c] transition-colors">
+                  <span>Read Article</span>
+                  <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-1" />
+                </div>
+              </div>
+
+              {/* Right Mini Graphic: Dark IDE Terminal with Orange Backdrop & Potted Plant */}
+              <div className="w-24 h-20 sm:w-26 sm:h-22 shrink-0 flex items-center justify-center relative">
+                <svg width="88" height="74" viewBox="0 0 88 74" fill="none">
+                  {/* Backdrop Warm Orange Glow Card */}
+                  <rect x="28" y="10" width="52" height="52" rx="7" fill="#f97316" fillOpacity="0.8" />
+
+                  {/* Dark IDE Window */}
+                  <rect x="8" y="14" width="60" height="48" rx="6" fill="#18181b" stroke="#27272a" strokeWidth="1.2" />
+
+                  {/* Window Controls Dots */}
+                  <circle cx="15" cy="20" r="2" fill="#ef4444" />
+                  <circle cx="21" cy="20" r="2" fill="#f59e0b" />
+                  <circle cx="27" cy="20" r="2" fill="#10b981" />
+
+                  {/* Code Lines with Syntax Colors */}
+                  <rect x="15" y="27" width="14" height="2" rx="1" fill="#60a5fa" />
+                  <rect x="31" y="27" width="18" height="2" rx="1" fill="#f3f4f6" />
+
+                  <rect x="19" y="32" width="10" height="2" rx="1" fill="#f97316" />
+                  <rect x="31" y="32" width="22" height="2" rx="1" fill="#c084fc" />
+
+                  <rect x="19" y="37" width="24" height="2" rx="1" fill="#34d399" />
+
+                  <rect x="15" y="42" width="12" height="2" rx="1" fill="#f97316" />
+                  <rect x="29" y="42" width="16" height="2" rx="1" fill="#60a5fa" />
+
+                  <rect x="15" y="47" width="8" height="2" rx="1" fill="#e5e7eb" />
+
+                  {/* Potted Plant on Right */}
+                  <path d="M72 44 L75 56 L81 56 L84 44 Z" fill="#b45309" />
+                  <path d="M78 44 C78 38 84 34 87 35 C87 40 82 44 78 44 Z" fill="#10b981" />
+                  <path d="M78 44 C78 37 71 33 69 36 C69 41 74 44 78 44 Z" fill="#34d399" />
+                </svg>
+              </div>
+            </div>
+          </FadeIn>
+
+        </div>
+
+        {/* ── 4. CATEGORY FILTER PILLS ── */}
+        <FadeIn delay={0.2}>
+          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mb-2 sm:mb-2.5">
+            {INSIGHT_CATS.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`rounded-full px-3 py-1 sm:px-3.5 sm:py-1.5 text-xs font-medium font-['Outfit',sans-serif] transition-all duration-200 flex items-center gap-1.5 ${
+                    isActive
+                      ? "bg-[#f97316] text-white shadow-md shadow-orange-500/25"
+                      : "bg-white/80 dark:bg-[#151518]/80 border border-stone-200/80 dark:border-stone-800/80 text-stone-600 dark:text-stone-300 hover:border-orange-500/60 hover:text-[#f97316]"
+                  }`}
+                >
+                  {cat.icon === "sparkles" && <Sparkles size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
+                  {cat.icon === "code" && <Code2 size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
+                  {cat.icon === "cloud" && <Cloud size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
+                  {cat.icon === "trending" && <TrendingUp size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
+                  {cat.icon === "barchart" && <BarChart3 size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
+                  {cat.icon === "user" && <User size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </FadeIn>
+
+        {/* ── 5. CLOSING TAGLINE ── */}
+        <FadeIn delay={0.25}>
+          <div className="text-center pt-0.5">
+            <p className="font-['Outfit',sans-serif] italic text-[11px] sm:text-xs text-stone-400 dark:text-stone-500">
+              Better questions. Smarter solutions. A more intelligent tomorrow.
+            </p>
+          </div>
         </FadeIn>
 
       </div>
+
+      {/* ── INTERACTIVE ARTICLE READER MODAL ── */}
+      {selectedArticle && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          onClick={() => setSelectedArticle(null)}
+        >
+          <div
+            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white dark:bg-[#16161a] border border-stone-200 dark:border-stone-800 shadow-2xl p-6 sm:p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedArticle(null)}
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 flex items-center justify-center hover:bg-[#f97316] hover:text-white transition-colors"
+              aria-label="Close modal"
+            >
+              <X size={16} />
+            </button>
+
+            {/* Badges */}
+            <div className="flex items-center gap-2 mb-3">
+              <span className="font-['JetBrains_Mono',monospace] text-[10px] font-bold uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full border border-[#f97316]/70 text-[#f97316] bg-orange-500/10">
+                {selectedArticle.tag}
+              </span>
+              <span className="font-['JetBrains_Mono',monospace] text-[10px] font-semibold tracking-wider uppercase text-stone-400">
+                {selectedArticle.readTime}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h3 className="font-['Outfit',sans-serif] font-black text-xl sm:text-2xl text-stone-900 dark:text-white leading-snug mb-3">
+              {selectedArticle.title}
+            </h3>
+
+            {/* Summary */}
+            <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-sm leading-relaxed mb-5">
+              {selectedArticle.content.summary}
+            </p>
+
+            {/* Key Points */}
+            <div className="rounded-xl p-4 bg-orange-500/5 dark:bg-orange-500/10 border border-orange-500/20 mb-5">
+              <h4 className="font-['JetBrains_Mono',monospace] text-xs font-bold uppercase tracking-wider text-[#f97316] mb-2.5">
+                Key Strategic Principles
+              </h4>
+              <ul className="space-y-2">
+                {selectedArticle.content.keyPoints.map((pt, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-xs sm:text-[13px] text-stone-700 dark:text-stone-200 font-['Outfit',sans-serif] leading-relaxed">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#f97316] mt-1.5 shrink-0" />
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Takeaway */}
+            <div className="border-t border-stone-200 dark:border-stone-800 pt-4 flex items-center justify-between">
+              <p className="font-['Outfit',sans-serif] italic text-xs text-stone-500 dark:text-stone-400">
+                {selectedArticle.content.takeaway}
+              </p>
+              <button
+                onClick={() => setSelectedArticle(null)}
+                className="shrink-0 ml-4 px-4 py-1.5 rounded-full bg-[#f97316] text-white font-['Outfit',sans-serif] font-bold text-xs hover:bg-[#ea580c] transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -3688,7 +4832,7 @@ function FAQSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="pt-20 pb-4 bg-background relative overflow-hidden transition-colors duration-200">
+    <section id="faq" className="pt-16 sm:pt-20 pb-4 bg-background relative overflow-hidden transition-colors duration-200">
       {/* Background subtle ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div
@@ -3697,8 +4841,8 @@ function FAQSection() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-start">
 
           {/* Left Column: FAQ header + 3 horizontal feature items */}
           <div className="lg:col-span-6 flex flex-col justify-start">
@@ -3709,10 +4853,8 @@ function FAQSection() {
                 <div className="h-[1.5px] w-12 bg-[#f97316]" />
               </div>
 
-
-
               {/* Subtitle */}
-              <p className="font-['Outfit',sans-serif] text-muted-foreground text-[15px] leading-relaxed max-w-lg mb-10">
+              <p className="font-['Outfit',sans-serif] text-muted-foreground text-sm sm:text-[15px] leading-relaxed max-w-lg mb-8 sm:mb-10">
                 Can&apos;t find what you&apos;re looking for? Write to us directly, we&apos;re happy to answer any questions about how we work.
               </p>
 
@@ -3759,10 +4901,10 @@ function FAQSection() {
                       type="button"
                       onClick={() => setOpen(isOpen ? null : i)}
                       aria-expanded={isOpen}
-                      className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left group transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 cursor-pointer"
+                      className="w-full min-h-[48px] flex items-center justify-between gap-4 px-4 sm:px-5 py-3.5 sm:py-4 text-left group transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500 cursor-pointer"
                     >
                       <span
-                        className={`font-['Outfit',sans-serif] text-[14.5px] sm:text-[15px] leading-snug transition-colors ${isOpen
+                        className={`font-['Outfit',sans-serif] text-[14px] sm:text-[15px] leading-snug transition-colors ${isOpen
                           ? "text-[#f97316] font-semibold"
                           : "text-foreground group-hover:text-[#f97316] font-medium"
                           }`}
@@ -3788,8 +4930,8 @@ function FAQSection() {
                         transition: "max-height 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease",
                       }}
                     >
-                      <div className="px-5 pb-5 pt-1 border-t border-border">
-                        <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-[14px] leading-[1.65] mt-2.5">
+                      <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-1 border-t border-border">
+                        <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-[13.5px] sm:text-[14px] leading-[1.65] mt-2.5">
                           {item.a}
                         </p>
                       </div>
@@ -3851,19 +4993,140 @@ const COMMITMENTS = [
   },
 ];
 
-function ContactSection() {
-  const [form, setForm] = useState({ name: "", email: "", company: "", message: "", subject: "Book a Consultation" });
-  const [sent, setSent] = useState(false);
+// Blocked common free/public email domains
+const BLOCKED_EMAIL_DOMAINS = new Set([
+  "gmail.com", "googlemail.com", "yahoo.com", "yahoo.co.uk", "yahoo.co.in", "yahoo.ca",
+  "yahoo.com.au", "outlook.com", "hotmail.com", "hotmail.co.uk", "live.com", "live.co.uk",
+  "msn.com", "icloud.com", "me.com", "mac.com", "aol.com", "mail.com", "email.com", "usa.com",
+  "gmx.com", "gmx.de", "web.de", "inbox.com", "fastmail.com", "zoho.com", "yandex.com",
+  "yandex.ru", "mail.ru", "proton.me", "protonmail.com", "tuta.com", "tutanota.com",
+  "mailfence.com", "posteo.de", "startmail.com", "rediffmail.com", "rediffmailpro.com",
+  "sify.com", "indiatimes.com",
+]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+function ContactSection() {
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    subject: "Book a Consultation",
+    message: "",
+  });
+
+  const [touched, setTouched] = useState({
+    name: false,
+    email: false,
+    phone: false,
+    subject: false,
+  });
+
+  const [errors, setErrors] = useState<{
+    name?: string | null;
+    email?: string | null;
+    phone?: string | null;
+    subject?: string | null;
+  }>({});
+
+  const [sent, setSent] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const validateName = (name: string): string | null => {
+    if (!name.trim()) return "Name is required";
+    return null;
+  };
+
+  const validateEmail = (email: string): string | null => {
+    const trimmed = email.trim().toLowerCase();
+    if (!trimmed) return "Email is required";
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmed)) return "Enter a valid email address";
+    const domain = trimmed.split("@")[1]?.trim();
+    if (domain && BLOCKED_EMAIL_DOMAINS.has(domain)) {
+      return "Enter your company mailid";
+    }
+    return null;
+  };
+
+  const validatePhone = (phone: string): string | null => {
+    const trimmed = phone.trim();
+    if (!trimmed) return null;
+    const digitsOnly = trimmed.replace(/\D/g, "");
+    if (digitsOnly.length < 7 || digitsOnly.length > 15) {
+      return "Enter a valid phone number (7-15 digits)";
+    }
+    const phoneRegex = /^\+?[0-9]{7,15}$/;
+    if (!phoneRegex.test(trimmed)) {
+      return "Enter a valid phone number format";
+    }
+    return null;
+  };
+
+  const validateSubject = (subject: string): string | null => {
+    if (!subject.trim()) return "Subject is required";
+    return null;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+    setTouched({ name: true, email: true, phone: true, subject: true });
+
+    const nameErr = validateName(form.name);
+    const emailErr = validateEmail(form.email);
+    const phoneErr = validatePhone(form.phone);
+    const subjectErr = validateSubject(form.subject);
+
+    setErrors({
+      name: nameErr,
+      email: emailErr,
+      phone: phoneErr,
+      subject: subjectErr,
+    });
+
+    if (nameErr || emailErr || phoneErr || subjectErr) {
+      return;
+    }
+
+    setSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const payload = {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        phone: form.phone.trim(),
+        company: form.company.trim(),
+        subject: form.subject.trim(),
+        message: form.message.trim(),
+      };
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || data.success === false) {
+        throw new Error(data.message || data.error || "Unable to send your request right now. Please try again.");
+      }
+
+      setSent(true);
+    } catch (err: any) {
+      console.error("Form submission error:", err);
+      setSubmitError(err.message || "Unable to send your request right now. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <section id="contact" className="pt-8 pb-20 bg-background relative overflow-hidden transition-colors duration-200">
+    <section id="contact" className="pt-8 pb-16 sm:pb-20 bg-background relative overflow-hidden transition-colors duration-200">
       {/* Subtle divider line between FAQ and Contact */}
-      <div className="max-w-7xl mx-auto px-6 mb-14 sm:mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 sm:mb-14">
         <div
           className="h-px w-full"
           style={{
@@ -3879,7 +5142,7 @@ function ContactSection() {
         <div className="absolute right-4 bottom-4 w-60 h-60 rounded-[36px] border border-orange-500/20 dark:border-orange-500/25 bg-gradient-to-tr from-orange-500/10 to-transparent rotate-[28deg]" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
           {/* Left Column: Heading + Supporting Text + Contact Details */}
@@ -3892,13 +5155,13 @@ function ContactSection() {
               </div>
 
               {/* Heading */}
-              <h2 className="font-['Outfit',sans-serif] font-bold text-3xl sm:text-4xl lg:text-[42px] leading-[1.15] tracking-tight text-foreground mb-4">
+              <h2 className="font-['Outfit',sans-serif] font-bold text-2xl xs:text-3xl sm:text-4xl lg:text-[42px] leading-[1.15] tracking-tight text-foreground mb-4">
                 Let&apos;s Build<br />
                 <span className="text-[#f97316]">Something Great Together.</span>
               </h2>
 
               {/* Supporting Text */}
-              <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-[14.5px] leading-relaxed mb-8">
+              <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-sm sm:text-[14.5px] leading-relaxed mb-8">
                 Have a project in mind, a question, or just want to say hello?<br />
                 We&apos;d love to hear from you.
               </p>
@@ -3969,49 +5232,129 @@ function ContactSection() {
                     <div className="w-14 h-14 rounded-full flex items-center justify-center bg-orange-500/10 dark:bg-orange-500/20 border border-orange-500/35 text-[#f97316] shadow-sm">
                       <Check size={26} />
                     </div>
-                    <h3 className="font-['Outfit',sans-serif] font-bold text-2xl text-foreground">Message received!</h3>
+                    <h3 className="font-['Outfit',sans-serif] font-bold text-2xl text-foreground">Thank you!</h3>
                     <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-sm max-w-sm">
-                      Thank you for reaching out. We will review your inquiry and get in touch within one business day.
+                      Your consultation request has been sent successfully. We&apos;ll get back to you shortly.
                     </p>
                     <button
-                      onClick={() => setSent(false)}
-                      className="mt-2 text-[#f97316] text-sm font-['Outfit',sans-serif] font-bold hover:underline cursor-pointer">
-                      Send another message
+                      type="button"
+                      onClick={() => {
+                        setSent(false);
+                        setForm({
+                          name: "",
+                          email: "",
+                          phone: "",
+                          company: "",
+                          subject: "Book a Consultation",
+                          message: "",
+                        });
+                        setTouched({ name: false, email: false, phone: false, subject: false });
+                        setErrors({});
+                      }}
+                      className="mt-2 text-[#f97316] text-sm font-['Outfit',sans-serif] font-bold hover:underline cursor-pointer"
+                    >
+                      Book another consultation
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {/* Name and Email 2-column row */}
+                  <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
+                    {/* Row 1: Name and Email 2-column row */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="font-['JetBrains_Mono',monospace] text-[10.5px] tracking-widest uppercase font-bold text-stone-600 dark:text-stone-400 block mb-1.5">
-                          NAME
+                          NAME <span className="text-[#f97316]">*</span>
                         </label>
                         <input
-                          required
                           type="text"
                           value={form.name}
-                          onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                          className="w-full px-4 py-2.5 rounded-lg border border-border bg-muted/40 dark:bg-[#18130e] font-['Outfit',sans-serif] text-sm text-foreground placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none focus:border-[#f97316] focus:ring-2 focus:ring-orange-500/20 transition-all"
+                          onChange={(e) => {
+                            setForm((f) => ({ ...f, name: e.target.value }));
+                            if (touched.name) setErrors((prev) => ({ ...prev, name: validateName(e.target.value) }));
+                          }}
+                          onBlur={() => {
+                            setTouched((t) => ({ ...t, name: true }));
+                            setErrors((prev) => ({ ...prev, name: validateName(form.name) }));
+                          }}
+                          className={`w-full px-4 py-2.5 rounded-lg border ${touched.name && errors.name
+                            ? "border-red-500/80 focus:ring-red-500/20"
+                            : "border-border focus:border-[#f97316] focus:ring-orange-500/20"
+                            } bg-muted/40 dark:bg-[#18130e] font-['Outfit',sans-serif] text-sm text-foreground placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none focus:ring-2 transition-all`}
                           placeholder="Your name"
                         />
+                        {touched.name && errors.name && (
+                          <p className="font-['Outfit',sans-serif] text-xs text-red-500 mt-1 font-medium">{errors.name}</p>
+                        )}
                       </div>
+
                       <div>
                         <label className="font-['JetBrains_Mono',monospace] text-[10.5px] tracking-widest uppercase font-bold text-stone-600 dark:text-stone-400 block mb-1.5">
-                          EMAIL
+                          EMAIL <span className="text-[#f97316]">*</span>
                         </label>
                         <input
-                          required
                           type="email"
                           value={form.email}
-                          onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                          className="w-full px-4 py-2.5 rounded-lg border border-border bg-muted/40 dark:bg-[#18130e] font-['Outfit',sans-serif] text-sm text-foreground placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none focus:border-[#f97316] focus:ring-2 focus:ring-orange-500/20 transition-all"
+                          onChange={(e) => {
+                            setForm((f) => ({ ...f, email: e.target.value }));
+                            if (touched.email) setErrors((prev) => ({ ...prev, email: validateEmail(e.target.value) }));
+                          }}
+                          onBlur={() => {
+                            setTouched((t) => ({ ...t, email: true }));
+                            setErrors((prev) => ({ ...prev, email: validateEmail(form.email) }));
+                          }}
+                          className={`w-full px-4 py-2.5 rounded-lg border ${touched.email && errors.email
+                            ? "border-red-500/80 focus:ring-red-500/20"
+                            : "border-border focus:border-[#f97316] focus:ring-orange-500/20"
+                            } bg-muted/40 dark:bg-[#18130e] font-['Outfit',sans-serif] text-sm text-foreground placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none focus:ring-2 transition-all`}
                           placeholder="you@company.com"
                         />
+                        {touched.email && errors.email && (
+                          <p className="font-['Outfit',sans-serif] text-xs text-red-500 mt-1 font-medium">{errors.email}</p>
+                        )}
                       </div>
                     </div>
 
-                    {/* Company */}
+                    {/* Row 2: Phone Number on the left (directly below Name), right side aligned */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="font-['JetBrains_Mono',monospace] text-[10.5px] tracking-widest uppercase font-bold text-stone-600 dark:text-stone-400 block mb-1.5">
+                          PHONE NUMBER
+                        </label>
+                        <input
+                          type="tel"
+                          maxLength={15}
+                          value={form.phone}
+                          onChange={(e) => {
+                            let val = e.target.value;
+                            let cleaned = "";
+                            if (val.startsWith("+")) {
+                              cleaned = "+" + val.slice(1).replace(/\D/g, "");
+                            } else {
+                              cleaned = val.replace(/\D/g, "");
+                            }
+                            if (cleaned.length > 15) {
+                              cleaned = cleaned.slice(0, 15);
+                            }
+                            setForm((f) => ({ ...f, phone: cleaned }));
+                            if (touched.phone) setErrors((prev) => ({ ...prev, phone: validatePhone(cleaned) }));
+                          }}
+                          onBlur={() => {
+                            setTouched((t) => ({ ...t, phone: true }));
+                            setErrors((prev) => ({ ...prev, phone: validatePhone(form.phone) }));
+                          }}
+                          className={`w-full px-4 py-2.5 rounded-lg border ${touched.phone && errors.phone
+                            ? "border-red-500/80 focus:ring-red-500/20"
+                            : "border-border focus:border-[#f97316] focus:ring-orange-500/20"
+                            } bg-muted/40 dark:bg-[#18130e] font-['Outfit',sans-serif] text-sm text-foreground placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none focus:ring-2 transition-all`}
+                          placeholder="+1 (555) 000-0000"
+                        />
+                        {touched.phone && errors.phone && (
+                          <p className="font-['Outfit',sans-serif] text-xs text-red-500 mt-1 font-medium">{errors.phone}</p>
+                        )}
+                      </div>
+                      <div className="hidden sm:block pointer-events-none" aria-hidden="true" />
+                    </div>
+
+                    {/* Row 3: Company — full width */}
                     <div>
                       <label className="font-['JetBrains_Mono',monospace] text-[10.5px] tracking-widest uppercase font-bold text-stone-600 dark:text-stone-400 block mb-1.5">
                         COMPANY
@@ -4025,16 +5368,26 @@ function ContactSection() {
                       />
                     </div>
 
-                    {/* Subject */}
+                    {/* Row 4: Subject * — full width */}
                     <div>
                       <label className="font-['JetBrains_Mono',monospace] text-[10.5px] tracking-widest uppercase font-bold text-stone-600 dark:text-stone-400 block mb-1.5">
-                        SUBJECT
+                        SUBJECT <span className="text-[#f97316]">*</span>
                       </label>
                       <div className="relative">
                         <select
                           value={form.subject}
-                          onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
-                          className="w-full px-4 py-2.5 rounded-lg border border-border bg-muted/40 dark:bg-[#18130e] font-['Outfit',sans-serif] text-sm text-foreground outline-none focus:border-[#f97316] focus:ring-2 focus:ring-orange-500/20 transition-all appearance-none cursor-pointer"
+                          onChange={(e) => {
+                            setForm((f) => ({ ...f, subject: e.target.value }));
+                            if (touched.subject) setErrors((prev) => ({ ...prev, subject: validateSubject(e.target.value) }));
+                          }}
+                          onBlur={() => {
+                            setTouched((t) => ({ ...t, subject: true }));
+                            setErrors((prev) => ({ ...prev, subject: validateSubject(form.subject) }));
+                          }}
+                          className={`w-full px-4 py-2.5 rounded-lg border ${touched.subject && errors.subject
+                            ? "border-red-500/80 focus:ring-red-500/20"
+                            : "border-border focus:border-[#f97316] focus:ring-orange-500/20"
+                            } bg-muted/40 dark:bg-[#18130e] font-['Outfit',sans-serif] text-sm text-foreground outline-none focus:ring-2 transition-all appearance-none cursor-pointer`}
                         >
                           {["Book a Consultation", "Product Demo", "Enterprise Pricing", "Technical Question", "Partnership"].map((s) => (
                             <option key={s} value={s} className="bg-card text-foreground">
@@ -4044,30 +5397,46 @@ function ContactSection() {
                         </select>
                         <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
                       </div>
+                      {touched.subject && errors.subject && (
+                        <p className="font-['Outfit',sans-serif] text-xs text-red-500 mt-1 font-medium">{errors.subject}</p>
+                      )}
                     </div>
 
-                    {/* Message */}
+                    {/* Row 5: Message — full width (optional) */}
                     <div>
                       <label className="font-['JetBrains_Mono',monospace] text-[10.5px] tracking-widest uppercase font-bold text-stone-600 dark:text-stone-400 block mb-1.5">
                         MESSAGE
                       </label>
                       <textarea
-                        required
                         rows={3}
                         value={form.message}
                         onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
                         className="w-full px-4 py-2.5 rounded-lg border border-border bg-muted/40 dark:bg-[#18130e] font-['Outfit',sans-serif] text-sm text-foreground placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none focus:border-[#f97316] focus:ring-2 focus:ring-orange-500/20 transition-all resize-none"
-                        placeholder="Tell us about your challenge..."
+                        placeholder="Tell us about your challenge (optional)..."
                       />
                     </div>
+
+                    {submitError && (
+                      <p className="font-['Outfit',sans-serif] text-xs text-red-500 font-medium text-center">{submitError}</p>
+                    )}
 
                     {/* Submit Button */}
                     <button
                       type="submit"
-                      className="w-full py-3.5 rounded-xl font-['Outfit',sans-serif] font-bold text-white text-[14.5px] flex items-center justify-center gap-2 transition-all hover:opacity-95 active:scale-[0.99] shadow-lg shadow-orange-500/25 mt-1 cursor-pointer"
+                      disabled={submitting}
+                      className={`w-full py-3.5 rounded-xl font-['Outfit',sans-serif] font-bold text-white text-[14.5px] flex items-center justify-center gap-2 transition-all hover:opacity-95 active:scale-[0.99] shadow-lg shadow-orange-500/25 mt-1 cursor-pointer ${submitting ? "opacity-75 cursor-not-allowed" : ""
+                        }`}
                       style={{ background: "linear-gradient(90deg, #f97316 0%, #ea580c 100%)" }}
                     >
-                      <Calendar size={15} /> Book a Consultation <Send size={13} />
+                      {submitting ? (
+                        <>
+                          <RefreshCw size={15} className="animate-spin" /> Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <Calendar size={15} /> Book a Consultation <Send size={13} />
+                        </>
+                      )}
                     </button>
                   </form>
                 )}
@@ -4083,17 +5452,208 @@ function ContactSection() {
 
 
 // ── Footer ──────────────────────────────────────────────────────────────────
-function Footer({ dark }: { dark: boolean }) {
+function XIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   return (
-    <footer className="bg-background border-t border-border py-6 relative overflow-hidden">
-      <div className="absolute inset-x-0 top-0 h-px" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(249,115,22,0.2) 50%, transparent 100%)" }} />
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <ImageWithFallback src={dark ? logoDark : logoLight} alt="AskJuno" className="h-12 w-auto object-contain" />
-        <p className="font-['Outfit',sans-serif] text-xs text-muted-foreground">© 2025 ASKJUNO. Enterprise AI, responsibly built.</p>
-        <div className="flex gap-4">
-          {["Privacy", "Terms", "Security"].map(l => (
-            <a key={l} href="#" className="font-['Outfit',sans-serif] text-xs text-muted-foreground hover:text-orange-500 transition-colors">{l}</a>
-          ))}
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+function Footer({ onOpenPrivacy, dark }: { onOpenPrivacy: () => void; dark: boolean }) {
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id.replace("#", ""));
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const companyLinks = [
+    { label: "About Us", href: "#about" },
+    { label: "Industries", href: "#industries" },
+    { label: "What We Do", href: "#what-we-do" },
+    { label: "How We Build", href: "#how-we-build" },
+    { label: "Success Stories", href: "#stories" },
+    { label: "Engineering", href: "#technology" },
+    { label: "FAQ", href: "#faq" },
+    { label: "Contact Us", href: "#contact" },
+  ];
+
+  const solutionsLinks = [
+    { label: "AI Solutions", href: "#what-we-do" },
+    { label: "Software Engineering", href: "#how-we-build" },
+    { label: "Intelligent Automation", href: "#what-we-do" },
+    { label: "Data & Analytics", href: "#technology" },
+    { label: "Digital Transformation", href: "#what-we-do" },
+    { label: "Consulting", href: "#how-we-partner" },
+  ];
+
+  const legalLinks = [
+    { label: "Privacy Policy", onClick: onOpenPrivacy },
+    { label: "Terms of Use", onClick: onOpenPrivacy },
+    { label: "Cookie Policy", onClick: onOpenPrivacy },
+    { label: "Accessibility", href: "#about" },
+    { label: "Security", href: "#technology" },
+    { label: "Contact", href: "#contact" },
+  ];
+
+  const socialLinks = [
+    {
+      name: "LinkedIn",
+      href: "https://www.linkedin.com/company/askjuno",
+      icon: <Linkedin size={15} strokeWidth={1.8} />,
+    },
+    {
+      name: "Instagram",
+      href: "https://www.instagram.com/askjuno",
+      icon: <Instagram size={15} strokeWidth={1.8} />,
+    },
+    {
+      name: "YouTube",
+      href: "https://www.youtube.com/@askjuno",
+      icon: <Youtube size={15} strokeWidth={1.8} />,
+    },
+    {
+      name: "X",
+      href: "https://x.com/askjuno",
+      icon: <XIcon className="w-3.5 h-3.5" />,
+    },
+    {
+      name: "GitHub",
+      href: "https://github.com/askjuno",
+      icon: <Github size={15} strokeWidth={1.8} />,
+    },
+  ];
+
+  return (
+    <footer className="bg-[#f8fafc] dark:bg-[#0c0c0e] border-t border-border/70 pt-14 sm:pt-18 lg:pt-20 pb-10 sm:pb-12 relative overflow-hidden transition-colors duration-200">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 xl:px-16 w-full">
+        {/* Top Footer: 4-Column Layout */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 pb-12 sm:pb-14">
+          {/* COLUMN 1 — ASKJUNO BRAND */}
+          <div className="flex flex-col">
+            <div className="mb-4">
+              <ImageWithFallback
+                src={dark ? logoDark : logoLight}
+                alt="AskJuno"
+                className="h-8 xs:h-9 sm:h-10 w-auto object-contain cursor-pointer transition-opacity hover:opacity-90"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              />
+            </div>
+            <p className="font-['Outfit',sans-serif] text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed max-w-[280px]">
+              Enterprise AI and intelligent automation, responsibly built for modern engineering.
+            </p>
+          </div>
+
+          {/* COLUMN 2 — COMPANY */}
+          <div className="flex flex-col">
+            <h4 className="font-['JetBrains_Mono',monospace] text-[11px] font-bold uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400 mb-4 sm:mb-5 sm:mt-1">
+              COMPANY
+            </h4>
+
+            <ul className="space-y-1.5 sm:space-y-2">
+              {companyLinks.map((item) => (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollTo(item.href);
+                    }}
+                    className="inline-flex items-center min-h-[32px] py-1 text-[13.5px] sm:text-[14px] font-['Outfit',sans-serif] text-stone-700 dark:text-stone-300 hover:text-orange-500 font-medium transition-colors cursor-pointer"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* COLUMN 3 — SOLUTIONS */}
+          <div className="flex flex-col">
+            <h4 className="font-['JetBrains_Mono',monospace] text-[11px] font-bold uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400 mb-4 sm:mb-5 sm:mt-1">
+              SOLUTIONS
+            </h4>
+
+            <ul className="space-y-1.5 sm:space-y-2">
+              {solutionsLinks.map((item) => (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      scrollTo(item.href);
+                    }}
+                    className="inline-flex items-center min-h-[32px] py-1 text-[13.5px] sm:text-[14px] font-['Outfit',sans-serif] text-stone-700 dark:text-stone-300 hover:text-orange-500 font-medium transition-colors cursor-pointer"
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* COLUMN 4 — LEGAL & SUPPORT */}
+          <div className="flex flex-col">
+            <h4 className="font-['JetBrains_Mono',monospace] text-[11px] font-bold uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400 mb-4 sm:mb-5 sm:mt-1">
+              LEGAL & SUPPORT
+            </h4>
+
+            <ul className="space-y-1.5 sm:space-y-2">
+              {legalLinks.map((item) => (
+                <li key={item.label}>
+                  {item.onClick ? (
+                    <button
+                      type="button"
+                      onClick={item.onClick}
+                      className="inline-flex items-center min-h-[32px] py-1 text-left text-[13.5px] sm:text-[14px] font-['Outfit',sans-serif] text-stone-700 dark:text-stone-300 hover:text-orange-500 font-medium transition-colors cursor-pointer focus:outline-none focus-visible:text-orange-500"
+                    >
+                      {item.label}
+                    </button>
+                  ) : (
+                    <a
+                      href={item.href}
+                      onClick={(e) => {
+                        if (item.href?.startsWith("#")) {
+                          e.preventDefault();
+                          scrollTo(item.href);
+                        }
+                      }}
+                      className="inline-flex items-center min-h-[32px] py-1 text-[13.5px] sm:text-[14px] font-['Outfit',sans-serif] text-stone-700 dark:text-stone-300 hover:text-orange-500 font-medium transition-colors cursor-pointer focus:outline-none focus-visible:text-orange-500"
+                    >
+                      {item.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* 5. DIVIDER: Thin horizontal divider spanning the content width */}
+        <div className="border-t border-stone-200 dark:border-stone-800" />
+
+        {/* 6. BOTTOM ROW: Copyright on Left, Social Icons on Right */}
+        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-5">
+          <p className="font-['Outfit',sans-serif] text-xs sm:text-[13px] text-stone-500 dark:text-stone-400 text-center sm:text-left">
+            © 2026 AskJuno Private Limited. All rights reserved.
+          </p>
+
+          {/* Circular social-media buttons with thin orange border */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {socialLinks.map((social) => (
+              <a
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.name}
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#f97316] flex items-center justify-center text-stone-800 dark:text-stone-200 hover:text-[#f97316] hover:bg-[#f97316]/10 hover:scale-105 active:scale-95 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>
@@ -4102,11 +5662,23 @@ function Footer({ dark }: { dark: boolean }) {
 
 // ── Root ────────────────────────────────────────────────────────────────────
 export default function App() {
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("askjuno-theme");
+      if (saved) return saved === "dark";
+    }
+    return false;
+  });
   const [activeSection, setActiveSection] = useState(0);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
+    try {
+      localStorage.setItem("askjuno-theme", dark ? "dark" : "light");
+    } catch {
+      // ignore
+    }
   }, [dark]);
 
   useSectionReveal(SECTION_IDS);
@@ -4130,12 +5702,13 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground">
+    <div className="relative min-h-screen bg-background text-foreground transition-colors duration-350">
       <ScrollProgress />
       <SectionFlash activeSection={activeSection} />
       <Navbar dark={dark} setDark={setDark} activeSection={activeSection} />
       <SideDots active={activeSection} onDotClick={scrollToSection} />
       <ThemeToggle dark={dark} setDark={setDark} />
+      <QuickNavArrows activeSection={activeSection} />
 
       <HeroSection />
       <AboutUsSection />
@@ -4147,11 +5720,13 @@ export default function App() {
       <HowWePartnerSection />
       <HowWeBuildSection />
       <IndustriesSection />
-      <ThinkingSection />
       <StoriesSection />
+      <OurPeopleSection />
+      <ThinkingSection />
       <FAQSection />
       <ContactSection />
-      <Footer dark={dark} />
+      <Footer onOpenPrivacy={() => setPrivacyOpen(true)} dark={dark} />
+      <PrivacyPolicyModal isOpen={privacyOpen} onClose={() => setPrivacyOpen(false)} dark={dark} />
     </div>
   );
 }

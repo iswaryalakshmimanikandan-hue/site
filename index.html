@@ -7,10 +7,23 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Build responsive website</title>
       <meta name="description" content="Showcases a tech company&#39;s mission, products, industry impact, and expertise with interactive sections and dual dark/light mode for user engagement." />
-      <meta name="robots" content="noindex, nofollow" />
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
-      
-    </head>
+      <style>
+        html, body {
+          width: 100%;
+          max-width: 100%;
+          min-height: 100%;
+          margin: 0;
+          padding: 0;
+          overflow-x: hidden;
+          -webkit-text-size-adjust: 100%;
+        }
+        #root {
+          min-height: 100%;
+          width: 100%;
+          max-width: 100%;
+          overflow-x: hidden;
+        }
+      </style>
 
     <body>
       
