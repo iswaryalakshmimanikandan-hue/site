@@ -1,8 +1,13 @@
-import image_AskJuno_Logo__1__removebg_preview_1 from '@/imports/AskJuno_Logo__1_-removebg-preview-1.png'
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import { Routes, Route, Navigate, useNavigate, useLocation } from "react-router";
 import { ImageWithFallback } from "@/app/components/figma/ImageWithFallback";
 import { PrivacyPolicyModal } from "@/app/components/PrivacyPolicyModal";
 import OurPeopleSection from "@/app/components/OurPeopleSection";
+import {
+  InsightsPage,
+  DomainPage,
+  ArticlePage,
+} from "@/app/components/insights";
 import logoDark from "@/imports/Custom_Design_Featuring_It-1.png";
 import logoLight from "@/imports/AskJuno_Logo__1_-removebg-preview.png";
 import officeImg from "@/imports/office_better_together.jpg";
@@ -13,8 +18,9 @@ import {
   Eye, Target, Users, Handshake, Cpu, Shield, TrendingUp, Sparkles,
   MessageSquare, Lightbulb, GitMerge, CheckCircle, Zap, RefreshCw,
   Code2, Cloud, ArrowUp, ArrowDown, FileText, Settings, BarChart3, User,
-  Linkedin, Instagram, Youtube, Github
+  Linkedin, Instagram, Youtube, Github, ThumbsUp, Repeat2, Building2
 } from "lucide-react";
+import linkedinPresentationImg from "@/imports/linkedin_presentation.jpg";
 
 const ORANGE = "linear-gradient(160deg, #f97316 0%, #f59e0b 100%)";
 const ORANGE_SOLID = "#f97316";
@@ -296,10 +302,43 @@ function Navbar({ dark, setDark, activeSection }: { dark: boolean; setDark: (v: 
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (id === "thinking" && location.pathname !== "/") {
+      navigate("/insights");
+      setOpenGroup(null);
+      setMobileMenuOpen(false);
+      return;
+    }
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        if (id === "hero") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      if (id === "hero") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
     setOpenGroup(null);
     setMobileMenuOpen(false);
+  };
+
+  const handleLogoClick = () => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   const activeGroupIdx = NAV_GROUPS.findIndex(g =>
@@ -321,7 +360,7 @@ function Navbar({ dark, setDark, activeSection }: { dark: boolean; setDark: (v: 
         <div className="max-w-7xl mx-auto h-14 flex items-center justify-between px-3 sm:px-6 gap-x-2">
 
           {/* Logo */}
-          <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="shrink-0 flex items-center focus:outline-none" aria-label="AskJuno Home">
+          <button onClick={handleLogoClick} className="shrink-0 flex items-center focus:outline-none cursor-pointer" aria-label="AskJuno Home">
             <ImageWithFallback src={dark ? logoDark : logoLight} alt="AskJuno" className="h-8 xs:h-9 sm:h-11 w-auto object-contain self-center" />
           </button>
 
@@ -1057,7 +1096,7 @@ function HeroSection() {
                 style={{ borderColor: "var(--border)" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(249,115,22,0.5)"; (e.currentTarget as HTMLElement).style.color = "#f97316"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border)"; (e.currentTarget as HTMLElement).style.color = "var(--foreground)"; }}
-                onClick={() => document.getElementById("what-we-do")?.scrollIntoView({ behavior: "smooth" })}>
+                onClick={() => document.getElementById("products")?.scrollIntoView({ behavior: "smooth" })}>
                 Explore Our Work
               </button>
             </div>
@@ -3112,6 +3151,9 @@ function ProductsSection() {
 
   return (
     <section id="products" className="min-h-screen py-16 bg-background relative overflow-hidden flex flex-col justify-center">
+      <div id="platforms" className="absolute -top-20" />
+      <div id="platform-and-product" className="absolute -top-20" />
+      <div id="products-and-platforms" className="absolute -top-20" />
       <div className="absolute top-0 inset-x-0 h-px" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(249,115,22,0.3) 50%, transparent 100%)" }} />
 
       <style>{`
@@ -3308,7 +3350,7 @@ const SUCCESS_STORIES = [
 
 const SUCCESS_METRICS = [
   {
-    num: "25+",
+    num: "5+",
     label: "PROJECTS DELIVERED",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -3499,11 +3541,10 @@ function StoriesSection() {
 
                     {/* Circular Action Button with Arrow */}
                     <div
-                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
-                        isOpen
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${isOpen
                           ? "bg-[#f97316] text-white rotate-90 shadow-md shadow-orange-500/30"
                           : "bg-stone-100 dark:bg-stone-800/80 text-stone-600 dark:text-stone-300 group-hover:bg-[#f97316] group-hover:text-white group-hover:translate-x-0.5 group-hover:scale-105 group-hover:shadow-md group-hover:shadow-orange-500/25"
-                      }`}
+                        }`}
                       aria-label="View case study"
                     >
                       <ArrowRight size={13} strokeWidth={2.2} />
@@ -4294,479 +4335,278 @@ const ARTICLES: InsightArticle[] = [
   },
 ];
 
-const INSIGHT_CATS = [
-  { id: "all", label: "All Insights", icon: null },
-  { id: "ai", label: "AI & Intelligent Automation", icon: "sparkles" },
-  { id: "engineering", label: "Product Engineering", icon: "code" },
-  { id: "enterprise", label: "Enterprise Software", icon: "cloud" },
-  { id: "digital", label: "Digital Transformation", icon: "trending" },
-  { id: "data", label: "Data & Analytics", icon: "barchart" },
-  { id: "leadership", label: "Technology Leadership", icon: "user" },
+const LANDING_INSIGHT_TOPICS = [
+  {
+    id: "ai",
+    sub: "AI &",
+    title: "AI & Intelligent Automation",
+    slug: "ai-intelligent-automation",
+    icon: <Cpu size={19} strokeWidth={2.2} />,
+  },
+  {
+    id: "product",
+    sub: "PRODUCT",
+    title: "Product Engineering",
+    slug: "product-engineering",
+    icon: <Code2 size={19} strokeWidth={2.2} />,
+  },
+  {
+    id: "enterprise",
+    sub: "ENTERPRISE",
+    title: "Enterprise Software",
+    slug: "enterprise-software",
+    icon: <Building2 size={19} strokeWidth={2.2} />,
+  },
+  {
+    id: "digital",
+    sub: "DIGITAL",
+    title: "Digital Transformation",
+    slug: "digital-transformation",
+    icon: <Cloud size={19} strokeWidth={2.2} />,
+  },
+  {
+    id: "data",
+    sub: "DATA",
+    title: "Data & Analytics",
+    slug: "data-analytics",
+    icon: <BarChart3 size={19} strokeWidth={2.2} />,
+  },
+  {
+    id: "leadership",
+    sub: "LEADERSHIP",
+    title: "Technology Leadership",
+    slug: "technology-leadership",
+    icon: <TrendingUp size={19} strokeWidth={2.2} />,
+  },
 ];
 
 function ThinkingSection() {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedArticle, setSelectedArticle] = useState<InsightArticle | null>(null);
+  const navigate = useNavigate();
 
   return (
     <section
       id="thinking"
-      className="py-6 sm:py-8 lg:py-4 xl:py-6 lg:min-h-screen lg:max-h-screen relative overflow-hidden flex flex-col justify-center bg-[#faf8f5] dark:bg-[#0c0c0e] transition-colors duration-200"
+      className="py-16 sm:py-24 relative overflow-hidden bg-[#faf8f5] dark:bg-[#0c0c0e] transition-colors duration-200 border-t border-stone-200/70 dark:border-stone-800/80"
     >
       {/* Anchor for #insights */}
       <div id="insights" className="absolute -top-16" />
 
       {/* Subtle warm ambient glows */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
-      <div className="absolute -bottom-24 -left-20 w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-amber-500/15 via-orange-500/10 to-transparent blur-3xl pointer-events-none animate-pulse-soft" />
-      <div className="absolute -bottom-24 -right-20 w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-orange-500/15 via-amber-500/10 to-transparent blur-3xl pointer-events-none animate-pulse-soft" />
+      <div className="absolute -bottom-28 -left-24 w-[480px] h-[480px] rounded-full bg-gradient-to-tr from-amber-500/12 via-orange-500/10 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute -top-28 -right-24 w-[480px] h-[480px] rounded-full bg-gradient-to-tl from-orange-500/12 via-amber-500/10 to-transparent blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col justify-center relative z-10 py-1 sm:py-2">
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-        {/* ── 1. HEADER ROW (Split into Left Copy & Right 3D Visual) ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-8 items-center mb-3 sm:mb-4 lg:mb-3">
-          {/* Left Column: Eyebrow + Heading + Subtitle */}
-          <FadeIn className="lg:col-span-7 xl:col-span-8 flex flex-col justify-center">
-            {/* Eyebrow: — INSIGHTS */}
-            <div className="flex items-center gap-2 mb-1.5">
-              <span className="w-4 sm:w-5 h-[2px] bg-[#f97316] rounded-full" />
-              <span className="font-['JetBrains_Mono',monospace] text-[11px] sm:text-xs font-bold uppercase tracking-[0.24em] text-[#f97316]">
-                INSIGHTS
-              </span>
-            </div>
-
-            {/* Heading */}
-            <h2 className="font-['Outfit',sans-serif] font-black text-2xl xs:text-3xl sm:text-[34px] lg:text-[35px] xl:text-[37px] leading-[1.15] text-stone-950 dark:text-white mb-1.5 sm:mb-2">
-              Insights for the<br />
-              <span className="text-[#f97316]">Builders of Tomorrow.</span>
-            </h2>
-
-            {/* Subtitle */}
-            <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-xs sm:text-[13px] lg:text-[13.5px] leading-relaxed max-w-xl">
-              We share perspectives on AI, software engineering, digital transformation, and product strategy to help businesses navigate technology with clarity and confidence.
-            </p>
-          </FadeIn>
-
-          {/* Right Column: 3D Stacked Layered Visual (Better Ideas. Bigger Impact.) with Dot Grid */}
-          <FadeIn delay={0.1} className="hidden lg:flex lg:col-span-5 xl:col-span-4 justify-end items-center relative">
-            {/* Subtle dot matrix grid matching screenshot */}
-            <div
-              className="absolute -top-3 -right-2 w-28 h-12 pointer-events-none opacity-40 dark:opacity-25"
-              style={{
-                backgroundImage: "radial-gradient(circle, #f97316 1.2px, transparent 1.2px)",
-                backgroundSize: "8px 8px"
-              }}
-            />
-
-            <div className="relative w-[280px] h-[120px] flex items-center justify-center">
-              {/* Warm amber backdrop blur */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-400/30 via-amber-400/20 to-transparent rounded-3xl blur-2xl pointer-events-none animate-pulse-soft" />
-
-              {/* Layer 1 (backmost orange glass tile) */}
-              <div className="absolute w-40 h-22 rounded-2xl bg-amber-400/25 dark:bg-amber-500/15 border border-amber-300/40 dark:border-amber-500/20 shadow-md rotate-[-6deg] translate-x-3 translate-y-1 animate-float-reverse" />
-
-              {/* Layer 2 (middle orange glass tile) */}
-              <div className="absolute w-48 h-22 rounded-2xl bg-gradient-to-br from-orange-400/35 to-amber-500/25 border border-orange-300/40 dark:border-orange-500/30 shadow-lg rotate-[-3deg] translate-x-1.5" />
-
-              {/* Layer 3 (front card with lightbulb and float animation) */}
-              <div className="relative w-56 h-24 rounded-2xl bg-white/95 dark:bg-[#18181c]/95 border border-stone-200/90 dark:border-stone-700/80 shadow-xl p-3.5 flex items-center gap-3 backdrop-blur-md animate-float-slow">
-                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 border border-orange-500/30 flex items-center justify-center text-[#f97316] shadow-sm shrink-0">
-                  <Lightbulb size={22} strokeWidth={2.2} className="text-[#f97316]" />
-                </div>
-                <div>
-                  <h4 className="font-['Outfit',sans-serif] font-bold text-stone-900 dark:text-white text-xs sm:text-[13px] leading-snug">
-                    Better Ideas.<br />
-                    Bigger Impact.
-                  </h4>
-                  <div className="w-7 h-[2px] bg-[#f97316] rounded-full mt-1.5" />
-                </div>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-
-        {/* ── 2. FEATURED ARTICLE (Full Width Banner Card) ── */}
-        <FadeIn delay={0.08}>
-          <div
-            onClick={() => setSelectedArticle(ARTICLES[0])}
-            className="group relative rounded-2xl sm:rounded-3xl bg-gradient-to-r from-orange-50/90 via-amber-50/60 to-orange-100/60 dark:from-[#181512] dark:via-[#161413] dark:to-[#1a1410] border border-orange-200/80 dark:border-orange-500/25 shadow-sm hover:shadow-xl hover:shadow-orange-500/5 transition-all duration-300 overflow-hidden mb-2.5 sm:mb-3 cursor-pointer"
-          >
-            <div className="p-4 sm:p-5 lg:p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
-              {/* Left Column: Copy */}
-              <div className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center">
-                {/* Badges */}
-                <div className="flex items-center gap-2.5 mb-2">
-                  <span className="font-['JetBrains_Mono',monospace] text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full border border-[#f97316]/70 text-[#f97316] bg-orange-500/10">
-                    FEATURED ARTICLE
-                  </span>
-                  <span className="font-['JetBrains_Mono',monospace] text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400">
-                    AI &amp; AUTOMATION
+          {/* ── LEFT COLUMN: HEADER, 3D LIGHTBULB VISUAL & 6 TOPIC CARDS ── */}
+          <div className="lg:col-span-7 xl:col-span-7 flex flex-col">
+            
+            {/* Top Row: Copy (Left) + 3D Lightbulb Illustration (Right) */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-8 sm:mb-9">
+              {/* Copy Block */}
+              <div className="max-w-lg">
+                {/* Eyebrow: — INSIGHTS */}
+                <div className="flex items-center gap-2.5 mb-3">
+                  <span className="w-6 h-0.5 bg-[#f97316] rounded-full" />
+                  <span className="font-['JetBrains_Mono',monospace] text-[11.5px] sm:text-[12px] font-bold uppercase tracking-[0.24em] text-[#f97316]">
+                    INSIGHTS
                   </span>
                 </div>
 
-                {/* Title */}
-                <h3 className="font-['Outfit',sans-serif] font-black text-stone-950 dark:text-white text-base sm:text-lg lg:text-[21px] xl:text-[23px] leading-snug mb-1.5 group-hover:text-[#f97316] transition-colors">
-                  {ARTICLES[0].title}
-                </h3>
+                {/* Heading */}
+                <h2 className="font-['Outfit',sans-serif] font-black text-3xl xs:text-4xl sm:text-[40px] lg:text-[42px] xl:text-[46px] leading-[1.13] text-stone-950 dark:text-white mb-3 tracking-tight">
+                  Insights for the<br />
+                  <span className="text-[#f97316]">Builders of Tomorrow.</span>
+                </h2>
 
                 {/* Subtitle */}
-                <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-xs sm:text-[12.5px] lg:text-[13px] leading-relaxed max-w-xl mb-2.5 line-clamp-2 sm:line-clamp-none">
-                  {ARTICLES[0].desc}
+                <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-sm sm:text-[15px] lg:text-[15.5px] leading-relaxed mb-5">
+                  We share perspectives on AI, software engineering, digital transformation, and product strategy to help businesses navigate technology with clarity and confidence.
                 </p>
 
-                {/* Read Article link */}
-                <div className="inline-flex items-center gap-1.5 font-['Outfit',sans-serif] font-bold text-xs sm:text-[13px] text-[#f97316] group-hover:text-[#ea580c] transition-colors">
-                  <span>Read Article</span>
-                  <ArrowRight size={13} className="transition-transform duration-200 group-hover:translate-x-1" />
-                </div>
+                {/* Read Articles CTA Button */}
+                <button
+                  type="button"
+                  onClick={() => navigate("/insights")}
+                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-gradient-to-r from-orange-500 to-amber-600 text-white font-['Outfit',sans-serif] text-[14px] font-bold hover:from-orange-600 hover:to-amber-700 shadow-lg shadow-orange-500/25 active:scale-95 transition-all cursor-pointer"
+                >
+                  <span>Read Articles</span>
+                  <ArrowRight size={15} />
+                </button>
               </div>
 
-              {/* Right Column: 3D AI Robot Illustration with Glowing Metric Cards */}
-              <div className="lg:col-span-5 xl:col-span-5 flex items-center justify-center relative min-h-[135px] sm:min-h-[150px]">
-                {/* Ambient glow */}
-                <div className="absolute w-44 h-44 rounded-full bg-gradient-to-tr from-amber-400/30 via-orange-400/20 to-transparent blur-2xl pointer-events-none animate-pulse-soft" />
+              {/* 3D Stacked Glowing Lightbulb Cards Visual (Zoomed In) */}
+              <div className="relative shrink-0 w-44 h-44 sm:w-52 sm:h-52 lg:w-56 lg:h-56 flex items-center justify-center self-center sm:self-auto">
+                {/* Ambient Radial Glow */}
+                <div
+                  className="absolute inset-0 rounded-full opacity-70 dark:opacity-50 blur-2xl pointer-events-none"
+                  style={{
+                    background: "radial-gradient(circle, rgba(249,115,22,0.4) 0%, rgba(245,158,11,0.2) 50%, transparent 70%)",
+                  }}
+                />
 
-                {/* Main Robot Vector Canvas */}
-                <div className="relative w-[240px] h-[135px] sm:w-[270px] sm:h-[145px] flex items-center justify-center">
+                {/* Orange spark rays around the cards */}
+                <span className="absolute -top-1 right-8 w-4 h-0.5 bg-[#f97316] rotate-45 rounded-full" />
+                <span className="absolute top-8 -right-2 w-4.5 h-0.5 bg-[#f97316] rotate-[-20deg] rounded-full" />
+                <span className="absolute -left-2 top-14 w-4 h-0.5 bg-[#f97316] rounded-full" />
+                <span className="absolute -top-2 left-8 w-4 h-0.5 bg-[#f97316] rotate-[-45deg] rounded-full" />
 
-                  {/* Floating Card 1: Bar Chart (Top Left) */}
-                  <div className="absolute top-1 left-2 sm:left-4 w-11 h-9 rounded-xl bg-white/95 dark:bg-[#1f1f24]/95 shadow-md border border-stone-200/80 dark:border-stone-700/80 p-1.5 flex items-end justify-center gap-1 animate-float-slow">
-                    <div className="w-1.5 h-2.5 bg-orange-300 rounded-sm" />
-                    <div className="w-1.5 h-4.5 bg-orange-400 rounded-sm" />
-                    <div className="w-1.5 h-6 bg-[#f97316] rounded-sm" />
+                {/* Back Angled Orange Card */}
+                <div className="absolute w-34 h-24 sm:w-40 sm:h-28 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 opacity-80 rotate-[-12deg] shadow-xl shadow-orange-500/25 translate-x-1.5" />
+
+                {/* Middle Orange/Peach Card */}
+                <div className="absolute w-34 h-24 sm:w-40 sm:h-28 rounded-2xl bg-gradient-to-br from-orange-300 to-amber-400 opacity-90 rotate-[-6deg] shadow-lg shadow-orange-500/20 -translate-y-1.5" />
+
+                {/* Front White/Glass Card with Glowing Lightbulb */}
+                <div className="relative w-34 h-24 sm:w-40 sm:h-28 rounded-2xl bg-white/95 dark:bg-[#1c1c22]/95 border border-white/90 dark:border-stone-700/70 shadow-2xl shadow-stone-900/15 dark:shadow-black/50 flex flex-col items-center justify-center p-3 backdrop-blur-md">
+                  {/* Subtle card horizontal lines */}
+                  <div className="absolute top-2.5 left-3.5 right-3.5 flex justify-between">
+                    <span className="w-5 h-1 bg-stone-200 dark:bg-stone-700 rounded-full" />
+                    <span className="w-2.5 h-1 bg-orange-400/60 rounded-full" />
                   </div>
 
-                  {/* Floating Card 2: Trend Line (Top Right) */}
-                  <div className="absolute top-1 right-2 sm:right-4 w-11 h-9 rounded-xl bg-white/95 dark:bg-[#1f1f24]/95 shadow-md border border-stone-200/80 dark:border-stone-700/80 p-1 flex items-center justify-center animate-float-reverse">
-                    <svg width="24" height="20" viewBox="0 0 24 20" fill="none">
-                      <path d="M2 16L8 10L14 13L21 4" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                      <path d="M16 4H21V9" stroke="#f97316" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-
-                  {/* Floating Card 3: Document Lines (Bottom Left) */}
-                  <div className="absolute bottom-1 left-3 sm:left-5 w-10 h-8 rounded-xl bg-white/95 dark:bg-[#1f1f24]/95 shadow-md border border-stone-200/80 dark:border-stone-700/80 p-1.5 flex flex-col justify-center gap-1 animate-float-slow">
-                    <div className="w-6 h-1 bg-stone-300 dark:bg-stone-600 rounded-full" />
-                    <div className="w-5 h-1 bg-orange-400 rounded-full" />
-                    <div className="w-4 h-1 bg-stone-300 dark:bg-stone-600 rounded-full" />
-                  </div>
-
-                  {/* Floating Card 4: Checkmark (Bottom Right) */}
-                  <div className="absolute bottom-1 right-3 sm:right-5 w-9 h-8 rounded-xl bg-white/95 dark:bg-[#1f1f24]/95 shadow-md border border-stone-200/80 dark:border-stone-700/80 p-1 flex items-center justify-center animate-float-reverse">
-                    <div className="w-5 h-5 rounded-full bg-orange-500/15 flex items-center justify-center">
-                      <Check size={12} strokeWidth={3} className="text-[#f97316]" />
+                  {/* Glowing Lightbulb */}
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute w-12 h-12 rounded-full bg-orange-500/25 blur-md animate-pulse-soft" />
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/15 to-amber-500/15 border border-orange-500/35 flex items-center justify-center text-[#f97316] shadow-sm">
+                      <Lightbulb size={26} strokeWidth={2.4} className="text-[#f97316]" />
                     </div>
                   </div>
 
-                  {/* Center: Friendly AI Robot Character (Pure High-Fidelity SVG) */}
-                  <svg width="125" height="125" viewBox="0 0 120 120" className="filter drop-shadow-lg">
-                    <defs>
-                      <linearGradient id="robotBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#ffffff" />
-                        <stop offset="100%" stopColor="#e5e7eb" />
-                      </linearGradient>
-                      <linearGradient id="robotOrangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#fb923c" />
-                        <stop offset="100%" stopColor="#ea580c" />
-                      </linearGradient>
-                      <linearGradient id="robotScreenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                        <stop offset="0%" stopColor="#1e1e24" />
-                        <stop offset="100%" stopColor="#0f0f12" />
-                      </linearGradient>
-                    </defs>
-
-                    {/* Antenna */}
-                    <path d="M60 22 L60 14" stroke="#f97316" strokeWidth="3" strokeLinecap="round" />
-                    <circle cx="60" cy="12" r="3.5" fill="url(#robotOrangeGrad)" />
-
-                    {/* Orange Ears / Headphone cups */}
-                    <rect x="22" y="32" width="7" height="18" rx="3.5" fill="url(#robotOrangeGrad)" />
-                    <rect x="91" y="32" width="7" height="18" rx="3.5" fill="url(#robotOrangeGrad)" />
-
-                    {/* Robot Head Body */}
-                    <rect x="27" y="22" width="66" height="42" rx="20" fill="url(#robotBodyGrad)" stroke="#d1d5db" strokeWidth="1.5" />
-                    {/* Gloss highlight on top of head */}
-                    <path d="M37 26 Q60 23 83 26" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" opacity="0.8" />
-
-                    {/* Digital Visor Face Screen */}
-                    <rect x="33" y="28" width="54" height="28" rx="13" fill="url(#robotScreenGrad)" />
-
-                    {/* Friendly Smiling Cyan Eyes (^  ^) */}
-                    <path d="M43 42 Q48 35 53 42" stroke="#38bdf8" strokeWidth="2.8" strokeLinecap="round" fill="none" />
-                    <path d="M67 42 Q72 35 77 42" stroke="#38bdf8" strokeWidth="2.8" strokeLinecap="round" fill="none" />
-
-                    {/* White Neck */}
-                    <rect x="52" y="64" width="16" height="7" rx="3" fill="#d1d5db" />
-
-                    {/* Orange Shoulders */}
-                    <circle cx="34" cy="79" r="8" fill="url(#robotOrangeGrad)" />
-                    <circle cx="86" cy="79" r="8" fill="url(#robotOrangeGrad)" />
-
-                    {/* Rounded Torso Body */}
-                    <path d="M38 72 Q60 70 82 72 Q85 96 60 98 Q35 96 38 72 Z" fill="url(#robotBodyGrad)" stroke="#d1d5db" strokeWidth="1.5" />
-
-                    {/* Torso Center Indicator */}
-                    <rect x="52" y="77" width="16" height="10" rx="4" fill="#f97316" fillOpacity="0.2" stroke="#f97316" strokeWidth="1" />
-                    <circle cx="60" cy="82" r="2.5" fill="#f97316" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* ── 3. TWO SUPPORTING ARTICLES (Grid) ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3 mb-2.5 sm:mb-3">
-
-          {/* Card 1: Document Intelligence */}
-          <FadeIn delay={0.12}>
-            <div
-              onClick={() => setSelectedArticle(ARTICLES[1])}
-              className="group rounded-2xl bg-white dark:bg-[#151518] border border-stone-200/80 dark:border-stone-800/80 p-3.5 sm:p-4 shadow-sm hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-orange-500/5 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-between gap-3 overflow-hidden cursor-pointer"
-            >
-              {/* Left text content */}
-              <div className="flex-1 min-w-0">
-                {/* Top icon and badges */}
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-6 h-6 rounded-lg bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/25 flex items-center justify-center text-[#f97316] shrink-0">
-                    <FileText size={13} strokeWidth={2.2} />
+                  <div className="absolute bottom-2.5 left-3.5 right-3.5 flex items-center justify-center gap-1.5">
+                    <span className="w-10 h-0.5 bg-stone-200 dark:bg-stone-700 rounded-full" />
+                    <span className="w-4 h-0.5 bg-[#f97316]/70 rounded-full" />
                   </div>
-                  <span className="font-['JetBrains_Mono',monospace] text-[8.5px] sm:text-[9px] font-bold uppercase tracking-[0.16em] text-[#f97316]">
-                    {ARTICLES[1].tag}
-                  </span>
-                  <span className="font-['JetBrains_Mono',monospace] text-[8px] sm:text-[8.5px] font-semibold tracking-wider uppercase text-stone-400">
-                    {ARTICLES[1].readTime}
-                  </span>
                 </div>
-
-                {/* Title */}
-                <h3 className="font-['Outfit',sans-serif] font-bold text-stone-900 dark:text-stone-100 text-[13px] sm:text-[14.5px] leading-snug line-clamp-2 group-hover:text-[#f97316] transition-colors mb-1">
-                  {ARTICLES[1].title}
-                </h3>
-
-                {/* Description */}
-                <p className="font-['Outfit',sans-serif] text-stone-500 dark:text-stone-400 text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-1.5">
-                  {ARTICLES[1].desc}
-                </p>
-
-                {/* Link */}
-                <div className="inline-flex items-center gap-1 font-['Outfit',sans-serif] font-bold text-xs text-[#f97316] group-hover:text-[#ea580c] transition-colors">
-                  <span>Read Article</span>
-                  <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-1" />
-                </div>
-              </div>
-
-              {/* Right Mini Graphic: Stacked Documents with Orange Scan Frame & Sparkle */}
-              <div className="w-24 h-20 sm:w-26 sm:h-22 shrink-0 flex items-center justify-center relative">
-                <svg width="88" height="74" viewBox="0 0 88 74" fill="none">
-                  {/* Document 1 (back) */}
-                  <rect x="8" y="6" width="46" height="52" rx="4" fill="#f3f4f6" stroke="#e5e7eb" strokeWidth="1" />
-                  {/* Document 2 (middle) */}
-                  <rect x="14" y="11" width="46" height="52" rx="4" fill="#f9fafb" stroke="#e5e7eb" strokeWidth="1" />
-                  {/* Document 3 (front with lines) */}
-                  <rect x="20" y="16" width="46" height="52" rx="4" fill="#ffffff" stroke="#e5e7eb" strokeWidth="1.2" />
-                  <line x1="26" y1="24" x2="52" y2="24" stroke="#d1d5db" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="26" y1="30" x2="48" y2="30" stroke="#d1d5db" strokeWidth="2" strokeLinecap="round" />
-                  <line x1="26" y1="36" x2="42" y2="36" stroke="#d1d5db" strokeWidth="2" strokeLinecap="round" />
-
-                  {/* Orange Scan Frame Bracket */}
-                  <rect x="46" y="24" width="28" height="28" rx="6" fill="#f97316" fillOpacity="0.12" stroke="#f97316" strokeWidth="1.8" />
-                  {/* Target frame brackets inside */}
-                  <path d="M51 31 H54 M66 31 H69 M51 45 H54 M66 45 H69" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
-
-                  {/* Sparkle Badge */}
-                  <circle cx="48" cy="56" r="8" fill="#ffffff" stroke="#fed7aa" strokeWidth="1.2" className="filter drop-shadow-sm" />
-                  <path d="M48 51 V61 M43 56 H53 M45 53 L51 59 M45 59 L51 53" stroke="#f97316" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
               </div>
             </div>
-          </FadeIn>
 
-          {/* Card 2: Product Engineering */}
-          <FadeIn delay={0.16}>
-            <div
-              onClick={() => setSelectedArticle(ARTICLES[2])}
-              className="group rounded-2xl bg-white dark:bg-[#151518] border border-stone-200/80 dark:border-stone-800/80 p-3.5 sm:p-4 shadow-sm hover:shadow-lg hover:shadow-stone-900/5 dark:hover:shadow-orange-500/5 hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-between gap-3 overflow-hidden cursor-pointer"
-            >
-              {/* Left text content */}
-              <div className="flex-1 min-w-0">
-                {/* Top icon and badges */}
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-6 h-6 rounded-lg bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/25 flex items-center justify-center text-[#f97316] shrink-0">
-                    <Settings size={13} strokeWidth={2.2} />
-                  </div>
-                  <span className="font-['JetBrains_Mono',monospace] text-[8.5px] sm:text-[9px] font-bold uppercase tracking-[0.16em] text-[#f97316]">
-                    {ARTICLES[2].tag}
-                  </span>
-                  <span className="font-['JetBrains_Mono',monospace] text-[8px] sm:text-[8.5px] font-semibold tracking-wider uppercase text-stone-400">
-                    {ARTICLES[2].readTime}
-                  </span>
-                </div>
-
-                {/* Title */}
-                <h3 className="font-['Outfit',sans-serif] font-bold text-stone-900 dark:text-stone-100 text-[13px] sm:text-[14.5px] leading-snug line-clamp-2 group-hover:text-[#f97316] transition-colors mb-1">
-                  {ARTICLES[2].title}
-                </h3>
-
-                {/* Description */}
-                <p className="font-['Outfit',sans-serif] text-stone-500 dark:text-stone-400 text-[11px] sm:text-xs leading-relaxed line-clamp-2 mb-1.5">
-                  {ARTICLES[2].desc}
-                </p>
-
-                {/* Link */}
-                <div className="inline-flex items-center gap-1 font-['Outfit',sans-serif] font-bold text-xs text-[#f97316] group-hover:text-[#ea580c] transition-colors">
-                  <span>Read Article</span>
-                  <ArrowRight size={12} className="transition-transform duration-200 group-hover:translate-x-1" />
-                </div>
-              </div>
-
-              {/* Right Mini Graphic: Dark IDE Terminal with Orange Backdrop & Potted Plant */}
-              <div className="w-24 h-20 sm:w-26 sm:h-22 shrink-0 flex items-center justify-center relative">
-                <svg width="88" height="74" viewBox="0 0 88 74" fill="none">
-                  {/* Backdrop Warm Orange Glow Card */}
-                  <rect x="28" y="10" width="52" height="52" rx="7" fill="#f97316" fillOpacity="0.8" />
-
-                  {/* Dark IDE Window */}
-                  <rect x="8" y="14" width="60" height="48" rx="6" fill="#18181b" stroke="#27272a" strokeWidth="1.2" />
-
-                  {/* Window Controls Dots */}
-                  <circle cx="15" cy="20" r="2" fill="#ef4444" />
-                  <circle cx="21" cy="20" r="2" fill="#f59e0b" />
-                  <circle cx="27" cy="20" r="2" fill="#10b981" />
-
-                  {/* Code Lines with Syntax Colors */}
-                  <rect x="15" y="27" width="14" height="2" rx="1" fill="#60a5fa" />
-                  <rect x="31" y="27" width="18" height="2" rx="1" fill="#f3f4f6" />
-
-                  <rect x="19" y="32" width="10" height="2" rx="1" fill="#f97316" />
-                  <rect x="31" y="32" width="22" height="2" rx="1" fill="#c084fc" />
-
-                  <rect x="19" y="37" width="24" height="2" rx="1" fill="#34d399" />
-
-                  <rect x="15" y="42" width="12" height="2" rx="1" fill="#f97316" />
-                  <rect x="29" y="42" width="16" height="2" rx="1" fill="#60a5fa" />
-
-                  <rect x="15" y="47" width="8" height="2" rx="1" fill="#e5e7eb" />
-
-                  {/* Potted Plant on Right */}
-                  <path d="M72 44 L75 56 L81 56 L84 44 Z" fill="#b45309" />
-                  <path d="M78 44 C78 38 84 34 87 35 C87 40 82 44 78 44 Z" fill="#10b981" />
-                  <path d="M78 44 C78 37 71 33 69 36 C69 41 74 44 78 44 Z" fill="#34d399" />
-                </svg>
-              </div>
-            </div>
-          </FadeIn>
-
-        </div>
-
-        {/* ── 4. CATEGORY FILTER PILLS ── */}
-        <FadeIn delay={0.2}>
-          <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 mb-2 sm:mb-2.5">
-            {INSIGHT_CATS.map((cat) => {
-              const isActive = activeCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`rounded-full px-3 py-1 sm:px-3.5 sm:py-1.5 text-xs font-medium font-['Outfit',sans-serif] transition-all duration-200 flex items-center gap-1.5 ${
-                    isActive
-                      ? "bg-[#f97316] text-white shadow-md shadow-orange-500/25"
-                      : "bg-white/80 dark:bg-[#151518]/80 border border-stone-200/80 dark:border-stone-800/80 text-stone-600 dark:text-stone-300 hover:border-orange-500/60 hover:text-[#f97316]"
-                  }`}
+            {/* Bottom 6 Topic Cards in 3x2 Grid (Zoomed In) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+              {LANDING_INSIGHT_TOPICS.map((topic) => (
+                <div
+                  key={topic.id}
+                  onClick={() => navigate(`/insights/${topic.slug}`)}
+                  className="group rounded-[16px] bg-white dark:bg-[#151518] border border-stone-200/80 dark:border-stone-800/80 p-3.5 sm:p-4 flex items-center justify-between shadow-xs hover:border-[#f97316]/50 hover:shadow-lg hover:shadow-orange-500/5 hover:-translate-y-1 transition-all duration-200 cursor-pointer"
                 >
-                  {cat.icon === "sparkles" && <Sparkles size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
-                  {cat.icon === "code" && <Code2 size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
-                  {cat.icon === "cloud" && <Cloud size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
-                  {cat.icon === "trending" && <TrendingUp size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
-                  {cat.icon === "barchart" && <BarChart3 size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
-                  {cat.icon === "user" && <User size={12} className={isActive ? "text-white" : "text-[#f97316]"} />}
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </FadeIn>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-11 h-11 rounded-full bg-orange-50 dark:bg-orange-500/15 border border-orange-200 dark:border-orange-500/30 flex items-center justify-center text-[#f97316] shrink-0 group-hover:bg-[#f97316] group-hover:text-white transition-all duration-200 shadow-xs">
+                      {topic.icon}
+                    </div>
+                    <div className="min-w-0">
+                      <span className="font-['JetBrains_Mono',monospace] text-[9.5px] sm:text-[10px] font-bold uppercase tracking-[0.16em] text-stone-400 dark:text-stone-500 block leading-tight mb-0.5">
+                        {topic.sub}
+                      </span>
+                      <h4 className="font-['Outfit',sans-serif] font-bold text-[13.5px] sm:text-[14px] text-stone-900 dark:text-stone-100 group-hover:text-[#f97316] transition-colors leading-snug truncate">
+                        {topic.title}
+                      </h4>
+                    </div>
+                  </div>
 
-        {/* ── 5. CLOSING TAGLINE ── */}
-        <FadeIn delay={0.25}>
-          <div className="text-center pt-0.5">
-            <p className="font-['Outfit',sans-serif] italic text-[11px] sm:text-xs text-stone-400 dark:text-stone-500">
-              Better questions. Smarter solutions. A more intelligent tomorrow.
-            </p>
-          </div>
-        </FadeIn>
-
-      </div>
-
-      {/* ── INTERACTIVE ARTICLE READER MODAL ── */}
-      {selectedArticle && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
-          onClick={() => setSelectedArticle(null)}
-        >
-          <div
-            className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white dark:bg-[#16161a] border border-stone-200 dark:border-stone-800 shadow-2xl p-6 sm:p-8"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedArticle(null)}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 flex items-center justify-center hover:bg-[#f97316] hover:text-white transition-colors"
-              aria-label="Close modal"
-            >
-              <X size={16} />
-            </button>
-
-            {/* Badges */}
-            <div className="flex items-center gap-2 mb-3">
-              <span className="font-['JetBrains_Mono',monospace] text-[10px] font-bold uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full border border-[#f97316]/70 text-[#f97316] bg-orange-500/10">
-                {selectedArticle.tag}
-              </span>
-              <span className="font-['JetBrains_Mono',monospace] text-[10px] font-semibold tracking-wider uppercase text-stone-400">
-                {selectedArticle.readTime}
-              </span>
+                  <ArrowRight
+                    size={15}
+                    className="text-[#f97316] transition-transform duration-200 group-hover:translate-x-1 shrink-0 ml-1.5"
+                  />
+                </div>
+              ))}
             </div>
 
-            {/* Title */}
-            <h3 className="font-['Outfit',sans-serif] font-black text-xl sm:text-2xl text-stone-900 dark:text-white leading-snug mb-3">
-              {selectedArticle.title}
-            </h3>
+          </div>
 
-            {/* Summary */}
-            <p className="font-['Outfit',sans-serif] text-stone-600 dark:text-stone-300 text-sm leading-relaxed mb-5">
-              {selectedArticle.content.summary}
-            </p>
+          {/* ── RIGHT COLUMN: DEDICATED LINKEDIN POST CARD (Zoomed In) ── */}
+          <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center">
+            <div className="rounded-[24px] bg-white dark:bg-[#151518] border border-stone-200/90 dark:border-stone-800/90 p-5 sm:p-6 shadow-xl shadow-stone-900/5 dark:shadow-black/50 flex flex-col justify-between group">
+              
+              {/* Header: Company Avatar + Name/Followers + Follow Button */}
+              <div className="flex items-center justify-between gap-3 mb-3.5">
+                <div className="flex items-center gap-3 min-w-0">
+                  {/* AJ Orange Avatar */}
+                  <a
+                    href="https://www.linkedin.com/company/askjuno/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-11 h-11 rounded-full bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-white font-black text-sm tracking-tight shadow-sm shrink-0 hover:opacity-95 transition-opacity"
+                    aria-label="AskJuno LinkedIn Profile"
+                  >
+                    AJ
+                  </a>
 
-            {/* Key Points */}
-            <div className="rounded-xl p-4 bg-orange-500/5 dark:bg-orange-500/10 border border-orange-500/20 mb-5">
-              <h4 className="font-['JetBrains_Mono',monospace] text-xs font-bold uppercase tracking-wider text-[#f97316] mb-2.5">
-                Key Strategic Principles
-              </h4>
-              <ul className="space-y-2">
-                {selectedArticle.content.keyPoints.map((pt, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs sm:text-[13px] text-stone-700 dark:text-stone-200 font-['Outfit',sans-serif] leading-relaxed">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#f97316] mt-1.5 shrink-0" />
-                    <span>{pt}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                  <div className="min-w-0">
+                    <a
+                      href="https://www.linkedin.com/company/askjuno/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-['Outfit',sans-serif] font-bold text-[15.5px] sm:text-[16px] text-stone-900 dark:text-stone-100 leading-tight hover:text-[#f97316] transition-colors block truncate"
+                    >
+                      AskJuno
+                    </a>
+                    <p className="font-['Outfit',sans-serif] text-[11.5px] sm:text-[12px] text-stone-400 dark:text-stone-500 mt-0.5 truncate">
+                      2,466 followers • 2 weeks ago
+                    </p>
+                  </div>
+                </div>
 
-            {/* Takeaway */}
-            <div className="border-t border-stone-200 dark:border-stone-800 pt-4 flex items-center justify-between">
-              <p className="font-['Outfit',sans-serif] italic text-xs text-stone-500 dark:text-stone-400">
-                {selectedArticle.content.takeaway}
+                {/* + Follow Button */}
+                <a
+                  href="https://www.linkedin.com/company/askjuno/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-[#0077b5] text-[#0077b5] hover:bg-[#0077b5] hover:text-white font-['Outfit',sans-serif] text-[12.5px] sm:text-[13px] font-semibold transition-all duration-200 active:scale-95 shadow-xs"
+                >
+                  <span className="text-sm font-bold leading-none">+</span>
+                  <span>Follow</span>
+                </a>
+              </div>
+
+              {/* Post Narrative Text */}
+              <p className="font-['Outfit',sans-serif] text-[13.5px] sm:text-[14px] text-stone-700 dark:text-stone-300 leading-relaxed mb-4">
+                Great products are built by passionate teams. Celebrating our engineering milestones and the people driving impactful technology forward every single day.
               </p>
-              <button
-                onClick={() => setSelectedArticle(null)}
-                className="shrink-0 ml-4 px-4 py-1.5 rounded-full bg-[#f97316] text-white font-['Outfit',sans-serif] font-bold text-xs hover:bg-[#ea580c] transition-colors"
-              >
-                Close
-              </button>
+
+              {/* Post Visual Photo */}
+              <div className="relative aspect-[16/9.2] w-full rounded-[16px] overflow-hidden bg-stone-100 dark:bg-stone-800 mb-4 border border-stone-200/60 dark:border-stone-800/60">
+                <img
+                  src={linkedinPresentationImg}
+                  alt="AskJuno team engineering presentation"
+                  loading="lazy"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-104"
+                />
+              </div>
+
+              {/* Footer Engagement Metrics */}
+              <div className="flex items-center justify-between pt-2.5 border-t border-stone-100 dark:border-stone-800/80 text-stone-500 dark:text-stone-400 text-[12.5px] sm:text-[13px] font-['Outfit',sans-serif]">
+                <div className="flex items-center gap-2 hover:text-[#f97316] transition-colors cursor-pointer">
+                  <ThumbsUp size={15} className="text-[#f97316]" />
+                  <span className="font-semibold text-stone-700 dark:text-stone-300">142</span>
+                </div>
+
+                <div className="flex items-center gap-2 hover:text-[#f97316] transition-colors cursor-pointer">
+                  <MessageSquare size={15} />
+                  <span>12</span>
+                </div>
+
+                <div className="flex items-center gap-2 hover:text-[#f97316] transition-colors cursor-pointer">
+                  <Repeat2 size={15} />
+                  <span>8</span>
+                </div>
+
+                <a
+                  href="https://www.linkedin.com/company/askjuno/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 hover:text-[#f97316] transition-colors cursor-pointer"
+                  aria-label="Share post on LinkedIn"
+                >
+                  <Send size={15} />
+                </a>
+              </div>
+
             </div>
           </div>
+
         </div>
-      )}
+      </div>
     </section>
   );
 }
@@ -5461,10 +5301,35 @@ function XIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
 }
 
 function Footer({ onOpenPrivacy, dark }: { onOpenPrivacy: () => void; dark: boolean }) {
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id.replace("#", ""));
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const scrollTo = (href: string) => {
+    if (href === "/insights" || href.startsWith("/insights")) {
+      navigate(href);
+      return;
+    }
+    const id = href.replace("#", "");
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleLogoClick = () => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -5473,6 +5338,7 @@ function Footer({ onOpenPrivacy, dark }: { onOpenPrivacy: () => void; dark: bool
     { label: "Industries", href: "#industries" },
     { label: "What We Do", href: "#what-we-do" },
     { label: "How We Build", href: "#how-we-build" },
+    { label: "Insights", href: "/insights" },
     { label: "Success Stories", href: "#stories" },
     { label: "Engineering", href: "#technology" },
     { label: "FAQ", href: "#faq" },
@@ -5537,7 +5403,7 @@ function Footer({ onOpenPrivacy, dark }: { onOpenPrivacy: () => void; dark: bool
                 src={dark ? logoDark : logoLight}
                 alt="AskJuno"
                 className="h-8 xs:h-9 sm:h-10 w-auto object-contain cursor-pointer transition-opacity hover:opacity-90"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                onClick={handleLogoClick}
               />
             </div>
             <p className="font-['Outfit',sans-serif] text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed max-w-[280px]">
@@ -5660,56 +5526,26 @@ function Footer({ onOpenPrivacy, dark }: { onOpenPrivacy: () => void; dark: bool
   );
 }
 
-// ── Root ────────────────────────────────────────────────────────────────────
-export default function App() {
-  const [dark, setDark] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("askjuno-theme");
-      if (saved) return saved === "dark";
-    }
-    return false;
-  });
-  const [activeSection, setActiveSection] = useState(0);
-  const [privacyOpen, setPrivacyOpen] = useState(false);
-
+// ── Landing Page Sections ──────────────────────────────────────────────────
+function ScrollToTop() {
+  const { pathname } = useLocation();
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", dark);
-    try {
-      localStorage.setItem("askjuno-theme", dark ? "dark" : "light");
-    } catch {
-      // ignore
-    }
-  }, [dark]);
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname]);
+  return null;
+}
 
-  useSectionReveal(SECTION_IDS);
-
-  useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    SECTION_IDS.forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(([entry]) => {
-        if (entry.isIntersecting) setActiveSection(i);
-      }, { threshold: 0.35 });
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach(o => o.disconnect());
-  }, []);
-
-  const scrollToSection = (i: number) => {
-    document.getElementById(SECTION_IDS[i])?.scrollIntoView({ behavior: "smooth" });
-  };
-
+function HomeLandingPage({
+  activeSection,
+  scrollToSection,
+}: {
+  activeSection: number;
+  scrollToSection: (i: number) => void;
+}) {
   return (
-    <div className="relative min-h-screen bg-background text-foreground transition-colors duration-350">
-      <ScrollProgress />
+    <>
       <SectionFlash activeSection={activeSection} />
-      <Navbar dark={dark} setDark={setDark} activeSection={activeSection} />
       <SideDots active={activeSection} onDotClick={scrollToSection} />
-      <ThemeToggle dark={dark} setDark={setDark} />
-      <QuickNavArrows activeSection={activeSection} />
-
       <HeroSection />
       <AboutUsSection />
       <WhyJunoSection />
@@ -5725,6 +5561,88 @@ export default function App() {
       <ThinkingSection />
       <FAQSection />
       <ContactSection />
+    </>
+  );
+}
+
+// ── Root ────────────────────────────────────────────────────────────────────
+export default function App() {
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("askjuno-theme");
+      if (saved) return saved === "dark";
+    }
+    return false;
+  });
+  const [activeSection, setActiveSection] = useState(0);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+    try {
+      localStorage.setItem("askjuno-theme", dark ? "dark" : "light");
+    } catch {
+      // ignore
+    }
+  }, [dark]);
+
+  useSectionReveal(SECTION_IDS);
+
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+    const observers: IntersectionObserver[] = [];
+    SECTION_IDS.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) setActiveSection(i);
+      }, { threshold: 0.35 });
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
+  }, [location.pathname]);
+
+  const scrollToSection = (i: number) => {
+    document.getElementById(SECTION_IDS[i])?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative min-h-screen bg-background text-foreground transition-colors duration-350">
+      <ScrollToTop />
+      <ScrollProgress />
+      <Navbar dark={dark} setDark={setDark} activeSection={activeSection} />
+      <ThemeToggle dark={dark} setDark={setDark} />
+      <QuickNavArrows activeSection={activeSection} />
+
+      <main>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomeLandingPage
+                activeSection={activeSection}
+                scrollToSection={scrollToSection}
+              />
+            }
+          />
+          <Route path="/insights" element={<InsightsPage />} />
+          <Route path="/insights/:topicSlug" element={<DomainPage />} />
+          <Route path="/insights/:topicSlug/:articleSlug" element={<ArticlePage />} />
+
+          {/* Backward compatibility redirects */}
+          <Route
+            path="/insights/ai-automation"
+            element={<Navigate to="/insights/ai-intelligent-automation" replace />}
+          />
+          <Route
+            path="/insights/ai-automation/:articleSlug"
+            element={<Navigate to="/insights/ai-intelligent-automation" replace />}
+          />
+        </Routes>
+      </main>
+
       <Footer onOpenPrivacy={() => setPrivacyOpen(true)} dark={dark} />
       <PrivacyPolicyModal isOpen={privacyOpen} onClose={() => setPrivacyOpen(false)} dark={dark} />
     </div>

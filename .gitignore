@@ -1,7 +1,5 @@
-﻿node_modules/
-dist/
-.vite/
-*.local
+ngrok.exe
+test_contact_api.mjs
 .env
-.env.*
-!.env.example
+node_modules/
+dist/
